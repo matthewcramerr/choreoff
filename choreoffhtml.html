@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChoreOFF — Turn Your Chores OFF</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0e0e0e;
+    --white: #fafaf8;
+    --off-white: #f3f2ee;
+    --accent: #d85a30;
+    --accent-light: #faece7;
+    --accent-dark: #993c1d;
+    --muted: #888780;
+    --border: rgba(14,14,14,0.10);
+    --card-bg: #ffffff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5vw;
+    height: 64px;
+    background: rgba(250,250,248,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-cta {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: 10px 22px;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .nav-cta:hover { background: var(--accent); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 5vw 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-noise {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent-light);
+    color: var(--accent-dark);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 2rem;
+    width: fit-content;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3rem, 8vw, 7rem);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--black);
+    max-width: 900px;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.65;
+    margin-bottom: 2.5rem;
+    font-weight: 400;
+  }
+
+  .hero-sub strong {
+    color: var(--black);
+    font-weight: 500;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 16px 32px;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+
+  .btn-primary .arrow {
+    display: inline-block;
+    transition: transform 0.2s;
+  }
+
+  .btn-primary:hover .arrow { transform: translateX(3px); }
+
+  .hero-price-note {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 5vw;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-scroll-hint::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--muted);
+  }
+
+  /* SECTION BASE */
+  section {
+    padding: 100px 5vw;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    color: var(--black);
+    margin-bottom: 1rem;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 480px;
+    line-height: 1.65;
+  }
+
+  /* WHAT WE HELP WITH */
+  .services {
+    background: var(--off-white);
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 3.5rem;
+  }
+
+  .service-item {
+    background: var(--white);
+    padding: 2rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: background 0.2s;
+  }
+
+  .service-item:hover { background: var(--accent-light); }
+
+  .service-icon {
+    font-size: 1.75rem;
+    line-height: 1;
+  }
+
+  .service-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--black);
+  }
+
+  .service-desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .services-note {
+    margin-top: 1.75rem;
+    font-size: 0.875rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .services-note::before {
+    content: '✕';
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  /* HOW IT WORKS */
+  .how-it-works-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5vw;
+    align-items: start;
+    margin-top: 1rem;
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 2.5rem;
+  }
+
+  .step {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.75rem 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    min-width: 28px;
+    padding-top: 3px;
+  }
+
+  .step-content h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--black);
+    margin-bottom: 0.4rem;
+  }
+
+  .step-content p {
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .how-visual {
+    background: var(--off-white);
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin-top: 2.5rem;
+    position: sticky;
+    top: 88px;
+  }
+
+  .checklist-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .checklist-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--white);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+
+  .check-box {
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .check-box svg {
+    width: 12px; height: 12px;
+  }
+
+  .check-label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--black);
+  }
+
+  .check-sub {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    line-height: 1.5;
+  }
+
+  /* PRICING */
+  .pricing {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .pricing .section-label { color: var(--accent); }
+  .pricing .section-title { color: var(--white); }
+  .pricing .section-sub { color: rgba(250,250,248,0.5); }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin-top: 3.5rem;
+  }
+
+  .price-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+  }
+
+  .price-card:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.15);
+  }
+
+  .price-card.featured {
+    border-color: var(--accent);
+    background: rgba(216,90,48,0.08);
+  }
+
+  .featured-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: var(--white);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .price-card-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(250,250,248,0.45);
+  }
+
+  .price-amount {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+
+  .price-amount .dollar {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: rgba(250,250,248,0.6);
+    margin-top: 4px;
+  }
+
+  .price-amount .num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 3.5rem;
+    line-height: 1;
+    color: var(--white);
+    letter-spacing: -0.03em;
+  }
+
+  .price-amount .per {
+    font-size: 0.875rem;
+    color: rgba(250,250,248,0.4);
+  }
+
+  .price-desc {
+    font-size: 0.9rem;
+    color: rgba(250,250,248,0.55);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .price-perks {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .perk {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    color: rgba(250,250,248,0.7);
+  }
+
+  .perk::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .price-cta {
+    display: block;
+    text-align: center;
+    padding: 13px;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .price-cta-outline {
+    border: 1px solid rgba(255,255,255,0.18);
+    color: var(--white);
+    background: transparent;
+  }
+
+  .price-cta-outline:hover {
+    background: rgba(255,255,255,0.07);
+  }
+
+  .price-cta-filled {
+    background: var(--accent);
+    color: var(--white);
+  }
+
+  .price-cta-filled:hover {
+    background: var(--accent-dark);
+    transform: translateY(-1px);
+  }
+
+  .pricing-note {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: rgba(250,250,248,0.3);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem 5vw;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    text-decoration: none;
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-meta {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-tag { animation: fadeUp 0.5s ease both; }
+  .hero h1 { animation: fadeUp 0.5s 0.1s ease both; }
+  .hero-sub { animation: fadeUp 0.5s 0.2s ease both; }
+  .hero-actions { animation: fadeUp 0.5s 0.3s ease both; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .how-it-works-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .how-visual {
+      position: static;
+      order: -1;
+    }
+
+    footer {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Chore<span>OFF</span></a>
+  <a class="nav-cta" href="#pricing">Book a Reset</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-noise"></div>
+  <div class="hero-tag">Now available in your area</div>
+  <h1>Turn your<br>chores <em>OFF.</em></h1>
+  <p class="hero-sub">
+    You're busy. The laundry's piling up. The dishes aren't done.
+    <strong>You don't need a maid — you need a reset.</strong><br><br>
+    ChoreOFF handles the basics so you can actually enjoy your time off.
+  </p>
+  <div class="hero-actions">
+    <a class="btn-primary" href="#pricing">
+      Book a Reset — $149 <span class="arrow">→</span>
+    </a>
+    <span class="hero-price-note">Or join as a member and pay $129/visit</span>
+  </div>
+  <div class="hero-scroll-hint">Scroll to learn more</div>
+</section>
+
+<!-- WHAT WE HELP WITH -->
+<section class="services" id="services">
+  <div class="section-label">What we help with</div>
+  <h2 class="section-title">The stuff that<br>never stops.</h2>
+  <p class="section-sub">Every ChoreOFF visit covers all four. No customization, no menu. Just a full reset, every time.</p>
+
+  <div class="services-grid">
+    <div class="service-item">
+      <div class="service-icon">🧺</div>
+      <div class="service-name">Laundry</div>
+      <div class="service-desc">Washed, dried, and folded.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">🍽️</div>
+      <div class="service-name">Dishes</div>
+      <div class="service-desc">Cleaned, dried, and put away.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">🧹</div>
+      <div class="service-name">Floors & surfaces</div>
+      <div class="service-desc">Swept, vacuumed, and wiped down.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">📦</div>
+      <div class="service-name">Tidying & reset</div>
+      <div class="service-desc">Everything back where it belongs.</div>
+    </div>
+  </div>
+
+  <p class="services-note">No deep cleaning, moving, mounting, or repairs. We keep it simple on purpose.</p>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works">
+  <div class="section-label">How it works</div>
+  <div class="how-it-works-inner">
+    <div>
+      <h2 class="section-title">Three steps.<br>No stress.</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h3>Book online</h3>
+            <p>Pick a time and confirm your visit. We'll take it from there.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h3>We show up</h3>
+            <p>A vetted ChoreOFF worker arrives and works through the full checklist.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h3>Come home to this</h3>
+            <p>Done laundry. Clean dishes. Reset space. Actual relief.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="how-visual">
+      <div class="checklist-title">Every visit includes</div>
+      <div class="checklist-items">
+        <div class="check-item">
+          <div class="check-box">
+            <svg viewBox="0 0 12 12" fill="none">
+              <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="check-label">Laundry</span>
+        </div>
+        <div class="check-item">
+          <div class="check-box">
+            <svg viewBox="0 0 12 12" fill="none">
+              <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="check-label">Dishes</span>
+        </div>
+        <div class="check-item">
+          <div class="check-box">
+            <svg viewBox="0 0 12 12" fill="none">
+              <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="check-label">Floors & surfaces</span>
+        </div>
+        <div class="check-item">
+          <div class="check-box">
+            <svg viewBox="0 0 12 12" fill="none">
+              <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="check-label">Tidying & light reset</span>
+        </div>
+        <p class="check-sub">You provide the supplies. We bring the effort. Make sure you have detergent, dish soap, and any cleaning products on hand before we arrive.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-label">Pricing</div>
+  <h2 class="section-title">Simple pricing.<br>No surprises.</h2>
+  <p class="section-sub">Two ways to get started. One way to keep going.</p>
+
+  <div class="pricing-grid">
+
+    <div class="price-card">
+      <div class="price-card-label">One-Time Reset</div>
+      <div class="price-amount">
+        <span class="dollar">$</span>
+        <span class="num">149</span>
+      </div>
+      <p class="price-desc">No commitment. Book once, see how it feels. Perfect for a first visit or occasional reset.</p>
+      <div class="price-perks">
+        <div class="perk">Full checklist, every time</div>
+        <div class="perk">Vetted worker</div>
+        <div class="perk">No subscription required</div>
+      </div>
+      <a class="price-cta price-cta-outline" href="#">Book a Reset</a>
+    </div>
+
+    <div class="price-card featured">
+      <div class="featured-badge">Most popular</div>
+      <div class="price-card-label">Membership</div>
+      <div class="price-amount">
+        <span class="dollar">$</span>
+        <span class="num">19</span>
+        <span class="per">/month</span>
+      </div>
+      <p class="price-desc">Unlocks the member rate on every visit. Cancel anytime.</p>
+      <div class="price-perks">
+        <div class="perk">$129/visit instead of $149</div>
+        <div class="perk">Priority booking</div>
+        <div class="perk">Save $20 every single visit</div>
+        <div class="perk">Cancel anytime</div>
+      </div>
+      <a class="price-cta price-cta-filled" href="#">Become a Member</a>
+    </div>
+
+  </div>
+
+  <p class="pricing-note">All visits include the full checklist. You provide supplies. Workers are vetted independents.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a class="footer-logo" href="#">Chore<span>OFF</span></a>
+  <p class="footer-meta">© 2025 ChoreOFF. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
