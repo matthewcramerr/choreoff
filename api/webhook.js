@@ -24,13 +24,28 @@ function getSheetsClient() {
 }
 
 async function getMember(sh, email) {
-  const r = await sh.spreadsheets.values.get({ spreadsheetId: process.env.SHEET_ID, range: 'Sheet1!A:D' });
+  if (!email) return null;
+
+  const r = await sh.spreadsheets.values.get({
+    spreadsheetId: process.env.SHEET_ID,
+    range: 'Sheet1!A:D'
+  });
+
   const rows = r.data.values || [];
+  const normalizedEmail = String(email).trim().toLowerCase();
+
   for (let i = 1; i < rows.length; i++) {
-    if (rows[i][0] && rows[i][0].trim().toLowerCase() === email.trim().toLowerCase()) {
-      return { rowIndex: i + 1, email: rows[i][0], name: rows[i][1], status: (rows[i][3] || '').trim() };
+    const rowEmail = rows[i][0];
+    if (rowEmail && String(rowEmail).trim().toLowerCase() === normalizedEmail) {
+      return {
+        rowIndex: i + 1,
+        email: rows[i][0],
+        name: rows[i][1],
+        status: (rows[i][3] || '').trim()
+      };
     }
   }
+
   return null;
 }
 
@@ -91,8 +106,13 @@ if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allo
     } else if (event.type === 'customer.subscription.deleted') {
       const cust = await stripe.customers.retrieve(event.data.object.customer);
       console.log('[sub.deleted] ' + cust.email);
-      const m = await getMember(sh, cust.email);
-      if (m) await setStatus(sh, m.rowIndex, 'Cancelled');
+     if (!cust.email) {
+  console.error('[invoice.payment_failed] missing customer email');
+  return res.status(200).json({ received: true });
+}
+
+const m = await getMember(sh, cust.email);
+if (m) await setStatus(sh, m.rowIndex, 'Cancelled');
 
     } else if (event.type === 'checkout.session.completed') {
       const s = event.data.object;
