@@ -2,6 +2,8 @@ const Stripe = require('stripe');
 const { google } = require('googleapis');
 const { Resend } = require('resend');
 
+console.log('[project-check] choreoff-main-v1');
+
 const URLS = {
   memberVisitPaymentLink: 'fZu6oAdph4RY2AS5gm6oo03',
   memberVisitStripe: 'https://buy.stripe.com/fZu6oAdph4RY2AS5gm6oo03',
