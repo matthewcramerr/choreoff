@@ -50,7 +50,7 @@ async function mail(resend, to, subject, html) {
 }
 
 module.exports = async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'no' });
+if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try { validateEnv(); } catch (e) { return res.status(500).json({ error: e.message }); }
 
