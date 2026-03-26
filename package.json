@@ -1,6 +1,7 @@
 {
   "name": "choreoff-webhook",
   "version": "1.0.0",
+  "description": "ChoreOFF Stripe webhook handler",
   "dependencies": {
     "stripe": "^14.0.0",
     "googleapis": "^140.0.0",
