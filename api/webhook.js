@@ -101,7 +101,7 @@ module.exports = async function handler(req, res) {
         const name = (s.customer_details && s.customer_details.name) || 'there';
         if (email) {
           const m = await getMember(sh, email);
-          if (!m || m.status.toLowerCase() !== 'active') {
+          if (!m || (m.status || '').trim().toLowerCase() !== 'active') {
             console.log('[checkout] refunding ' + email);
             try { await stripe.refunds.create({ payment_intent: s.payment_intent }); } catch (e) { console.error('refund fail: ' + e.message); }
             await mail(resend, email, 'Booking not confirmed', '<p>Hi ' + name + ', no active membership found. Refunded. <a href="' + URLS.site + '">Join here</a>.</p>');
