@@ -1,1 +1,9 @@
-
+{
+  "name": "choreoff-webhook",
+  "version": "1.0.0",
+  "dependencies": {
+    "stripe": "^14.0.0",
+    "googleapis": "^140.0.0",
+    "resend": "^3.0.0"
+  }
+}
