@@ -1,23 +1,17 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "api/webhook.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
-    }
+    { "src": "api/webhook.js", "use": "@vercel/node" },
+    { "src": "api/calendly.js", "use": "@vercel/node" },
+    { "src": "api/claim-job.js", "use": "@vercel/node" },
+    { "src": "api/complete-job.js", "use": "@vercel/node" },
+    { "src": "index.html", "use": "@vercel/static" }
   ],
   "routes": [
-    {
-      "src": "/api/webhook",
-      "dest": "/api/webhook.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
+    { "src": "/api/webhook", "dest": "/api/webhook.js" },
+    { "src": "/api/calendly", "dest": "/api/calendly.js" },
+    { "src": "/api/claim-job", "dest": "/api/claim-job.js" },
+    { "src": "/api/complete-job", "dest": "/api/complete-job.js" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
