@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChoreOFF — Worker Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal: #2ab8b8;
+      --teal-dark: #1e9494;
+      --red: #cc3322;
+      --black: #0e0e0e;
+      --white: #ffffff;
+      --off-white: #f5f5f2;
+      --muted: #888;
+      --border: #e8e8e4;
+      --card: #ffffff;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --pending: #3b82f6;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--off-white);
+      color: var(--black);
+      min-height: 100vh;
+    }
+
+    /* AUTH SCREEN */
+    .auth-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--black);
+      padding: 20px;
+    }
+
+    .auth-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .auth-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .auth-logo span { color: var(--red); }
+
+    .auth-subtitle {
+      color: var(--muted);
+      font-size: 0.875rem;
+      margin-bottom: 32px;
+    }
+
+    .auth-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      margin-bottom: 12px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .auth-input:focus { border-color: var(--teal); }
+
+    .auth-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      margin-top: 4px;
+    }
+
+    .auth-btn:hover { background: var(--teal-dark); transform: translateY(-1px); }
+    .auth-btn:disabled { background: var(--muted); cursor: not-allowed; transform: none; }
+
+    .auth-error {
+      color: var(--red);
+      font-size: 0.85rem;
+      margin-top: 12px;
+      display: none;
+    }
+
+    /* MAIN APP */
+    .app { display: none; }
+
+    /* TOP NAV */
+    .nav {
+      background: var(--black);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--white);
+    }
+
+    .nav-logo span { color: var(--red); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav-worker {
+      color: var(--teal);
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .nav-logout {
+      color: var(--muted);
+      font-size: 0.8rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .nav-logout:hover { color: var(--white); }
+
+    /* STATS BAR */
+    .stats-bar {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      gap: 32px;
+      overflow-x: auto;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      white-space: nowrap;
+    }
+
+    .stat-value {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: var(--teal);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      gap: 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    .tab {
+      padding: 14px 20px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .tab.active {
+      color: var(--teal);
+      border-bottom-color: var(--teal);
+    }
+
+    /* CONTENT */
+    .content {
+      padding: 24px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .section { display: none; }
+    .section.active { display: block; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+    }
+
+    .refresh-btn {
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      cursor: pointer;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+
+    .refresh-btn:hover { border-color: var(--teal); color: var(--teal); }
+
+    /* JOB CARDS */
+    .jobs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .job-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1.5px solid var(--border);
+      transition: border-color 0.2s, transform 0.15s;
+    }
+
+    .job-card:hover { border-color: var(--teal); transform: translateY(-2px); }
+
+    .job-card.assigned { border-color: var(--success); }
+    .job-card.completed { border-color: var(--border); opacity: 0.7; }
+
+    .job-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .job-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--off-white);
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .job-type.member { background: #e8f8f8; color: var(--teal-dark); }
+
+    .job-pay {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--teal);
+    }
+
+    .job-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .job-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .job-detail-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+
+    .job-detail-value {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--black);
+    }
+
+    .job-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-claim {
+      flex: 1;
+      padding: 12px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-claim:hover { background: var(--teal-dark); transform: translateY(-1px); }
+    .btn-claim:disabled { background: var(--muted); cursor: not-allowed; transform: none; }
+
+    .btn-complete {
+      flex: 1;
+      padding: 12px;
+      background: var(--success);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-complete:hover { background: #16a34a; }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .status-pending { background: #eff6ff; color: var(--pending); }
+    .status-assigned { background: #f0fdf4; color: var(--success); }
+    .status-completed { background: var(--off-white); color: var(--muted); }
+
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+
+    .empty-icon { font-size: 3rem; margin-bottom: 16px; }
+
+    .empty-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--black);
+      margin-bottom: 8px;
+    }
+
+    /* COMPLETE JOB MODAL */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 20px;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 32px;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .modal-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .modal-subtitle {
+      color: var(--muted);
+      font-size: 0.875rem;
+      margin-bottom: 24px;
+    }
+
+    .upload-area {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      margin-bottom: 16px;
+    }
+
+    .upload-area:hover { border-color: var(--teal); }
+    .upload-area.has-file { border-color: var(--success); background: #f0fdf4; }
+
+    .upload-icon { font-size: 2rem; margin-bottom: 8px; }
+    .upload-text { font-size: 0.875rem; color: var(--muted); }
+    .upload-text strong { color: var(--teal); }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn-cancel {
+      flex: 1;
+      padding: 12px;
+      background: var(--off-white);
+      color: var(--black);
+      border: none;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .btn-submit {
+      flex: 2;
+      padding: 12px;
+      background: var(--success);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-submit:hover { background: #16a34a; }
+    .btn-submit:disabled { background: var(--muted); cursor: not-allowed; }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--black);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 100px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: transform 0.3s;
+      z-index: 300;
+      white-space: nowrap;
+    }
+
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.success { background: var(--success); }
+    .toast.error { background: var(--red); }
+
+    /* LOADING */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      color: var(--muted);
+      font-size: 0.875rem;
+    }
+
+    @media (max-width: 600px) {
+      .job-details { grid-template-columns: 1fr; }
+      .stats-bar { gap: 20px; }
+      .content { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- AUTH SCREEN -->
+<div class="auth-screen" id="authScreen">
+  <div class="auth-card">
+    <div class="auth-logo">Chore<span>OFF</span></div>
+    <div class="auth-subtitle">Worker Portal — Sign in to see available jobs</div>
+    <input class="auth-input" type="email" id="authEmail" placeholder="Your email address" />
+    <input class="auth-input" type="text" id="authName" placeholder="Your full name" />
+    <button class="auth-btn" id="authBtn" onclick="login()">Sign In</button>
+    <div class="auth-error" id="authError">Worker not found. Contact your manager.</div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app" id="app">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-logo">Chore<span>OFF</span></div>
+    <div class="nav-right">
+      <span class="nav-worker" id="navWorkerName"></span>
+      <button class="nav-logout" onclick="logout()">Sign out</button>
+    </div>
+  </nav>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-value" id="statJobsCompleted">0</div>
+      <div class="stat-label">Jobs Done</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" id="statEarned">$0</div>
+      <div class="stat-label">Total Earned</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" id="statAvailable">0</div>
+      <div class="stat-label">Available Now</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" id="statMyJobs">0</div>
+      <div class="stat-label">My Active Jobs</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('available')">Available Jobs</div>
+    <div class="tab" onclick="switchTab('myjobs')">My Jobs</div>
+    <div class="tab" onclick="switchTab('history')">History</div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- AVAILABLE JOBS -->
+    <div class="section active" id="section-available">
+      <div class="section-header">
+        <div class="section-title">Available Jobs</div>
+        <button class="refresh-btn" onclick="loadAvailableJobs()">↻ Refresh</button>
+      </div>
+      <div class="jobs-list" id="availableJobsList">
+        <div class="loading">Loading jobs...</div>
+      </div>
+    </div>
+
+    <!-- MY JOBS -->
+    <div class="section" id="section-myjobs">
+      <div class="section-header">
+        <div class="section-title">My Active Jobs</div>
+        <button class="refresh-btn" onclick="loadMyJobs()">↻ Refresh</button>
+      </div>
+      <div class="jobs-list" id="myJobsList">
+        <div class="loading">Loading...</div>
+      </div>
+    </div>
+
+    <!-- HISTORY -->
+    <div class="section" id="section-history">
+      <div class="section-header">
+        <div class="section-title">Completed Jobs</div>
+        <button class="refresh-btn" onclick="loadHistory()">↻ Refresh</button>
+      </div>
+      <div class="jobs-list" id="historyList">
+        <div class="loading">Loading...</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- COMPLETE JOB MODAL -->
+<div class="modal-overlay" id="completeModal">
+  <div class="modal">
+    <div class="modal-title">Complete Job</div>
+    <div class="modal-subtitle">Upload a photo of the completed work to confirm and get paid.</div>
+    <div class="upload-area" id="uploadArea" onclick="document.getElementById('photoInput').click()">
+      <div class="upload-icon">📸</div>
+      <div class="upload-text"><strong>Tap to take/upload photo</strong><br>Required to mark job complete</div>
+    </div>
+    <input type="file" id="photoInput" accept="image/*" capture="environment" style="display:none" onchange="handlePhoto(this)">
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-submit" id="submitBtn" onclick="submitComplete()" disabled>Submit & Get Paid →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  const SUPABASE_URL = 'https://bijjtificxcekmesgwrn.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpamp0aWZpY3hjZWttZXNnd3JuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NjExMzAsImV4cCI6MjA5MDIzNzEzMH0.19_WTJl5cRKaGZSxOS9QLWguFgYhPAyQYDGdP2iZdkM';
+  const API_BASE = 'https://www.choreoff.com/api';
+
+  let currentWorker = null;
+  let currentBookingId = null;
+  let photoDataUrl = null;
+
+  function supabase(path, options = {}) {
+    return fetch(SUPABASE_URL + '/rest/v1/' + path, {
+      ...options,
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation',
+        ...options.headers
+      }
+    }).then(r => r.json());
+  }
+
+  // AUTH
+  async function login() {
+    const email = document.getElementById('authEmail').value.trim().toLowerCase();
+    const name = document.getElementById('authName').value.trim();
+    const btn = document.getElementById('authBtn');
+    const error = document.getElementById('authError');
+
+    if (!email || !name) { showToast('Please enter your email and name', 'error'); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Signing in...';
+    error.style.display = 'none';
+
+    const workers = await supabase('workers?email=eq.' + encodeURIComponent(email) + '&status=eq.Active&limit=1');
+
+    if (!workers || workers.length === 0) {
+      error.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Sign In';
+      return;
+    }
+
+    currentWorker = workers[0];
+    localStorage.setItem('choreoff_worker', JSON.stringify(currentWorker));
+    showApp();
+  }
+
+  function logout() {
+    localStorage.removeItem('choreoff_worker');
+    currentWorker = null;
+    document.getElementById('authScreen').style.display = 'flex';
+    document.getElementById('app').style.display = 'none';
+  }
+
+  function showApp() {
+    document.getElementById('authScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    document.getElementById('navWorkerName').textContent = currentWorker.name;
+    loadStats();
+    loadAvailableJobs();
+  }
+
+  // STATS
+  async function loadStats() {
+    document.getElementById('statJobsCompleted').textContent = currentWorker.jobs_completed || 0;
+    document.getElementById('statEarned').textContent = '$' + (currentWorker.total_earned || 0);
+
+    const available = await supabase('bookings?status=eq.Pending&select=id');
+    document.getElementById('statAvailable').textContent = available?.length || 0;
+
+    const myJobs = await supabase('bookings?worker_id=eq.' + currentWorker.id + '&status=eq.Assigned&select=id');
+    document.getElementById('statMyJobs').textContent = myJobs?.length || 0;
+  }
+
+  // TABS
+  function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach((t, i) => {
+      t.classList.toggle('active', ['available','myjobs','history'][i] === tab);
+    });
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById('section-' + tab).classList.add('active');
+
+    if (tab === 'available') loadAvailableJobs();
+    if (tab === 'myjobs') loadMyJobs();
+    if (tab === 'history') loadHistory();
+  }
+
+  // LOAD JOBS
+  async function loadAvailableJobs() {
+    const list = document.getElementById('availableJobsList');
+    list.innerHTML = '<div class="loading">Loading jobs...</div>';
+
+    const jobs = await supabase('bookings?status=eq.Pending&order=scheduled_at.asc');
+
+    if (!jobs || jobs.length === 0) {
+      list.innerHTML = `<div class="empty-state">
+        <div class="empty-icon">🏠</div>
+        <div class="empty-title">No jobs available right now</div>
+        <div>Check back soon — new jobs come in daily</div>
+      </div>`;
+      return;
+    }
+
+    list.innerHTML = jobs.map(job => jobCard(job, 'available')).join('');
+  }
+
+  async function loadMyJobs() {
+    const list = document.getElementById('myJobsList');
+    list.innerHTML = '<div class="loading">Loading...</div>';
+
+    const jobs = await supabase('bookings?worker_id=eq.' + currentWorker.id + '&status=eq.Assigned&order=scheduled_at.asc');
+
+    if (!jobs || jobs.length === 0) {
+      list.innerHTML = `<div class="empty-state">
+        <div class="empty-icon">📋</div>
+        <div class="empty-title">No active jobs</div>
+        <div>Claim a job from the Available tab</div>
+      </div>`;
+      return;
+    }
+
+    list.innerHTML = jobs.map(job => jobCard(job, 'assigned')).join('');
+  }
+
+  async function loadHistory() {
+    const list = document.getElementById('historyList');
+    list.innerHTML = '<div class="loading">Loading...</div>';
+
+    const jobs = await supabase('bookings?worker_id=eq.' + currentWorker.id + '&status=eq.Completed&order=completed_at.desc&limit=20');
+
+    if (!jobs || jobs.length === 0) {
+      list.innerHTML = `<div class="empty-state">
+        <div class="empty-icon">✅</div>
+        <div class="empty-title">No completed jobs yet</div>
+        <div>Your history will appear here</div>
+      </div>`;
+      return;
+    }
+
+    list.innerHTML = jobs.map(job => jobCard(job, 'completed')).join('');
+  }
+
+  function jobCard(job, type) {
+    const date = job.scheduled_at
+      ? new Date(job.scheduled_at).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })
+      : 'Date TBD';
+
+    const typeLabel = job.booking_type === 'member' ? 'Member Visit' : 'One-Time Reset';
+    const typeClass = job.booking_type === 'member' ? 'member' : '';
+
+    let actionBtn = '';
+    if (type === 'available') {
+      actionBtn = `<button class="btn-claim" onclick="claimJob('${job.id}', this)">Claim Job →</button>`;
+    } else if (type === 'assigned') {
+      actionBtn = `<button class="btn-complete" onclick="openCompleteModal('${job.id}')">Mark Complete ✓</button>`;
+    } else {
+      actionBtn = `<span class="status-badge status-completed">✓ Completed</span>`;
+    }
+
+    return `
+      <div class="job-card ${type}" id="job-${job.id}">
+        <div class="job-header">
+          <span class="job-type ${typeClass}">${typeLabel}</span>
+          <div class="job-pay">$50</div>
+        </div>
+        <div class="job-details">
+          <div class="job-detail">
+            <div class="job-detail-label">Date & Time</div>
+            <div class="job-detail-value">${date}</div>
+          </div>
+          <div class="job-detail">
+            <div class="job-detail-label">Customer</div>
+            <div class="job-detail-value">${job.name || 'Not provided'}</div>
+          </div>
+          <div class="job-detail">
+            <div class="job-detail-label">Address</div>
+            <div class="job-detail-value">${job.address || 'See confirmation'}</div>
+          </div>
+          <div class="job-detail">
+            <div class="job-detail-label">City</div>
+            <div class="job-detail-value">${job.city || 'Madison, WI'}</div>
+          </div>
+        </div>
+        <div class="job-actions">${actionBtn}</div>
+      </div>`;
+  }
+
+  // CLAIM JOB
+  async function claimJob(bookingId, btn) {
+    btn.disabled = true;
+    btn.textContent = 'Claiming...';
+
+    try {
+      const resp = await fetch(API_BASE + '/claim-job', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ booking_id: bookingId, worker_id: currentWorker.id })
+      });
+      const data = await resp.json();
+
+      if (data.success) {
+        showToast('Job claimed! Check My Jobs tab.', 'success');
+        loadAvailableJobs();
+        loadStats();
+      } else if (data.error === 'Job already claimed') {
+        showToast('Someone else just claimed that job', 'error');
+        btn.textContent = 'Already Claimed';
+      } else {
+        showToast('Error claiming job. Try again.', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Claim Job →';
+      }
+    } catch (e) {
+      showToast('Connection error. Try again.', 'error');
+      btn.disabled = false;
+      btn.textContent = 'Claim Job →';
+    }
+  }
+
+  // COMPLETE JOB MODAL
+  function openCompleteModal(bookingId) {
+    currentBookingId = bookingId;
+    photoDataUrl = null;
+    document.getElementById('uploadArea').classList.remove('has-file');
+    document.getElementById('uploadArea').innerHTML = `<div class="upload-icon">📸</div><div class="upload-text"><strong>Tap to take/upload photo</strong><br>Required to mark job complete</div>`;
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('completeModal').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('completeModal').classList.remove('open');
+    currentBookingId = null;
+  }
+
+  function handlePhoto(input) {
+    if (!input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      photoDataUrl = e.target.result;
+      document.getElementById('uploadArea').classList.add('has-file');
+      document.getElementById('uploadArea').innerHTML = `<div class="upload-icon">✅</div><div class="upload-text"><strong>Photo ready</strong><br>Tap to change</div>`;
+      document.getElementById('submitBtn').disabled = false;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+
+  async function submitComplete() {
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+
+    try {
+      const resp = await fetch(API_BASE + '/complete-job', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          booking_id: currentBookingId,
+          worker_id: currentWorker.id,
+          photo_url: photoDataUrl ? 'uploaded' : null
+        })
+      });
+      const data = await resp.json();
+
+      if (data.success) {
+        closeModal();
+        showToast('Job completed! Payment processing.', 'success');
+        // Refresh worker stats
+        const updated = await supabase('workers?id=eq.' + currentWorker.id + '&limit=1');
+        if (updated && updated[0]) {
+          currentWorker = updated[0];
+          localStorage.setItem('choreoff_worker', JSON.stringify(currentWorker));
+        }
+        loadMyJobs();
+        loadStats();
+      } else {
+        showToast('Error submitting. Try again.', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Submit & Get Paid →';
+      }
+    } catch (e) {
+      showToast('Connection error. Try again.', 'error');
+      btn.disabled = false;
+      btn.textContent = 'Submit & Get Paid →';
+    }
+  }
+
+  // TOAST
+  function showToast(msg, type = '') {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.className = 'toast show ' + type;
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  // INIT
+  window.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('choreoff_worker');
+    if (saved) {
+      currentWorker = JSON.parse(saved);
+      showApp();
+    }
+
+    document.getElementById('authEmail').addEventListener('keypress', e => {
+      if (e.key === 'Enter') document.getElementById('authName').focus();
+    });
+    document.getElementById('authName').addEventListener('keypress', e => {
+      if (e.key === 'Enter') login();
+    });
+  });
+</script>
+
+</body>
+</html>
