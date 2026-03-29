@@ -36,11 +36,11 @@ module.exports = async function handler(req, res) {
   try {
     if (eventType === 'invitee.created') {
       // New booking made
-      const invitee = payload.invitee;
-      const scheduledEvent = payload.event;
+      const invitee = payload.invitee || payload;
+      const scheduledEvent = payload.event || payload.scheduled_event;
 
-      const email = invitee.email;
-      const name = invitee.name;
+      const email = invitee?.email || payload?.invitee?.email;
+      const name = invitee?.name || payload?.invitee?.name || 'there';
       const phone = invitee.questions_and_answers?.find(q => q.question.toLowerCase().includes('phone'))?.answer || null;
       const address = invitee.questions_and_answers?.find(q => q.question.toLowerCase().includes('address'))?.answer || null;
       const scheduledAt = scheduledEvent.start_time;
