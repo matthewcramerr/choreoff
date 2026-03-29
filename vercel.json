@@ -7,6 +7,7 @@
     { "src": "api/complete-job.js", "use": "@vercel/node" },
     { "src": "index.html", "use": "@vercel/static" },
     { "src": "worker.html", "use": "@vercel/static" }
+    { "src": "legal.html", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/api/webhook", "dest": "/api/webhook.js" },
