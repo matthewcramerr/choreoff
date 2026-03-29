@@ -5,8 +5,8 @@ const { createClient } = require('@supabase/supabase-js');
 console.log('[project-check] choreoff-main-v2');
 
 const URLS = {
-  memberVisitPaymentLink: '00w6oA54d2ecad2bdCbo403',
-  memberVisitStripe: 'https://buy.stripe.com/test_00w6oA54d2ecad2bdCbo403',
+  memberVisitPaymentLink: '8x2aEQ1Gzaci0sKeQW6oo02',
+  memberVisitStripe: 'https://buy.stripe.com/test_8x2aEQ1Gzaci0sKeQW6oo02',
   memberPortal: 'https://billing.stripe.com/p/login/00w7sE2KD5W22AScIO6oo00',
   site: 'https://choreoff.com',
 };
