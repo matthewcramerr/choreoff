@@ -12,6 +12,8 @@
     { "src": "/api/calendly", "dest": "/api/calendly.js" },
     { "src": "/api/claim-job", "dest": "/api/claim-job.js" },
     { "src": "/api/complete-job", "dest": "/api/complete-job.js" },
+    { "src": "/worker", "dest": "/worker.html" },
+    { "src": "/worker.html", "dest": "/worker.html" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
