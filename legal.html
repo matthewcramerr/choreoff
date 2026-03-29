@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Legal — ChoreOFF</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal: #2ab8b8;
+      --teal-dark: #1e9494;
+      --red: #cc3322;
+      --black: #0e0e0e;
+      --white: #ffffff;
+      --off-white: #f5f5f2;
+      --muted: #888;
+      --border: #e8e8e4;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--off-white);
+      color: var(--black);
+      line-height: 1.7;
+    }
+
+    /* NAV */
+    nav {
+      background: var(--black);
+      padding: 16px 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--red); }
+
+    .nav-back {
+      color: var(--muted);
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-back:hover { color: var(--teal); }
+
+    /* HERO */
+    .legal-hero {
+      background: var(--black);
+      padding: 60px 5vw 40px;
+      color: var(--white);
+    }
+
+    .legal-hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      margin-bottom: 12px;
+    }
+
+    .legal-hero h1 span { color: var(--teal); }
+
+    .legal-hero p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* TAB NAV */
+    .tab-nav {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 5vw;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      position: sticky;
+      top: 53px;
+      z-index: 90;
+    }
+
+    .tab-btn {
+      padding: 16px 20px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--muted);
+      cursor: pointer;
+      border: none;
+      background: none;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .tab-btn.active {
+      color: var(--teal);
+      border-bottom-color: var(--teal);
+    }
+
+    .tab-btn:hover { color: var(--black); }
+
+    /* CONTENT */
+    .legal-content {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 48px 5vw 80px;
+    }
+
+    .legal-section { display: none; }
+    .legal-section.active { display: block; }
+
+    .legal-section h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      color: var(--black);
+    }
+
+    .legal-section .effective {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .legal-section h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin: 32px 0 12px;
+      color: var(--black);
+    }
+
+    .legal-section p {
+      margin-bottom: 16px;
+      color: #333;
+      font-size: 0.95rem;
+    }
+
+    .legal-section ul {
+      margin: 0 0 16px 20px;
+      color: #333;
+      font-size: 0.95rem;
+    }
+
+    .legal-section ul li {
+      margin-bottom: 8px;
+    }
+
+    .legal-section a {
+      color: var(--teal);
+      text-decoration: none;
+    }
+
+    .legal-section a:hover { text-decoration: underline; }
+
+    .highlight-box {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-left: 4px solid var(--teal);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+
+    .highlight-box p { margin: 0; font-size: 0.9rem; }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      color: var(--muted);
+      text-align: center;
+      padding: 32px 5vw;
+      font-size: 0.8rem;
+    }
+
+    footer a { color: var(--teal); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/">Chore<span>OFF</span></a>
+  <a class="nav-back" href="/">← Back to site</a>
+</nav>
+
+<div class="legal-hero">
+  <h1>Legal <span>&</span> Policies</h1>
+  <p>Last updated: March 2026 · ChoreOFF · Madison, WI</p>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('privacy')">Privacy Policy</button>
+  <button class="tab-btn" onclick="showTab('terms')">Terms of Service</button>
+  <button class="tab-btn" onclick="showTab('refund')">Refund Policy</button>
+  <button class="tab-btn" onclick="showTab('contractor')">Contractor Agreement</button>
+</div>
+
+<div class="legal-content">
+
+  <!-- PRIVACY POLICY -->
+  <div class="legal-section active" id="privacy">
+    <h2>Privacy Policy</h2>
+    <p class="effective">Effective Date: March 28, 2026</p>
+
+    <p>ChoreOFF ("we," "us," or "our") operates choreoff.com and provides home reset services. This Privacy Policy explains how we collect, use, and protect your information.</p>
+
+    <h3>Information We Collect</h3>
+    <p>We collect information you provide directly to us when you:</p>
+    <ul>
+      <li>Book a service through our website</li>
+      <li>Subscribe to a ChoreOFF membership</li>
+      <li>Create an account or contact us</li>
+    </ul>
+    <p>This includes your name, email address, phone number, home address, and payment information. Payment details are processed securely by Stripe and are never stored on our servers.</p>
+
+    <h3>How We Use Your Information</h3>
+    <ul>
+      <li>To process bookings and deliver services</li>
+      <li>To send booking confirmations and service updates</li>
+      <li>To manage your membership and billing</li>
+      <li>To communicate about your account or service changes</li>
+      <li>To improve our services and customer experience</li>
+    </ul>
+
+    <h3>Information Sharing</h3>
+    <p>We do not sell your personal information. We share your information only with:</p>
+    <ul>
+      <li><strong>Service workers</strong> — your name, address, and booking details are shared with the assigned ChoreOFF worker to complete your service</li>
+      <li><strong>Stripe</strong> — for secure payment processing</li>
+      <li><strong>Calendly</strong> — for booking scheduling</li>
+      <li><strong>Twilio</strong> — for SMS notifications</li>
+    </ul>
+
+    <h3>Data Security</h3>
+    <p>We implement industry-standard security measures to protect your information. All payment processing is handled by Stripe, which maintains PCI-DSS compliance. We use encrypted connections (HTTPS) across our entire platform.</p>
+
+    <h3>Your Rights</h3>
+    <p>You may request to access, correct, or delete your personal information at any time by contacting us at <a href="mailto:info@choreoff.com">info@choreoff.com</a>.</p>
+
+    <h3>Cookies</h3>
+    <p>Our website uses minimal cookies for basic functionality. We do not use tracking cookies or sell data to advertisers.</p>
+
+    <h3>Contact</h3>
+    <p>For privacy-related questions, contact us at <a href="mailto:info@choreoff.com">info@choreoff.com</a>.</p>
+  </div>
+
+  <!-- TERMS OF SERVICE -->
+  <div class="legal-section" id="terms">
+    <h2>Terms of Service</h2>
+    <p class="effective">Effective Date: March 28, 2026</p>
+
+    <p>By using ChoreOFF's website or services, you agree to these Terms of Service. Please read them carefully.</p>
+
+    <div class="highlight-box">
+      <p>ChoreOFF provides home reset services including laundry, dishes, floors, and tidying. We do not offer deep cleaning, moving, mounting, repairs, or specialized services.</p>
+    </div>
+
+    <h3>Services</h3>
+    <p>ChoreOFF provides a full-service home reset on every visit. Services include laundry, dishes, floors and surfaces, and tidying and light reset. All visits follow a standard checklist — we do not offer customizable service menus.</p>
+    <p>Customers are responsible for providing all necessary supplies including detergent, dish soap, and cleaning products before the worker arrives.</p>
+
+    <h3>Booking & Scheduling</h3>
+    <ul>
+      <li>Non-members must book at least 5 days in advance</li>
+      <li>Members receive priority booking with a 3-day minimum</li>
+      <li>Cancellations must be made at least 24 hours before the scheduled visit</li>
+      <li>Late cancellations may result in a cancellation fee</li>
+    </ul>
+
+    <h3>Membership</h3>
+    <p>ChoreOFF memberships are billed monthly at $19/month. Membership unlocks a discounted visit rate of $129 per visit. Members may cancel at any time through the Stripe customer portal. Cancellations take effect at the end of the current billing period.</p>
+
+    <h3>Independent Contractors</h3>
+    <p>ChoreOFF workers are independent contractors, not employees of ChoreOFF. ChoreOFF is not responsible for the actions of individual workers beyond the scope of our vetting and training requirements.</p>
+
+    <h3>Liability</h3>
+    <p>ChoreOFF is not liable for damage to property resulting from normal service activities unless caused by gross negligence. Customers should secure or remove valuables before a scheduled visit. Maximum liability is limited to the cost of the service rendered.</p>
+
+    <h3>Prohibited Uses</h3>
+    <p>You may not use ChoreOFF services for any unlawful purpose, or attempt to abuse our membership pricing system. Non-members who attempt to access member pricing will be automatically refunded.</p>
+
+    <h3>Changes to Terms</h3>
+    <p>We reserve the right to update these terms at any time. Continued use of our services constitutes acceptance of updated terms.</p>
+
+    <h3>Contact</h3>
+    <p>Questions? Email us at <a href="mailto:info@choreoff.com">info@choreoff.com</a>.</p>
+  </div>
+
+  <!-- REFUND POLICY -->
+  <div class="legal-section" id="refund">
+    <h2>Refund Policy</h2>
+    <p class="effective">Effective Date: March 28, 2026</p>
+
+    <div class="highlight-box">
+      <p>We stand behind our service. If something isn't right, we'll make it right.</p>
+    </div>
+
+    <h3>One-Time Visits ($149)</h3>
+    <p>If you are unsatisfied with your ChoreOFF visit, contact us within 24 hours at <a href="mailto:info@choreoff.com">info@choreoff.com</a>. We will work with you to resolve the issue, which may include a partial or full refund at our discretion.</p>
+    <p>Cancellations made at least 24 hours before the scheduled visit are fully refundable. Cancellations made less than 24 hours before the visit may incur a cancellation fee of up to $25.</p>
+
+    <h3>Membership ($19/month)</h3>
+    <p>Monthly membership fees are non-refundable once charged. You may cancel your membership at any time through the member portal, and your membership will remain active until the end of the current billing period. No partial month refunds are issued.</p>
+
+    <h3>Member Visits ($129)</h3>
+    <p>Member visit payments are subject to the same cancellation policy as one-time visits. Non-members who accidentally pay the member visit price will be automatically refunded within 3-5 business days.</p>
+
+    <h3>Automatic Refunds</h3>
+    <p>ChoreOFF automatically refunds payments made by non-members attempting to access member-only pricing. These refunds are processed immediately and typically appear within 3-5 business days depending on your bank.</p>
+
+    <h3>How to Request a Refund</h3>
+    <p>Email <a href="mailto:info@choreoff.com">info@choreoff.com</a> with your booking details and reason for the refund request. We respond to all refund requests within 1 business day.</p>
+  </div>
+
+  <!-- CONTRACTOR AGREEMENT -->
+  <div class="legal-section" id="contractor">
+    <h2>Independent Contractor Agreement</h2>
+    <p class="effective">Effective Date: March 28, 2026</p>
+
+    <p>This Independent Contractor Agreement ("Agreement") is entered into between ChoreOFF ("Company") and the individual accepting this agreement ("Contractor").</p>
+
+    <h3>1. Independent Contractor Status</h3>
+    <p>Contractor is an independent contractor and not an employee, agent, or partner of ChoreOFF. Contractor is solely responsible for all taxes, insurance, and expenses related to their work. ChoreOFF will not withhold income taxes, Social Security, or Medicare from payments to Contractor.</p>
+
+    <h3>2. Services</h3>
+    <p>Contractor agrees to perform home reset services as assigned through the ChoreOFF platform. Services include laundry, dishes, floors and surfaces, and tidying. Contractor agrees to follow ChoreOFF's standard service checklist on every job.</p>
+
+    <h3>3. Compensation</h3>
+    <p>Contractor will be paid $50 per completed household visit. Payment is issued upon job completion and photo confirmation. ChoreOFF reserves the right to adjust compensation rates with 7 days written notice.</p>
+
+    <h3>4. Background Check</h3>
+    <p>Contractor consents to a background check as a condition of working with ChoreOFF. Contractor must maintain a clean record to continue receiving job assignments.</p>
+
+    <h3>5. Conduct & Standards</h3>
+    <ul>
+      <li>Arrive on time for all scheduled visits</li>
+      <li>Treat customers and their property with respect</li>
+      <li>Complete the full service checklist on every visit</li>
+      <li>Submit a photo upon job completion</li>
+      <li>Communicate promptly through the ChoreOFF worker portal</li>
+      <li>Do not solicit customers directly outside of ChoreOFF</li>
+    </ul>
+
+    <h3>6. Confidentiality</h3>
+    <p>Contractor agrees to keep customer information — including names, addresses, and contact details — strictly confidential. This information may not be shared or used outside of completing ChoreOFF assignments.</p>
+
+    <h3>7. Non-Solicitation</h3>
+    <p>During the term of this agreement and for 12 months after, Contractor agrees not to directly solicit ChoreOFF customers for competing home services.</p>
+
+    <h3>8. Termination</h3>
+    <p>Either party may terminate this agreement at any time with 7 days written notice. ChoreOFF reserves the right to immediately terminate this agreement for misconduct, poor performance, or violation of these terms.</p>
+
+    <h3>9. 1099 Tax Reporting</h3>
+    <p>Contractors who earn $600 or more in a calendar year will receive a Form 1099-NEC from ChoreOFF. Contractor is responsible for reporting all income and paying applicable self-employment taxes.</p>
+
+    <h3>10. Governing Law</h3>
+    <p>This agreement is governed by the laws of the State of Wisconsin.</p>
+
+    <h3>Contact</h3>
+    <p>Questions about this agreement? Email <a href="mailto:info@choreoff.com">info@choreoff.com</a>.</p>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2026 ChoreOFF · Madison, WI · <a href="mailto:info@choreoff.com">info@choreoff.com</a></p>
+</footer>
+
+<script>
+  function showTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.legal-section').forEach(s => s.classList.remove('active'));
+    document.getElementById(tab).classList.add('active');
+    event.target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Handle direct hash links
+  window.addEventListener('DOMContentLoaded', () => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash && document.getElementById(hash)) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.legal-section').forEach(s => s.classList.remove('active'));
+      document.getElementById(hash).classList.add('active');
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        if (b.getAttribute('onclick').includes(hash)) b.classList.add('active');
+      });
+    }
+  });
+</script>
+
+</body>
+</html>
