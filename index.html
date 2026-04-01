@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -23,879 +22,875 @@
       --border: #e5e2dc;
     }
 
-```
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--cream);
-  color: var(--text);
-  overflow-x: hidden;
-}
-
-/* ── NAVIGATION ─────────────────────────────────── */
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  padding: 20px 5vw;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: transparent;
-  transition: background 0.3s, backdrop-filter 0.3s;
-}
-
-nav.scrolled {
-  background: rgba(250, 249, 246, 0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-}
-
-.nav-logo {
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 600;
-  font-size: 1.25rem;
-  color: var(--white);
-  letter-spacing: -0.02em;
-  transition: color 0.3s;
-}
-
-nav.scrolled .nav-logo { color: var(--black); }
-
-.nav-logo span { color: var(--red); }
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.nav-member {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: rgba(255,255,255,0.7);
-  text-decoration: none;
-  padding: 8px 16px;
-  border-radius: 100px;
-  border: 1px solid rgba(255,255,255,0.25);
-  transition: all 0.2s;
-}
-
-nav.scrolled .nav-member {
-  color: var(--muted);
-  border-color: var(--border);
-}
-
-.nav-member:hover { color: var(--white); border-color: var(--white); }
-nav.scrolled .nav-member:hover { color: var(--teal); border-color: var(--teal); }
-
-.nav-cta {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--black);
-  text-decoration: none;
-  padding: 10px 22px;
-  background: var(--white);
-  border-radius: 100px;
-  transition: all 0.2s;
-}
-
-nav.scrolled .nav-cta {
-  background: var(--teal);
-  color: var(--white);
-}
-
-.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
-
-/* ── HERO ───────────────────────────────────────── */
-.hero {
-  min-height: 100vh;
-  background: var(--black);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 120px 5vw 80px;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: 
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(42, 184, 184, 0.15) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 40% at 80% 80%, rgba(204, 51, 34, 0.08) 0%, transparent 60%);
-}
-
-.hero-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(42, 184, 184, 0.15);
-  border: 1px solid rgba(42, 184, 184, 0.3);
-  border-radius: 100px;
-  padding: 6px 16px;
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: var(--teal);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 32px;
-  position: relative;
-  animation: fadeUp 0.6s ease both;
-}
-
-.hero-tag::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  background: var(--teal);
-  border-radius: 50%;
-}
-
-.hero-headline {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(3rem, 8vw, 7rem);
-  font-weight: 900;
-  color: var(--white);
-  line-height: 1.0;
-  letter-spacing: -0.02em;
-  margin-bottom: 8px;
-  position: relative;
-  animation: fadeUp 0.6s 0.1s ease both;
-}
-
-.hero-headline em {
-  font-style: italic;
-  color: var(--teal);
-}
-
-.hero-headline-2 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(3rem, 8vw, 7rem);
-  font-weight: 900;
-  color: var(--white);
-  line-height: 1.0;
-  letter-spacing: -0.02em;
-  margin-bottom: 36px;
-  position: relative;
-  animation: fadeUp 0.6s 0.15s ease both;
-}
-
-.hero-sub {
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  color: rgba(255,255,255,0.6);
-  max-width: 520px;
-  line-height: 1.65;
-  margin-bottom: 48px;
-  font-weight: 300;
-  animation: fadeUp 0.6s 0.2s ease both;
-}
-
-.hero-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  flex-wrap: wrap;
-  animation: fadeUp 0.6s 0.25s ease both;
-}
-
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--teal);
-  color: var(--white);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 600;
-  font-size: 0.95rem;
-  padding: 16px 32px;
-  border-radius: 100px;
-  text-decoration: none;
-  transition: all 0.2s;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-primary:hover {
-  background: var(--teal-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(42, 184, 184, 0.35);
-}
-
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: transparent;
-  color: rgba(255,255,255,0.7);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 500;
-  font-size: 0.95rem;
-  padding: 16px 32px;
-  border-radius: 100px;
-  text-decoration: none;
-  border: 1px solid rgba(255,255,255,0.2);
-  transition: all 0.2s;
-}
-
-.btn-ghost:hover {
-  border-color: rgba(255,255,255,0.5);
-  color: var(--white);
-}
-
-.hero-scroll {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  color: rgba(255,255,255,0.3);
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  animation: fadeUp 0.6s 0.4s ease both;
-}
-
-.scroll-line {
-  width: 1px;
-  height: 40px;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
-  animation: scrollPulse 2s ease-in-out infinite;
-}
-
-/* ── ZIP CHECKER ────────────────────────────────── */
-.zip-section {
-  background: var(--cream);
-  padding: 80px 5vw;
-  text-align: center;
-  border-bottom: 1px solid var(--border);
-}
-
-.zip-label {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--black);
-  margin-bottom: 8px;
-}
-
-.zip-sub {
-  color: var(--muted);
-  font-size: 0.9rem;
-  margin-bottom: 28px;
-}
-
-.zip-form {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  max-width: 420px;
-  margin: 0 auto;
-  flex-wrap: wrap;
-}
-
-.zip-input {
-  flex: 1;
-  min-width: 140px;
-  padding: 14px 20px;
-  border: 1.5px solid var(--border);
-  border-radius: 100px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 1rem;
-  background: var(--white);
-  color: var(--black);
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.zip-input:focus { border-color: var(--teal); }
-
-.zip-btn {
-  background: var(--black);
-  color: var(--white);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 600;
-  font-size: 0.9rem;
-  padding: 14px 28px;
-  border-radius: 100px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.zip-btn:hover { background: var(--teal); }
-
-.zip-result {
-  margin-top: 20px;
-  font-size: 0.95rem;
-  font-weight: 500;
-  display: none;
-}
-
-.zip-result.success { color: var(--teal-dark); }
-.zip-result.error { color: var(--red); }
-
-#zipButtons {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  margin-top: 24px;
-}
-
-.zip-waitlist {
-  margin-top: 16px;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.zip-waitlist input {
-  padding: 12px 20px;
-  border: 1.5px solid var(--border);
-  border-radius: 100px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.9rem;
-  width: 260px;
-  outline: none;
-  background: var(--white);
-}
-
-.zip-waitlist input:focus { border-color: var(--teal); }
-
-.zip-waitlist-btn {
-  background: var(--black);
-  color: var(--white);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 500;
-  font-size: 0.85rem;
-  padding: 11px 24px;
-  border-radius: 100px;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.zip-waitlist-btn:hover { background: var(--teal); }
-
-/* ── WHAT WE DO ─────────────────────────────────── */
-.services {
-  padding: 100px 5vw;
-  background: var(--white);
-}
-
-.section-eyebrow {
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--teal);
-  margin-bottom: 16px;
-}
-
-.section-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  font-weight: 700;
-  color: var(--black);
-  line-height: 1.1;
-  margin-bottom: 16px;
-}
-
-.section-title em { font-style: italic; color: var(--teal); }
-
-.section-sub {
-  color: var(--muted);
-  font-size: 1rem;
-  max-width: 480px;
-  line-height: 1.65;
-  margin-bottom: 60px;
-}
-
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 2px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.service-item {
-  background: var(--white);
-  padding: 40px 32px;
-  transition: background 0.2s;
-}
-
-.service-item:hover { background: var(--cream); }
-
-.service-icon {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  display: block;
-}
-
-.service-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--black);
-  margin-bottom: 8px;
-}
-
-.service-desc {
-  font-size: 0.875rem;
-  color: var(--muted);
-  line-height: 1.6;
-}
-
-.services-note {
-  margin-top: 32px;
-  padding: 20px 24px;
-  background: var(--warm-gray);
-  border-radius: 12px;
-  font-size: 0.875rem;
-  color: var(--muted);
-}
-
-.services-note strong { color: var(--black); }
-
-/* ── ZIP CTA GROUP ──────────────────────────────── */
-.zip-cta-group {
-  display: flex;
-  align-items: flex-start;
-  gap: 24px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 8px;
-}
-
-.zip-cta-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.zip-cta-label {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-  font-weight: 600;
-}
-
-.zip-cta-divider {
-  font-size: 0.85rem;
-  color: var(--muted);
-  padding-top: 32px;
-}
-
-.zip-link-sub {
-  font-size: 0.8rem;
-  color: var(--teal);
-  font-weight: 500;
-  text-decoration: none;
-}
-
-.zip-link-sub:hover { text-decoration: underline; }
-
-/* ── CHECKLIST ─────────────────────────────────── */
-.checklist-rooms {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  margin-bottom: 32px;
-}
-
-.room-item { background: var(--white); }
-
-.room-header {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 24px 32px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-align: left;
-  transition: background 0.2s;
-  border-bottom: 1px solid var(--border);
-}
-
-.room-header:hover { background: var(--cream); }
-.room-item.open .room-header { background: var(--cream); }
-
-.room-left {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.room-icon { font-size: 1.5rem; }
-
-.room-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--black);
-  margin-bottom: 2px;
-}
-
-.room-preview {
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-.room-arrow {
-  font-size: 1rem;
-  color: var(--teal);
-  transition: transform 0.3s;
-  font-weight: 600;
-}
-
-.room-item.open .room-arrow { transform: rotate(180deg); }
-
-.room-tasks {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.35s ease;
-  background: var(--cream);
-}
-
-.room-item.open .room-tasks { max-height: 300px; }
-
-.task-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 32px;
-  font-size: 0.875rem;
-  color: #444;
-  border-bottom: 1px solid var(--border);
-}
-
-.task-item:last-child { border-bottom: none; }
-
-.task-check {
-  color: var(--teal);
-  font-weight: 700;
-  font-size: 0.8rem;
-  flex-shrink: 0;
-}
-
-/* ── HOW IT WORKS ───────────────────────────────── */
-.how {
-  padding: 100px 5vw;
-  background: var(--black);
-  color: var(--white);
-}
-
-.how .section-eyebrow { color: var(--teal); }
-.how .section-title { color: var(--white); }
-.how .section-sub { color: rgba(255,255,255,0.5); }
-
-.steps {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 48px;
-  margin-top: 16px;
-}
-
-.step {
-  position: relative;
-}
-
-.step-num {
-  font-family: 'Playfair Display', serif;
-  font-size: 4rem;
-  font-weight: 900;
-  color: rgba(255,255,255,0.06);
-  line-height: 1;
-  margin-bottom: -12px;
-}
-
-.step-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--white);
-  margin-bottom: 12px;
-}
-
-.step-desc {
-  font-size: 0.9rem;
-  color: rgba(255,255,255,0.5);
-  line-height: 1.65;
-}
-
-.step-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--teal);
-  border-radius: 50%;
-  margin-bottom: 24px;
-}
-
-/* ── PRICING ────────────────────────────────────── */
-.pricing {
-  padding: 100px 5vw;
-  background: var(--cream);
-}
-
-.pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.price-card {
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  border-radius: 24px;
-  padding: 40px 36px;
-  position: relative;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.price-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 48px rgba(0,0,0,0.08);
-}
-
-.price-card.featured {
-  border-color: var(--teal);
-  background: var(--black);
-}
-
-.price-badge {
-  position: absolute;
-  top: -14px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--teal);
-  color: var(--white);
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 5px 16px;
-  border-radius: 100px;
-  white-space: nowrap;
-}
-
-.price-name {
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-  margin-bottom: 20px;
-}
-
-.price-card.featured .price-name { color: rgba(255,255,255,0.5); }
-
-.price-amount {
-  font-family: 'Playfair Display', serif;
-  font-size: 3.5rem;
-  font-weight: 900;
-  color: var(--black);
-  line-height: 1;
-  margin-bottom: 4px;
-}
-
-.price-card.featured .price-amount { color: var(--white); }
-
-.price-amount sup {
-  font-size: 1.5rem;
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 600;
-  vertical-align: top;
-  margin-top: 12px;
-  display: inline-block;
-}
-
-.price-period {
-  font-size: 0.85rem;
-  color: var(--muted);
-  margin-bottom: 32px;
-}
-
-.price-card.featured .price-period { color: rgba(255,255,255,0.4); }
-
-.price-features {
-  list-style: none;
-  margin-bottom: 36px;
-}
-
-.price-features li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.875rem;
-  color: #444;
-  margin-bottom: 12px;
-}
-
-.price-card.featured .price-features li { color: rgba(255,255,255,0.7); }
-
-.price-features li::before {
-  content: '✓';
-  color: var(--teal);
-  font-weight: 700;
-  font-size: 0.8rem;
-  flex-shrink: 0;
-}
-
-.price-cta {
-  display: block;
-  text-align: center;
-  padding: 14px;
-  border-radius: 100px;
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-decoration: none;
-  transition: all 0.2s;
-  cursor: pointer;
-  border: none;
-}
-
-.price-cta-outline {
-  border: 1.5px solid var(--border);
-  color: var(--black);
-  background: transparent;
-}
-
-.price-cta-outline:hover { border-color: var(--teal); color: var(--teal); }
-
-.price-cta-filled {
-  background: var(--teal);
-  color: var(--white);
-}
-
-.price-cta-filled:hover {
-  background: var(--teal-dark);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(42,184,184,0.3);
-}
-
-.price-cta-dark {
-  background: var(--white);
-  color: var(--black);
-}
-
-.price-cta-dark:hover { background: var(--teal); color: var(--white); }
-
-.yearly-note {
-  text-align: center;
-  margin-top: 28px;
-  font-size: 0.875rem;
-  color: var(--muted);
-}
-
-.yearly-note strong { color: var(--teal); }
-
-/* ── FOOTER ─────────────────────────────────────── */
-footer {
-  background: var(--black);
-  color: rgba(255,255,255,0.4);
-  padding: 48px 5vw;
-}
-
-.footer-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.footer-logo {
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
-  color: var(--white);
-}
-
-.footer-logo span { color: var(--red); }
-
-.footer-links {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.footer-links a {
-  color: rgba(255,255,255,0.4);
-  text-decoration: none;
-  font-size: 0.8rem;
-  transition: color 0.2s;
-}
-
-.footer-links a:hover { color: var(--teal); }
-
-.footer-meta {
-  width: 100%;
-  font-size: 0.75rem;
-  margin-top: 24px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-}
-
-/* ── ANIMATIONS ─────────────────────────────────── */
-.zip-input.pulse {
-  border-color: var(--teal);
-  box-shadow: 0 0 0 4px rgba(42, 184, 184, 0.15);
-  transition: all 0.3s;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes scrollPulse {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.8; }
-}
-
-/* ── RESPONSIVE ─────────────────────────────────── */
-@media (max-width: 768px) {
-  .hero-actions { flex-direction: column; align-items: center; }
-  .steps { gap: 40px; }
-  .footer-inner { flex-direction: column; }
-  nav { padding: 16px 5vw; }
-  .nav-links { gap: 6px; }
-}
-```
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAVIGATION ─────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 20px 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: transparent;
+      transition: background 0.3s, backdrop-filter 0.3s;
+    }
+
+    nav.scrolled {
+      background: rgba(250, 249, 246, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1.25rem;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      transition: color 0.3s;
+    }
+
+    nav.scrolled .nav-logo { color: var(--black); }
+
+    .nav-logo span { color: var(--red); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-member {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.25);
+      transition: all 0.2s;
+    }
+
+    nav.scrolled .nav-member {
+      color: var(--muted);
+      border-color: var(--border);
+    }
+
+    .nav-member:hover { color: var(--white); border-color: var(--white); }
+    nav.scrolled .nav-member:hover { color: var(--teal); border-color: var(--teal); }
+
+    .nav-cta {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--black);
+      text-decoration: none;
+      padding: 10px 22px;
+      background: var(--white);
+      border-radius: 100px;
+      transition: all 0.2s;
+    }
+
+    nav.scrolled .nav-cta {
+      background: var(--teal);
+      color: var(--white);
+    }
+
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+
+    /* ── HERO ───────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 5vw 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(42, 184, 184, 0.15) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 80%, rgba(204, 51, 34, 0.08) 0%, transparent 60%);
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(42, 184, 184, 0.15);
+      border: 1px solid rgba(42, 184, 184, 0.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--teal);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      position: relative;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--teal);
+      border-radius: 50%;
+    }
+
+    .hero-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      position: relative;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero-headline em {
+      font-style: italic;
+      color: var(--teal);
+    }
+
+    .hero-headline-2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      margin-bottom: 36px;
+      position: relative;
+      animation: fadeUp 0.6s 0.15s ease both;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: rgba(255,255,255,0.6);
+      max-width: 520px;
+      line-height: 1.65;
+      margin-bottom: 48px;
+      font-weight: 300;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.25s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--teal);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 16px 32px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: var(--teal-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(42, 184, 184, 0.35);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: rgba(255,255,255,0.7);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 16px 32px;
+      border-radius: 100px;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.2s;
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(255,255,255,0.5);
+      color: var(--white);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    /* ── ZIP CHECKER ────────────────────────────────── */
+    .zip-section {
+      background: var(--cream);
+      padding: 80px 5vw;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .zip-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 8px;
+    }
+
+    .zip-sub {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 28px;
+    }
+
+    .zip-form {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      max-width: 420px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+
+    .zip-input {
+      flex: 1;
+      min-width: 140px;
+      padding: 14px 20px;
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      background: var(--white);
+      color: var(--black);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .zip-input:focus { border-color: var(--teal); }
+
+    .zip-btn {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 14px 28px;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .zip-btn:hover { background: var(--teal); }
+
+    .zip-result {
+      margin-top: 20px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      display: none;
+    }
+
+    .zip-result.success { color: var(--teal-dark); }
+    .zip-result.error { color: var(--red); }
+
+    #zipButtons {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .zip-waitlist {
+      margin-top: 16px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .zip-waitlist input {
+      padding: 12px 20px;
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      width: 260px;
+      outline: none;
+      background: var(--white);
+    }
+
+    .zip-waitlist input:focus { border-color: var(--teal); }
+
+    .zip-waitlist-btn {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.85rem;
+      padding: 11px 24px;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .zip-waitlist-btn:hover { background: var(--teal); }
+
+    /* ── WHAT WE DO ─────────────────────────────────── */
+    .services {
+      padding: 100px 5vw;
+      background: var(--white);
+    }
+
+    .section-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--teal);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .section-title em { font-style: italic; color: var(--teal); }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 480px;
+      line-height: 1.65;
+      margin-bottom: 60px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .service-item {
+      background: var(--white);
+      padding: 40px 32px;
+      transition: background 0.2s;
+    }
+
+    .service-item:hover { background: var(--cream); }
+
+    .service-icon {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .service-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 8px;
+    }
+
+    .service-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .services-note {
+      margin-top: 32px;
+      padding: 20px 24px;
+      background: var(--warm-gray);
+      border-radius: 12px;
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    .services-note strong { color: var(--black); }
+
+    /* ── ZIP CTA GROUP ──────────────────────────────── */
+    .zip-cta-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .zip-cta-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .zip-cta-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .zip-cta-divider {
+      font-size: 0.85rem;
+      color: var(--muted);
+      padding-top: 32px;
+    }
+
+    .zip-link-sub {
+      font-size: 0.8rem;
+      color: var(--teal);
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .zip-link-sub:hover { text-decoration: underline; }
+
+    /* ── CHECKLIST ─────────────────────────────────── */
+    .checklist-rooms {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+
+    .room-item { background: var(--white); }
+
+    .room-header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 32px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.2s;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .room-header:hover { background: var(--cream); }
+    .room-item.open .room-header { background: var(--cream); }
+
+    .room-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .room-icon { font-size: 1.5rem; }
+
+    .room-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 2px;
+    }
+
+    .room-preview {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .room-arrow {
+      font-size: 1rem;
+      color: var(--teal);
+      transition: transform 0.3s;
+      font-weight: 600;
+    }
+
+    .room-item.open .room-arrow { transform: rotate(180deg); }
+
+    .room-tasks {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+      background: var(--cream);
+    }
+
+    .room-item.open .room-tasks { max-height: 300px; }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 32px;
+      font-size: 0.875rem;
+      color: #444;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .task-item:last-child { border-bottom: none; }
+
+    .task-check {
+      color: var(--teal);
+      font-weight: 700;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    /* ── HOW IT WORKS ───────────────────────────────── */
+    .how {
+      padding: 100px 5vw;
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .how .section-eyebrow { color: var(--teal); }
+    .how .section-title { color: var(--white); }
+    .how .section-sub { color: rgba(255,255,255,0.5); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 48px;
+      margin-top: 16px;
+    }
+
+    .step {
+      position: relative;
+    }
+
+    .step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      font-weight: 900;
+      color: rgba(255,255,255,0.06);
+      line-height: 1;
+      margin-bottom: -12px;
+    }
+
+    .step-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .step-desc {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.65;
+    }
+
+    .step-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--teal);
+      border-radius: 50%;
+      margin-bottom: 24px;
+    }
+
+    /* ── PRICING ────────────────────────────────────── */
+    .pricing {
+      padding: 100px 5vw;
+      background: var(--cream);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .price-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 24px;
+      padding: 40px 36px;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .price-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.08);
+    }
+
+    .price-card.featured {
+      border-color: var(--teal);
+      background: var(--black);
+    }
+
+    .price-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--teal);
+      color: var(--white);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 5px 16px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    .price-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .price-card.featured .price-name { color: rgba(255,255,255,0.5); }
+
+    .price-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--black);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .price-card.featured .price-amount { color: var(--white); }
+
+    .price-amount sup {
+      font-size: 1.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      vertical-align: top;
+      margin-top: 12px;
+      display: inline-block;
+    }
+
+    .price-period {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    .price-card.featured .price-period { color: rgba(255,255,255,0.4); }
+
+    .price-features {
+      list-style: none;
+      margin-bottom: 36px;
+    }
+
+    .price-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: #444;
+      margin-bottom: 12px;
+    }
+
+    .price-card.featured .price-features li { color: rgba(255,255,255,0.7); }
+
+    .price-features li::before {
+      content: '✓';
+      color: var(--teal);
+      font-weight: 700;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .price-cta {
+      display: block;
+      text-align: center;
+      padding: 14px;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .price-cta-outline {
+      border: 1.5px solid var(--border);
+      color: var(--black);
+      background: transparent;
+    }
+
+    .price-cta-outline:hover { border-color: var(--teal); color: var(--teal); }
+
+    .price-cta-filled {
+      background: var(--teal);
+      color: var(--white);
+    }
+
+    .price-cta-filled:hover {
+      background: var(--teal-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(42,184,184,0.3);
+    }
+
+    .price-cta-dark {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .price-cta-dark:hover { background: var(--teal); color: var(--white); }
+
+    .yearly-note {
+      text-align: center;
+      margin-top: 28px;
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    .yearly-note strong { color: var(--teal); }
+
+    /* ── FOOTER ─────────────────────────────────────── */
+    footer {
+      background: var(--black);
+      color: rgba(255,255,255,0.4);
+      padding: 48px 5vw;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-logo {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--white);
+    }
+
+    .footer-logo span { color: var(--red); }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--teal); }
+
+    .footer-meta {
+      width: 100%;
+      font-size: 0.75rem;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* ── ANIMATIONS ─────────────────────────────────── */
+    .zip-input.pulse {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 4px rgba(42, 184, 184, 0.15);
+      transition: all 0.3s;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.8; }
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────── */
+    @media (max-width: 768px) {
+      .hero-actions { flex-direction: column; align-items: center; }
+      .steps { gap: 40px; }
+      .footer-inner { flex-direction: column; }
+      nav { padding: 16px 5vw; }
+      .nav-links { gap: 6px; }
+    }
   </style>
 </head>
 <body>
 
 <!-- NAVIGATION -->
-
 <nav id="nav">
   <div class="nav-logo">Chore<span>OFF</span></div>
   <div class="nav-links">
@@ -905,7 +900,6 @@ footer {
 </nav>
 
 <!-- HERO -->
-
 <section class="hero">
   <div class="hero-tag">Now available in Madison, WI</div>
   <h1 class="hero-headline">Turn your</h1>
@@ -922,7 +916,6 @@ footer {
 </section>
 
 <!-- ZIP CHECKER -->
-
 <section class="zip-section" id="zip-check">
   <p class="zip-label">Check your area</p>
   <p class="zip-sub">Enter your zip code to see if ChoreOFF is available near you.</p>
@@ -954,7 +947,6 @@ footer {
 </section>
 
 <!-- SERVICES -->
-
 <section class="services">
   <div class="section-eyebrow">What we do</div>
   <h2 class="section-title">The full reset.<br><em>Every room.</em></h2>
@@ -962,102 +954,100 @@ footer {
 
   <div class="checklist-rooms">
 
-```
-<div class="room-item">
-  <button class="room-header" onclick="toggleRoom(this)">
-    <div class="room-left">
-      <span class="room-icon">🧺</span>
-      <div>
-        <div class="room-name">Laundry Room</div>
-        <div class="room-preview">4 tasks · We start a load right when we arrive</div>
+    <div class="room-item">
+      <button class="room-header" onclick="toggleRoom(this)">
+        <div class="room-left">
+          <span class="room-icon">🧺</span>
+          <div>
+            <div class="room-name">Laundry Room</div>
+            <div class="room-preview">4 tasks · We start a load right when we arrive</div>
+          </div>
+        </div>
+        <span class="room-arrow">↓</span>
+      </button>
+      <div class="room-tasks">
+        <div class="task-item"><span class="task-check">✓</span>Empty dryer vent</div>
+        <div class="task-item"><span class="task-check">✓</span>Transfer washed clothes to dryer (if applicable)</div>
+        <div class="task-item"><span class="task-check">✓</span>Add a load of clothes to washer from hamper (if applicable)</div>
+        <div class="task-item"><span class="task-check">✓</span>Empty laundry room trash can and re-bag</div>
       </div>
     </div>
-    <span class="room-arrow">↓</span>
-  </button>
-  <div class="room-tasks">
-    <div class="task-item"><span class="task-check">✓</span>Empty dryer vent</div>
-    <div class="task-item"><span class="task-check">✓</span>Transfer washed clothes to dryer (if applicable)</div>
-    <div class="task-item"><span class="task-check">✓</span>Add a load of clothes to washer from hamper (if applicable)</div>
-    <div class="task-item"><span class="task-check">✓</span>Empty laundry room trash can and re-bag</div>
-  </div>
-</div>
 
-<div class="room-item">
-  <button class="room-header" onclick="toggleRoom(this)">
-    <div class="room-left">
-      <span class="room-icon">🚿</span>
-      <div>
-        <div class="room-name">Bathroom</div>
-        <div class="room-preview">4 tasks · Surfaces wiped, sink cleaned, reset</div>
+    <div class="room-item">
+      <button class="room-header" onclick="toggleRoom(this)">
+        <div class="room-left">
+          <span class="room-icon">🚿</span>
+          <div>
+            <div class="room-name">Bathroom</div>
+            <div class="room-preview">4 tasks · Surfaces wiped, sink cleaned, reset</div>
+          </div>
+        </div>
+        <span class="room-arrow">↓</span>
+      </button>
+      <div class="room-tasks">
+        <div class="task-item"><span class="task-check">✓</span>Wipe main surfaces</div>
+        <div class="task-item"><span class="task-check">✓</span>Reorganize and tidy up area</div>
+        <div class="task-item"><span class="task-check">✓</span>Put any clothes lying around in hamper</div>
+        <div class="task-item"><span class="task-check">✓</span>Clean sink(s)</div>
       </div>
     </div>
-    <span class="room-arrow">↓</span>
-  </button>
-  <div class="room-tasks">
-    <div class="task-item"><span class="task-check">✓</span>Wipe main surfaces</div>
-    <div class="task-item"><span class="task-check">✓</span>Reorganize and tidy up area</div>
-    <div class="task-item"><span class="task-check">✓</span>Put any clothes lying around in hamper</div>
-    <div class="task-item"><span class="task-check">✓</span>Clean sink(s)</div>
-  </div>
-</div>
 
-<div class="room-item">
-  <button class="room-header" onclick="toggleRoom(this)">
-    <div class="room-left">
-      <span class="room-icon">🛋️</span>
-      <div>
-        <div class="room-name">Living Room</div>
-        <div class="room-preview">4 tasks · Decluttered, wiped down, reset</div>
+    <div class="room-item">
+      <button class="room-header" onclick="toggleRoom(this)">
+        <div class="room-left">
+          <span class="room-icon">🛋️</span>
+          <div>
+            <div class="room-name">Living Room</div>
+            <div class="room-preview">4 tasks · Decluttered, wiped down, reset</div>
+          </div>
+        </div>
+        <span class="room-arrow">↓</span>
+      </button>
+      <div class="room-tasks">
+        <div class="task-item"><span class="task-check">✓</span>Fold blankets and re-organize items lying around</div>
+        <div class="task-item"><span class="task-check">✓</span>Refresh living quarters, improving overall appearance and decluttering</div>
+        <div class="task-item"><span class="task-check">✓</span>Wipe main surfaces</div>
+        <div class="task-item"><span class="task-check">✓</span>Collect any dishes</div>
       </div>
     </div>
-    <span class="room-arrow">↓</span>
-  </button>
-  <div class="room-tasks">
-    <div class="task-item"><span class="task-check">✓</span>Fold blankets and re-organize items lying around</div>
-    <div class="task-item"><span class="task-check">✓</span>Refresh living quarters, improving overall appearance and decluttering</div>
-    <div class="task-item"><span class="task-check">✓</span>Wipe main surfaces</div>
-    <div class="task-item"><span class="task-check">✓</span>Collect any dishes</div>
-  </div>
-</div>
 
-<div class="room-item">
-  <button class="room-header" onclick="toggleRoom(this)">
-    <div class="room-left">
-      <span class="room-icon">🪑</span>
-      <div>
-        <div class="room-name">Dining Room</div>
-        <div class="room-preview">4 tasks · Surfaces wiped, floor swept, tidied</div>
+    <div class="room-item">
+      <button class="room-header" onclick="toggleRoom(this)">
+        <div class="room-left">
+          <span class="room-icon">🪑</span>
+          <div>
+            <div class="room-name">Dining Room</div>
+            <div class="room-preview">4 tasks · Surfaces wiped, floor swept, tidied</div>
+          </div>
+        </div>
+        <span class="room-arrow">↓</span>
+      </button>
+      <div class="room-tasks">
+        <div class="task-item"><span class="task-check">✓</span>Collect any dishes around living quarters</div>
+        <div class="task-item"><span class="task-check">✓</span>Wipe down all main surfaces</div>
+        <div class="task-item"><span class="task-check">✓</span>Sweep floor</div>
+        <div class="task-item"><span class="task-check">✓</span>Decluttering and tidying up</div>
       </div>
     </div>
-    <span class="room-arrow">↓</span>
-  </button>
-  <div class="room-tasks">
-    <div class="task-item"><span class="task-check">✓</span>Collect any dishes around living quarters</div>
-    <div class="task-item"><span class="task-check">✓</span>Wipe down all main surfaces</div>
-    <div class="task-item"><span class="task-check">✓</span>Sweep floor</div>
-    <div class="task-item"><span class="task-check">✓</span>Decluttering and tidying up</div>
-  </div>
-</div>
 
-<div class="room-item">
-  <button class="room-header" onclick="toggleRoom(this)">
-    <div class="room-left">
-      <span class="room-icon">🍽️</span>
-      <div>
-        <div class="room-name">Kitchen</div>
-        <div class="room-preview">4 tasks · Dishes hand washed, counters scrubbed, trash out</div>
+    <div class="room-item">
+      <button class="room-header" onclick="toggleRoom(this)">
+        <div class="room-left">
+          <span class="room-icon">🍽️</span>
+          <div>
+            <div class="room-name">Kitchen</div>
+            <div class="room-preview">4 tasks · Dishes hand washed, counters scrubbed, trash out</div>
+          </div>
+        </div>
+        <span class="room-arrow">↓</span>
+      </button>
+      <div class="room-tasks">
+        <div class="task-item"><span class="task-check">✓</span>Wash all dishes by hand — no dishwasher services</div>
+        <div class="task-item"><span class="task-check">✓</span>Scrub all countertops, wipe down and dry</div>
+        <div class="task-item"><span class="task-check">✓</span>Sweep floor</div>
+        <div class="task-item"><span class="task-check">✓</span>Take trash out for kitchen, bathroom and laundry room + recycling</div>
       </div>
     </div>
-    <span class="room-arrow">↓</span>
-  </button>
-  <div class="room-tasks">
-    <div class="task-item"><span class="task-check">✓</span>Wash all dishes by hand — no dishwasher services</div>
-    <div class="task-item"><span class="task-check">✓</span>Scrub all countertops, wipe down and dry</div>
-    <div class="task-item"><span class="task-check">✓</span>Sweep floor</div>
-    <div class="task-item"><span class="task-check">✓</span>Take trash out for kitchen, bathroom and laundry room + recycling</div>
-  </div>
-</div>
-```
 
   </div>
 
@@ -1067,7 +1057,6 @@ footer {
 </section>
 
 <!-- HOW IT WORKS -->
-
 <section class="how">
   <div class="section-eyebrow">How it works</div>
   <h2 class="section-title" style="color:var(--white)">Three steps.<br><em>Zero stress.</em></h2>
@@ -1095,7 +1084,6 @@ footer {
 </section>
 
 <!-- PRICING -->
-
 <section class="pricing" id="pricing">
   <div style="text-align:center;margin-bottom:60px">
     <div class="section-eyebrow">Pricing</div>
@@ -1104,60 +1092,57 @@ footer {
   </div>
   <div class="pricing-grid">
 
-```
-<!-- One-Time -->
-<div class="price-card">
-  <div class="price-name">One-Time Reset</div>
-  <div class="price-amount"><sup>$</sup>179</div>
-  <div class="price-period">per visit — no commitment</div>
-  <ul class="price-features">
-    <li>Full checklist every visit</li>
-    <li>Vetted ChoreOFF worker</li>
-    <li>No subscription required</li>
-    <li>Book once, cancel anytime</li>
-  </ul>
-  <a href="STRIPE_149" target="_blank" class="price-cta price-cta-outline">Book a Reset</a>
-</div>
+    <!-- One-Time -->
+    <div class="price-card">
+      <div class="price-name">One-Time Reset</div>
+      <div class="price-amount"><sup>$</sup>179</div>
+      <div class="price-period">per visit — no commitment</div>
+      <ul class="price-features">
+        <li>Full checklist every visit</li>
+        <li>Vetted ChoreOFF worker</li>
+        <li>No subscription required</li>
+        <li>Book once, cancel anytime</li>
+      </ul>
+      <a href="STRIPE_149" target="_blank" class="price-cta price-cta-outline">Book a Reset</a>
+    </div>
 
-<!-- Monthly Membership -->
-<div class="price-card featured">
-  <div class="price-badge">Most popular</div>
-  <div class="price-name">Monthly Membership</div>
-  <div class="price-amount"><sup>$</sup>29</div>
-  <div class="price-period">/month — cancel anytime</div>
-  <ul class="price-features">
-    <li>$139/visit instead of $179</li>
-    <li>Save $40 every single visit</li>
-    <li>Priority booking (3-day min)</li>
-    <li>Full checklist every visit</li>
-    <li>Cancel anytime via portal</li>
-  </ul>
-  <a href="STRIPE_29" target="_blank" class="price-cta price-cta-dark">Become a Member</a>
-</div>
+    <!-- Monthly Membership -->
+    <div class="price-card featured">
+      <div class="price-badge">Most popular</div>
+      <div class="price-name">Monthly Membership</div>
+      <div class="price-amount"><sup>$</sup>29</div>
+      <div class="price-period">/month — cancel anytime</div>
+      <ul class="price-features">
+        <li>$139/visit instead of $179</li>
+        <li>Save $40 every single visit</li>
+        <li>Priority booking (3-day min)</li>
+        <li>Full checklist every visit</li>
+        <li>Cancel anytime via portal</li>
+      </ul>
+      <a href="STRIPE_29" target="_blank" class="price-cta price-cta-dark">Become a Member</a>
+    </div>
 
-<!-- Yearly Membership -->
-<div class="price-card">
-  <div class="price-badge" style="background:var(--red)">3 months free</div>
-  <div class="price-name">Annual Membership</div>
-  <div class="price-amount"><sup>$</sup>261</div>
-  <div class="price-period">/year — just $21.75/month</div>
-  <ul class="price-features">
-    <li>$139/visit instead of $179</li>
-    <li>Save $87 vs monthly plan</li>
-    <li>Priority booking (3-day min)</li>
-    <li>Full checklist every visit</li>
-    <li>Best value for regular use</li>
-  </ul>
-  <a href="STRIPE_261" target="_blank" class="price-cta price-cta-outline">Get 3 Months Free</a>
-</div>
-```
+    <!-- Yearly Membership -->
+    <div class="price-card">
+      <div class="price-badge" style="background:var(--red)">3 months free</div>
+      <div class="price-name">Annual Membership</div>
+      <div class="price-amount"><sup>$</sup>261</div>
+      <div class="price-period">/year — just $21.75/month</div>
+      <ul class="price-features">
+        <li>$139/visit instead of $179</li>
+        <li>Save $87 vs monthly plan</li>
+        <li>Priority booking (3-day min)</li>
+        <li>Full checklist every visit</li>
+        <li>Best value for regular use</li>
+      </ul>
+      <a href="STRIPE_261" target="_blank" class="price-cta price-cta-outline">Get 3 Months Free</a>
+    </div>
 
   </div>
   <p class="yearly-note">All visits include the full checklist. You provide supplies. Workers are vetted independents. <strong>Members save $40+ every visit.</strong></p>
 </section>
 
 <!-- FOOTER -->
-
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">Chore<span>OFF</span></div>
