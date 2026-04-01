@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChoreOFF — Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal: #2ab8b8; --teal-dark: #1e9494; --red: #cc3322;
+      --black: #0e0e0e; --white: #fff; --off-white: #f5f5f2;
+      --muted: #888; --border: #e8e8e4; --success: #22c55e;
+      --warning: #f59e0b; --pending: #3b82f6;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'DM Sans',sans-serif; background:var(--off-white); color:var(--black); }
+
+    /* AUTH */
+    .auth-overlay { position:fixed; inset:0; background:var(--black); display:flex; align-items:center; justify-content:center; z-index:200; }
+    .auth-box { background:var(--white); border-radius:20px; padding:40px; width:340px; text-align:center; }
+    .auth-box h2 { font-family:'Syne',sans-serif; font-size:1.4rem; margin-bottom:8px; }
+    .auth-box p { color:var(--muted); font-size:0.875rem; margin-bottom:24px; }
+    .auth-input { width:100%; padding:13px 16px; border:1.5px solid var(--border); border-radius:10px; font-family:'DM Sans',sans-serif; font-size:1rem; margin-bottom:12px; outline:none; }
+    .auth-input:focus { border-color:var(--teal); }
+    .auth-btn { width:100%; padding:13px; background:var(--teal); color:white; border:none; border-radius:10px; font-family:'Syne',sans-serif; font-weight:700; cursor:pointer; }
+
+    /* NAV */
+    nav { background:var(--black); padding:14px 24px; display:flex; align-items:center; justify-content:space-between; }
+    .nav-logo { font-family:'Syne',sans-serif; font-weight:800; color:var(--white); font-size:1.1rem; }
+    .nav-logo span { color:var(--red); }
+    .nav-badge { background:rgba(42,184,184,0.2); color:var(--teal); font-size:0.75rem; padding:4px 12px; border-radius:100px; font-weight:600; }
+
+    /* TABS */
+    .tabs { background:var(--white); border-bottom:1px solid var(--border); padding:0 24px; display:flex; gap:0; overflow-x:auto; }
+    .tab { padding:14px 20px; font-family:'Syne',sans-serif; font-weight:600; font-size:0.875rem; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; transition:all 0.2s; white-space:nowrap; background:none; border-top:none; border-left:none; border-right:none; }
+    .tab.active { color:var(--teal); border-bottom-color:var(--teal); }
+
+    /* STATS */
+    .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; padding:24px; }
+    .stat-card { background:var(--white); border-radius:16px; padding:20px 24px; border:1px solid var(--border); }
+    .stat-value { font-family:'Syne',sans-serif; font-weight:800; font-size:2rem; color:var(--teal); }
+    .stat-label { font-size:0.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-top:4px; }
+
+    /* CONTENT */
+    .content { padding:0 24px 40px; }
+    .section { display:none; }
+    .section.active { display:block; }
+
+    .section-header { display:flex; align-items:center; justify-content:space-between; margin:8px 0 20px; }
+    .section-title { font-family:'Syne',sans-serif; font-weight:700; font-size:1.2rem; }
+
+    /* TABLE */
+    .table-wrap { background:var(--white); border-radius:16px; border:1px solid var(--border); overflow:hidden; overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; }
+    th { text-align:left; padding:12px 16px; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--muted); border-bottom:1px solid var(--border); background:var(--off-white); }
+    td { padding:14px 16px; font-size:0.875rem; border-bottom:1px solid var(--border); }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafaf8; }
+
+    /* BADGES */
+    .badge { display:inline-flex; align-items:center; padding:4px 12px; border-radius:100px; font-size:0.72rem; font-weight:600; }
+    .badge-active { background:#f0fdf4; color:var(--success); }
+    .badge-pending { background:#eff6ff; color:var(--pending); }
+    .badge-cancelled { background:#fef2f2; color:var(--red); }
+    .badge-pastdue { background:#fffbeb; color:var(--warning); }
+    .badge-completed { background:#f0fdf4; color:var(--success); }
+    .badge-assigned { background:#eff6ff; color:var(--pending); }
+
+    /* BUTTONS */
+    .btn-sm { padding:7px 16px; border-radius:8px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.8rem; cursor:pointer; border:none; transition:all 0.2s; }
+    .btn-teal { background:var(--teal); color:white; }
+    .btn-teal:hover { background:var(--teal-dark); }
+    .btn-red { background:#fef2f2; color:var(--red); }
+    .btn-red:hover { background:#fee2e2; }
+    .btn-dark { background:var(--black); color:white; }
+
+    /* INVITE */
+    .invite-box { background:var(--white); border-radius:16px; border:1px solid var(--border); padding:28px; margin-bottom:24px; }
+    .invite-box h3 { font-family:'Syne',sans-serif; font-weight:700; margin-bottom:8px; }
+    .invite-box p { color:var(--muted); font-size:0.875rem; margin-bottom:20px; }
+    .invite-form { display:flex; gap:10px; flex-wrap:wrap; }
+    .invite-input { flex:1; min-width:200px; padding:11px 16px; border:1.5px solid var(--border); border-radius:10px; font-family:'DM Sans',sans-serif; font-size:0.9rem; outline:none; }
+    .invite-input:focus { border-color:var(--teal); }
+    .invite-link { background:var(--off-white); border:1px solid var(--border); border-radius:10px; padding:12px 16px; font-size:0.8rem; color:var(--muted); word-break:break-all; margin-top:12px; display:none; }
+    .invite-link strong { color:var(--teal); }
+
+    /* EMPTY */
+    .empty { text-align:center; padding:48px; color:var(--muted); font-size:0.875rem; }
+
+    /* TOAST */
+    .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(100px); background:var(--black); color:white; padding:12px 24px; border-radius:100px; font-size:0.875rem; transition:transform 0.3s; z-index:300; }
+    .toast.show { transform:translateX(-50%) translateY(0); }
+    .toast.success { background:var(--success); }
+
+    @media(max-width:600px) { .stats { grid-template-columns:1fr 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- AUTH -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-box">
+    <h2>ChoreOFF Admin</h2>
+    <p>Enter your admin password to continue</p>
+    <input class="auth-input" type="password" id="adminPass" placeholder="Password" onkeypress="if(event.key==='Enter')checkAuth()">
+    <button class="auth-btn" onclick="checkAuth()">Sign In</button>
+  </div>
+</div>
+
+<nav>
+  <div class="nav-logo">Chore<span>OFF</span> <span style="font-size:0.75rem;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400">Admin</span></div>
+  <span class="nav-badge" id="liveBadge">● Live</span>
+</nav>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('overview')">Overview</button>
+  <button class="tab" onclick="switchTab('jobs')">Jobs</button>
+  <button class="tab" onclick="switchTab('members')">Members</button>
+  <button class="tab" onclick="switchTab('workers')">Workers</button>
+  <button class="tab" onclick="switchTab('payouts')">Payouts</button>
+</div>
+
+<!-- STATS -->
+<div class="stats" id="statsBar">
+  <div class="stat-card"><div class="stat-value" id="statMembers">—</div><div class="stat-label">Active Members</div></div>
+  <div class="stat-card"><div class="stat-value" id="statJobs">—</div><div class="stat-label">Total Jobs</div></div>
+  <div class="stat-card"><div class="stat-value" id="statPending">—</div><div class="stat-label">Pending Jobs</div></div>
+  <div class="stat-card"><div class="stat-value" id="statWorkers">—</div><div class="stat-label">Active Workers</div></div>
+  <div class="stat-card"><div class="stat-value" id="statRevenue">—</div><div class="stat-label">Est. Revenue</div></div>
+  <div class="stat-card"><div class="stat-value" id="statMRR">—</div><div class="stat-label">MRR</div></div>
+</div>
+
+<div class="content">
+
+  <!-- OVERVIEW -->
+  <div class="section active" id="section-overview">
+    <div class="section-header">
+      <div class="section-title">Recent Activity</div>
+      <button class="btn-sm btn-teal" onclick="loadAll()">↻ Refresh</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Time</th><th>Type</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead>
+        <tbody id="overviewTable"><tr><td colspan="5" class="empty">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- JOBS -->
+  <div class="section" id="section-jobs">
+    <div class="section-header">
+      <div class="section-title">All Jobs</div>
+      <button class="btn-sm btn-teal" onclick="loadJobs()">↻ Refresh</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Customer</th><th>Address</th><th>Type</th><th>Amount</th><th>Worker</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="jobsTable"><tr><td colspan="8" class="empty">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MEMBERS -->
+  <div class="section" id="section-members">
+    <div class="section-header">
+      <div class="section-title">Members</div>
+      <button class="btn-sm btn-teal" onclick="loadMembers()">↻ Refresh</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Name</th><th>Email</th><th>Status</th><th>Joined</th><th>Subscription ID</th></tr></thead>
+        <tbody id="membersTable"><tr><td colspan="5" class="empty">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- WORKERS -->
+  <div class="section" id="section-workers">
+    <div class="invite-box">
+      <h3>Invite a Worker</h3>
+      <p>Enter their name and email to generate a unique onboarding link to send them.</p>
+      <div class="invite-form">
+        <input class="invite-input" type="text" id="inviteName" placeholder="Worker's full name">
+        <input class="invite-input" type="email" id="inviteEmail" placeholder="their@email.com">
+        <button class="btn-sm btn-dark" onclick="generateInvite()">Generate Invite Link</button>
+      </div>
+      <div class="invite-link" id="inviteLink"></div>
+    </div>
+    <div class="section-header">
+      <div class="section-title">All Workers</div>
+      <button class="btn-sm btn-teal" onclick="loadWorkers()">↻ Refresh</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>City</th><th>Status</th><th>Jobs</th><th>Earned</th><th>Action</th></tr></thead>
+        <tbody id="workersTable"><tr><td colspan="8" class="empty">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PAYOUTS -->
+  <div class="section" id="section-payouts">
+    <div class="section-header">
+      <div class="section-title">Payouts</div>
+      <button class="btn-sm btn-teal" onclick="loadPayouts()">↻ Refresh</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Worker</th><th>Amount</th><th>Status</th><th>Transfer ID</th></tr></thead>
+        <tbody id="payoutsTable"><tr><td colspan="5" class="empty">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const SUPABASE_URL = 'https://bijjtificxcekmesgwrn.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpamp0aWZpY3hjZWttZXNnd3JuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NjExMzAsImV4cCI6MjA5MDIzNzEzMH0.19_WTJl5cRKaGZSxOS9QLWguFgYhPAyQYDGdP2iZdkM';
+  const ADMIN_PASSWORD = 'choreoff2026';
+
+  function db(path) {
+    return fetch(SUPABASE_URL + '/rest/v1/' + path, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+    }).then(r => r.json());
+  }
+
+  function checkAuth() {
+    const pass = document.getElementById('adminPass').value;
+    if (pass === ADMIN_PASSWORD) {
+      document.getElementById('authOverlay').style.display = 'none';
+      loadAll();
+    } else {
+      document.getElementById('adminPass').style.borderColor = '#cc3322';
+      document.getElementById('adminPass').value = '';
+      document.getElementById('adminPass').placeholder = 'Wrong password';
+    }
+  }
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['overview','jobs','members','workers','payouts'][i] === tab));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById('section-' + tab).classList.add('active');
+    if (tab === 'jobs') loadJobs();
+    if (tab === 'members') loadMembers();
+    if (tab === 'workers') loadWorkers();
+    if (tab === 'payouts') loadPayouts();
+  }
+
+  async function loadAll() {
+    const [members, jobs, workers, payouts] = await Promise.all([
+      db('members?status=eq.Active&select=count'),
+      db('bookings?select=count'),
+      db('workers?status=eq.Active&select=count'),
+      db('bookings?status=eq.Pending&select=count'),
+    ]);
+
+    const activeMembers = members?.length || 0;
+    const totalJobs = jobs?.length || 0;
+    const activeWorkers = workers?.length || 0;
+    const pendingJobs = payouts?.length || 0;
+
+    document.getElementById('statMembers').textContent = activeMembers;
+    document.getElementById('statJobs').textContent = totalJobs;
+    document.getElementById('statWorkers').textContent = activeWorkers;
+    document.getElementById('statPending').textContent = pendingJobs;
+    document.getElementById('statMRR').textContent = '$' + (activeMembers * 29);
+    document.getElementById('statRevenue').textContent = '$' + (totalJobs * 179);
+
+    // Load recent bookings for overview
+    const recent = await db('bookings?order=created_at.desc&limit=10');
+    const tbody = document.getElementById('overviewTable');
+    if (!recent || recent.length === 0) { tbody.innerHTML = '<tr><td colspan="5" class="empty">No activity yet</td></tr>'; return; }
+    tbody.innerHTML = recent.map(b => `
+      <tr>
+        <td style="color:var(--muted)">${new Date(b.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}</td>
+        <td>${b.booking_type === 'member' ? 'Member Visit' : 'One-Time Reset'}</td>
+        <td>${b.name || b.email}</td>
+        <td style="font-weight:600">$${b.amount_paid}</td>
+        <td><span class="badge badge-${(b.status||'').toLowerCase()}">${b.status}</span></td>
+      </tr>`).join('');
+  }
+
+  async function loadJobs() {
+    const jobs = await db('bookings?order=created_at.desc&limit=50');
+    const workers = await db('workers?select=id,name');
+    const workerMap = {};
+    (workers || []).forEach(w => workerMap[w.id] = w.name);
+    const tbody = document.getElementById('jobsTable');
+    if (!jobs || jobs.length === 0) { tbody.innerHTML = '<tr><td colspan="8" class="empty">No jobs yet</td></tr>'; return; }
+    tbody.innerHTML = jobs.map(j => `
+      <tr>
+        <td style="color:var(--muted)">${j.scheduled_at ? new Date(j.scheduled_at).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : 'TBD'}</td>
+        <td>${j.name || '—'}<br><span style="font-size:0.75rem;color:var(--muted)">${j.email}</span></td>
+        <td style="font-size:0.8rem">${j.address || '—'}</td>
+        <td>${j.booking_type === 'member' ? 'Member' : 'Non-member'}</td>
+        <td style="font-weight:600">$${j.amount_paid || 0}</td>
+        <td>${j.worker_id ? (workerMap[j.worker_id] || 'Unknown') : '<span style="color:var(--muted)">Unclaimed</span>'}</td>
+        <td><span class="badge badge-${(j.status||'').toLowerCase()}">${j.status}</span></td>
+        <td>${j.status === 'Pending' ? `<button class="btn-sm btn-red" onclick="cancelJob('${j.id}')">Cancel</button>` : ''}</td>
+      </tr>`).join('');
+  }
+
+  async function loadMembers() {
+    const members = await db('members?order=created_at.desc');
+    const tbody = document.getElementById('membersTable');
+    if (!members || members.length === 0) { tbody.innerHTML = '<tr><td colspan="5" class="empty">No members yet</td></tr>'; return; }
+    tbody.innerHTML = members.map(m => `
+      <tr>
+        <td style="font-weight:500">${m.name || '—'}</td>
+        <td>${m.email}</td>
+        <td><span class="badge badge-${(m.status||'active').toLowerCase()}">${m.status}</span></td>
+        <td style="color:var(--muted)">${m.date_joined || '—'}</td>
+        <td style="font-size:0.75rem;color:var(--muted)">${m.stripe_subscription_id || '—'}</td>
+      </tr>`).join('');
+  }
+
+  async function loadWorkers() {
+    const workers = await db('workers?order=created_at.desc');
+    const tbody = document.getElementById('workersTable');
+    if (!workers || workers.length === 0) { tbody.innerHTML = '<tr><td colspan="8" class="empty">No workers yet</td></tr>'; return; }
+    tbody.innerHTML = workers.map(w => `
+      <tr>
+        <td style="font-weight:500">${w.name}</td>
+        <td>${w.email}</td>
+        <td>${w.phone || '—'}</td>
+        <td>${w.city || 'Madison'}</td>
+        <td><span class="badge badge-${(w.status||'').toLowerCase()}">${w.status}</span></td>
+        <td>${w.jobs_completed || 0}</td>
+        <td style="font-weight:600">$${w.total_earned || 0}</td>
+        <td style="display:flex;gap:6px">
+          ${w.status === 'Pending' ? `<button class="btn-sm btn-teal" onclick="approveWorker('${w.id}')">Approve</button>` : ''}
+          ${w.status === 'Active' ? `<button class="btn-sm btn-red" onclick="pauseWorker('${w.id}')">Pause</button>` : ''}
+        </td>
+      </tr>`).join('');
+  }
+
+  async function loadPayouts() {
+    const payouts = await db('payouts?order=created_at.desc&limit=50');
+    const workers = await db('workers?select=id,name');
+    const workerMap = {};
+    (workers || []).forEach(w => workerMap[w.id] = w.name);
+    const tbody = document.getElementById('payoutsTable');
+    if (!payouts || payouts.length === 0) { tbody.innerHTML = '<tr><td colspan="5" class="empty">No payouts yet</td></tr>'; return; }
+    tbody.innerHTML = payouts.map(p => `
+      <tr>
+        <td style="color:var(--muted)">${new Date(p.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</td>
+        <td>${workerMap[p.worker_id] || 'Unknown'}</td>
+        <td style="font-weight:600">$${p.amount}</td>
+        <td><span class="badge badge-${(p.status||'').toLowerCase()}">${p.status}</span></td>
+        <td style="font-size:0.75rem;color:var(--muted)">${p.stripe_transfer_id || 'Manual'}</td>
+      </tr>`).join('');
+  }
+
+  async function approveWorker(id) {
+    await fetch(SUPABASE_URL + '/rest/v1/workers?id=eq.' + id, {
+      method: 'PATCH',
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'Active' })
+    });
+    showToast('Worker approved ✓', 'success');
+    loadWorkers();
+  }
+
+  async function pauseWorker(id) {
+    await fetch(SUPABASE_URL + '/rest/v1/workers?id=eq.' + id, {
+      method: 'PATCH',
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'Inactive' })
+    });
+    showToast('Worker paused', 'success');
+    loadWorkers();
+  }
+
+  async function cancelJob(id) {
+    await fetch(SUPABASE_URL + '/rest/v1/bookings?id=eq.' + id, {
+      method: 'PATCH',
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'Cancelled' })
+    });
+    showToast('Job cancelled', 'success');
+    loadJobs();
+  }
+
+  function generateInvite() {
+    const name = document.getElementById('inviteName').value.trim();
+    const email = document.getElementById('inviteEmail').value.trim();
+    if (!name || !email) { showToast('Enter name and email first', ''); return; }
+    const token = btoa(email + ':' + Date.now()).replace(/=/g, '');
+    const link = `https://choreoff.com/onboard?invite=${token}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}`;
+    const box = document.getElementById('inviteLink');
+    box.style.display = 'block';
+    box.innerHTML = `<strong>Invite link for ${name}:</strong><br>${link}<br><br><button class="btn-sm btn-teal" onclick="navigator.clipboard.writeText('${link}');showToast('Copied!','success')" style="margin-top:8px">Copy Link</button>`;
+  }
+
+  function showToast(msg, type) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show ' + type;
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+</script>
+</body>
+</html>
