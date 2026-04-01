@@ -895,7 +895,7 @@
   <div class="nav-logo">Chore<span>OFF</span></div>
   <div class="nav-links">
     <a class="nav-member" href="https://billing.stripe.com/p/login/00w7sE2KD5W22AScIO6oo00" target="_blank">Member Login</a>
-    <a class="nav-cta" href="#zip-check" onclick="focusZip()">Book a Reset</a>
+    <a class="nav-cta" href="#" onclick="event.preventDefault();document.getElementById('zip-check').scrollIntoView({behavior:'smooth'});setTimeout(()=>{document.getElementById('zipInput').focus();document.getElementById('zipInput').style.boxShadow='0 0 0 4px rgba(42,184,184,0.25)';setTimeout(()=>document.getElementById('zipInput').style.boxShadow='',1200);},400)">Book a Reset</a>
   </div>
 </nav>
 
