@@ -807,6 +807,28 @@
       <label>Phone Number</label>
       <input type="tel" id="phone" placeholder="+1 (608) 555-0000" autocomplete="tel">
     </div>
+    <!-- ID Upload -->
+    <div class="field" style="margin-bottom:18px">
+      <label>Government-Issued ID</label>
+      <div id="idUploadArea" onclick="document.getElementById('idFile').click()"
+        style="border:1.5px dashed #e5e2dc;border-radius:12px;padding:20px;text-align:center;cursor:pointer;background:white;transition:all 0.2s">
+        <div style="font-size:1.8rem;margin-bottom:8px">🪪</div>
+        <div style="font-size:0.875rem;font-weight:600;color:#1a1a18;margin-bottom:4px">Upload Driver's License or State ID</div>
+        <div style="font-size:0.78rem;color:#888">Tap to upload photo — JPG, PNG accepted</div>
+      </div>
+      <input type="file" id="idFile" accept="image/*" style="display:none" onchange="handleIdUpload(this)">
+      <div id="idUploadStatus" style="display:none;margin-top:8px;font-size:0.82rem;color:#2ab8b8;font-weight:500">✓ ID uploaded</div>
+    </div>
+
+    <!-- Declaration -->
+    <div class="train-item" id="declarationCheck" onclick="toggleTrain(this)" style="margin-bottom:18px">
+      <div class="train-checkbox"></div>
+      <div class="train-text">
+        <strong>Background declaration</strong>
+        <span>I confirm I have no felony convictions and am not listed on any sex offender registry. I understand that providing false information will result in immediate termination.</span>
+      </div>
+    </div>
+
     <div class="field-row">
       <div class="field">
         <label>City</label>
@@ -1087,15 +1109,15 @@
       <div class="success-icon">🎉</div>
       <div class="step-eyebrow">You're all set!</div>
       <h1>Welcome to<br>the team.</h1>
-      <p class="step-sub">Your application is being reviewed by our team. You'll receive a text message once you're approved — usually within 24 hours. Then you can start claiming jobs.</p>
+      <p class="step-sub">Your application is being reviewed. We'll run a quick background check and reach out within 1-2 business days. Once approved you'll receive a text and can start claiming jobs.</p>
 
       <div class="next-steps">
         <h3>What happens next</h3>
         <div class="next-step-item">
           <div class="ns-num">1</div>
           <div class="ns-text">
-            <strong>Review (up to 24 hours)</strong>
-            <span>Our team reviews your application and approves your account.</span>
+            <strong>Background check (1-2 business days)</strong>
+            <span>We run a quick criminal background check. You'll receive a separate email from our screening partner.</span>
           </div>
         </div>
         <div class="next-step-item">
@@ -1135,6 +1157,23 @@
   let currentStep = 1;
   let workerData = {};
   let selectedPayout = 'connect';
+
+  // ID Upload handler
+  let idUploaded = false;
+  function handleIdUpload(input) {
+    if (!input.files[0]) return;
+    const file = input.files[0];
+    idUploaded = true;
+    const area = document.getElementById('idUploadArea');
+    area.style.borderColor = '#2ab8b8';
+    area.style.background = '#e8f8f8';
+    area.innerHTML = '<div style="font-size:1.8rem;margin-bottom:8px">✅</div><div style="font-size:0.875rem;font-weight:600;color:#1e9494">ID uploaded — ' + file.name + '</div><div style="font-size:0.78rem;color:#888">Tap to change</div>';
+    document.getElementById('idUploadStatus').style.display = 'block';
+    // Store as base64 for later
+    const reader = new FileReader();
+    reader.onload = e => { workerData.idImage = e.target.result.substring(0, 100) + '...stored'; };
+    reader.readAsDataURL(file);
+  }
 
   // Pre-fill from URL params (invite link)
   window.addEventListener('DOMContentLoaded', () => {
@@ -1182,6 +1221,12 @@
       }
       if (!email.includes('@')) {
         document.getElementById('err-1').textContent = 'Please enter a valid email address.';
+        document.getElementById('err-1').style.display = 'block';
+        return false;
+      }
+      const declared = document.getElementById('declarationCheck')?.classList.contains('checked');
+      if (!declared) {
+        document.getElementById('err-1').textContent = 'Please check the background declaration to continue.';
         document.getElementById('err-1').style.display = 'block';
         return false;
       }
