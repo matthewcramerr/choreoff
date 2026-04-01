@@ -906,8 +906,8 @@
   <h1 class="hero-headline-2">chores <em>OFF.</em></h1>
   <p class="hero-sub">You're busy. The laundry's piling up. The dishes aren't done. ChoreOFF handles the basics so you can actually enjoy your time off.</p>
   <div class="hero-actions">
-    <a class="btn-primary" href="#zip-check" onclick="focusZip()">Book a Reset — $179 →</a>
-    <a class="btn-ghost" href="#zip-check" onclick="focusZip()">View membership</a>
+    <a class="btn-primary" href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;">Book a Reset — $179 →</a>
+    <a class="btn-ghost" href="#pricing">View membership</a>
   </div>
   <div class="hero-scroll">
     <span>Scroll</span>
@@ -928,13 +928,13 @@
     <div class="zip-cta-group">
       <div class="zip-cta-col">
         <div class="zip-cta-label">Not a member</div>
-        <a href="https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06" target="_blank" class="btn-primary" style="font-size:0.95rem">Book a Reset — $179 →</a>
-        <a href="https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05" target="_blank" class="zip-link-sub">Become a Member — $29/month</a>
+        <a href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;" target="_blank" class="btn-primary" style="font-size:0.95rem">Book a Reset — $179 →</a>
+        <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05');return false;" target="_blank" class="zip-link-sub">Become a Member — $29/month</a>
       </div>
       <div class="zip-cta-divider">or</div>
       <div class="zip-cta-col">
         <div class="zip-cta-label">Already a member</div>
-        <a href="https://buy.stripe.com/test_8x2dR25WPdoufnEeQW6oo08" target="_blank" class="btn-primary" style="font-size:0.95rem;background:var(--black)">Book a Member Visit — $139 →</a>
+        <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x2dR25WPdoufnEeQW6oo08');return false;" target="_blank" class="btn-primary" style="font-size:0.95rem;background:var(--black)">Book a Member Visit — $139 →</a>
         <a href="https://billing.stripe.com/p/login/00w7sE2KD5W22AScIO6oo00" target="_blank" class="zip-link-sub">Manage my membership</a>
       </div>
     </div>
@@ -1103,7 +1103,7 @@
         <li>No subscription required</li>
         <li>Book once, cancel anytime</li>
       </ul>
-      <a href="https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06" target="_blank" class="price-cta price-cta-outline">Book a Reset</a>
+      <a href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;" target="_blank" class="price-cta price-cta-outline">Book a Reset</a>
     </div>
 
     <!-- Monthly Membership -->
@@ -1119,7 +1119,7 @@
         <li>Full checklist every visit</li>
         <li>Cancel anytime via portal</li>
       </ul>
-      <a href="https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05" target="_blank" class="price-cta price-cta-dark">Become a Member</a>
+      <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05');return false;" target="_blank" class="price-cta price-cta-dark">Become a Member</a>
     </div>
 
     <!-- Yearly Membership -->
@@ -1135,7 +1135,7 @@
         <li>Full checklist every visit</li>
         <li>Best value for regular use</li>
       </ul>
-      <a href="https://buy.stripe.com/test_dRmeV63OHckq1wO7ou6oo07" target="_blank" class="price-cta price-cta-outline">Get 3 Months Free</a>
+      <a href="#" onclick="requireZip('https://buy.stripe.com/test_dRmeV63OHckq1wO7ou6oo07');return false;" target="_blank" class="price-cta price-cta-outline">Get 3 Months Free</a>
     </div>
 
   </div>
@@ -1169,6 +1169,74 @@
         setTimeout(() => input.classList.remove('pulse'), 1000);
       }
     }, 500);
+  }
+
+  // ZIP MODAL + LOCK
+  let validZipConfirmed = false;
+  let pendingUrl = null;
+
+  function requireZip(url) {
+    if (validZipConfirmed) {
+      window.open(url, '_blank');
+      return;
+    }
+    pendingUrl = url;
+    const modal = document.getElementById('zipModal');
+    modal.style.display = 'flex';
+    setTimeout(() => document.getElementById('modalZipInput').focus(), 100);
+  }
+
+  function closeZipModal() {
+    document.getElementById('zipModal').style.display = 'none';
+    pendingUrl = null;
+  }
+
+  function checkModalZip() {
+    const zip = document.getElementById('modalZipInput').value.trim();
+    const result = document.getElementById('modalZipResult');
+    if (zip.length !== 5 || isNaN(zip)) {
+      result.textContent = 'Please enter a valid 5-digit zip code.';
+      result.style.color = '#cc3322';
+      result.style.display = 'block';
+      return;
+    }
+    if (SERVICE_ZIPS.includes(zip)) {
+      validZipConfirmed = true;
+      // Also update main zip section
+      document.getElementById('zipInput').value = zip;
+      document.getElementById('zipResult').innerHTML = '✓ ChoreOFF is available in your area.';
+      document.getElementById('zipResult').className = 'zip-result success';
+      document.getElementById('zipResult').style.display = 'block';
+      document.getElementById('zipButtons').style.display = 'flex';
+      document.getElementById('zipWaitlist').style.display = 'none';
+      closeZipModal();
+      if (pendingUrl) { window.open(pendingUrl, '_blank'); pendingUrl = null; }
+    } else {
+      result.style.display = 'block';
+      result.style.color = '#cc3322';
+      result.textContent = "We\'re not in your area yet.";
+      // Show waitlist in modal
+      result.innerHTML = \`We're not in your area yet. <br><br>
+        <input id="modalWaitlistEmail" type="email" placeholder="Your email" style="width:100%;padding:11px 16px;border:1.5px solid #e8e8e4;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:0.9rem;margin-bottom:8px;outline:none">
+        <button onclick="joinModalWaitlist('${zip}')" style="width:100%;padding:11px;background:#0e0e0e;color:white;border:none;border-radius:100px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer">Notify me when we launch →</button>\`;
+    }
+  }
+
+  function joinModalWaitlist(zip) {
+    const email = document.getElementById('modalWaitlistEmail').value.trim();
+    if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
+    fetch('https://bijjtificxcekmesgwrn.supabase.co/rest/v1/waitlist', {
+      method: 'POST',
+      headers: {
+        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpamp0aWZpY3hjZWttZXNnd3JuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NjExMzAsImV4cCI6MjA5MDIzNzEzMH0.19_WTJl5cRKaGZSxOS9QLWguFgYhPAyQYDGdP2iZdkM',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpamp0aWZpY3hjZWttZXNnd3JuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NjExMzAsImV4cCI6MjA5MDIzNzEzMH0.19_WTJl5cRKaGZSxOS9QLWguFgYhPAyQYDGdP2iZdkM',
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ email, zip, created_at: new Date().toISOString() })
+    }).catch(() => {});
+    document.getElementById('modalZipResult').innerHTML = "✓ You're on the list! We'll reach out when we launch in your area.";
+    document.getElementById('modalZipResult').style.color = '#1e9494';
   }
 
   // NAV SCROLL
@@ -1255,6 +1323,24 @@
     document.querySelector('.zip-waitlist-btn').style.display = 'none';
   }
 </script>
+
+
+<!-- ZIP MODAL -->
+<div id="zipModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;align-items:center;justify-content:center;padding:20px">
+  <div style="background:white;border-radius:20px;padding:36px;max-width:400px;width:100%;text-align:center">
+    <div style="font-size:1.8rem;margin-bottom:12px">📍</div>
+    <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:8px">Check your area first</h3>
+    <p style="color:#888;font-size:0.9rem;margin-bottom:24px">Enter your zip code to confirm ChoreOFF is available in your area.</p>
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <input id="modalZipInput" type="text" maxlength="5" inputmode="numeric" placeholder="Enter zip code"
+        style="flex:1;padding:13px 16px;border:1.5px solid #e8e8e4;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:1rem;outline:none"
+        onkeypress="if(event.key==='Enter')checkModalZip()">
+      <button onclick="checkModalZip()" style="background:#0e0e0e;color:white;border:none;border-radius:100px;padding:13px 22px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer">Check</button>
+    </div>
+    <div id="modalZipResult" style="font-size:0.875rem;margin-bottom:16px;display:none"></div>
+    <button onclick="closeZipModal()" style="background:none;border:none;color:#888;font-size:0.85rem;cursor:pointer;margin-top:4px">Cancel</button>
+  </div>
+</div>
 
 </body>
 </html>
