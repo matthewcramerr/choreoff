@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -15,89 +16,93 @@
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family:'DM Sans',sans-serif; background:var(--off-white); color:var(--black); }
 
-    /* AUTH */
-    .auth-overlay { position:fixed; inset:0; background:var(--black); display:flex; align-items:center; justify-content:center; z-index:200; }
-    .auth-box { background:var(--white); border-radius:20px; padding:40px; width:340px; text-align:center; }
-    .auth-box h2 { font-family:'Syne',sans-serif; font-size:1.4rem; margin-bottom:8px; }
-    .auth-box p { color:var(--muted); font-size:0.875rem; margin-bottom:24px; }
-    .auth-input { width:100%; padding:13px 16px; border:1.5px solid var(--border); border-radius:10px; font-family:'DM Sans',sans-serif; font-size:1rem; margin-bottom:12px; outline:none; }
-    .auth-input:focus { border-color:var(--teal); }
-    .auth-btn { width:100%; padding:13px; background:var(--teal); color:white; border:none; border-radius:10px; font-family:'Syne',sans-serif; font-weight:700; cursor:pointer; }
+```
+/* AUTH */
+.auth-overlay { position:fixed; inset:0; background:var(--black); display:flex; align-items:center; justify-content:center; z-index:200; }
+.auth-box { background:var(--white); border-radius:20px; padding:40px; width:340px; text-align:center; }
+.auth-box h2 { font-family:'Syne',sans-serif; font-size:1.4rem; margin-bottom:8px; }
+.auth-box p { color:var(--muted); font-size:0.875rem; margin-bottom:24px; }
+.auth-input { width:100%; padding:13px 16px; border:1.5px solid var(--border); border-radius:10px; font-family:'DM Sans',sans-serif; font-size:1rem; margin-bottom:12px; outline:none; }
+.auth-input:focus { border-color:var(--teal); }
+.auth-btn { width:100%; padding:13px; background:var(--teal); color:white; border:none; border-radius:10px; font-family:'Syne',sans-serif; font-weight:700; cursor:pointer; }
 
-    /* NAV */
-    nav { background:var(--black); padding:14px 24px; display:flex; align-items:center; justify-content:space-between; }
-    .nav-logo { font-family:'Syne',sans-serif; font-weight:800; color:var(--white); font-size:1.1rem; }
-    .nav-logo span { color:var(--red); }
-    .nav-badge { background:rgba(42,184,184,0.2); color:var(--teal); font-size:0.75rem; padding:4px 12px; border-radius:100px; font-weight:600; }
+/* NAV */
+nav { background:var(--black); padding:14px 24px; display:flex; align-items:center; justify-content:space-between; }
+.nav-logo { font-family:'Syne',sans-serif; font-weight:800; color:var(--white); font-size:1.1rem; }
+.nav-logo span { color:var(--red); }
+.nav-badge { background:rgba(42,184,184,0.2); color:var(--teal); font-size:0.75rem; padding:4px 12px; border-radius:100px; font-weight:600; }
 
-    /* TABS */
-    .tabs { background:var(--white); border-bottom:1px solid var(--border); padding:0 24px; display:flex; gap:0; overflow-x:auto; }
-    .tab { padding:14px 20px; font-family:'Syne',sans-serif; font-weight:600; font-size:0.875rem; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; transition:all 0.2s; white-space:nowrap; background:none; border-top:none; border-left:none; border-right:none; }
-    .tab.active { color:var(--teal); border-bottom-color:var(--teal); }
+/* TABS */
+.tabs { background:var(--white); border-bottom:1px solid var(--border); padding:0 24px; display:flex; gap:0; overflow-x:auto; }
+.tab { padding:14px 20px; font-family:'Syne',sans-serif; font-weight:600; font-size:0.875rem; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; transition:all 0.2s; white-space:nowrap; background:none; border-top:none; border-left:none; border-right:none; }
+.tab.active { color:var(--teal); border-bottom-color:var(--teal); }
 
-    /* STATS */
-    .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; padding:24px; }
-    .stat-card { background:var(--white); border-radius:16px; padding:20px 24px; border:1px solid var(--border); }
-    .stat-value { font-family:'Syne',sans-serif; font-weight:800; font-size:2rem; color:var(--teal); }
-    .stat-label { font-size:0.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-top:4px; }
+/* STATS */
+.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; padding:24px; }
+.stat-card { background:var(--white); border-radius:16px; padding:20px 24px; border:1px solid var(--border); }
+.stat-value { font-family:'Syne',sans-serif; font-weight:800; font-size:2rem; color:var(--teal); }
+.stat-label { font-size:0.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-top:4px; }
 
-    /* CONTENT */
-    .content { padding:0 24px 40px; }
-    .section { display:none; }
-    .section.active { display:block; }
+/* CONTENT */
+.content { padding:0 24px 40px; }
+.section { display:none; }
+.section.active { display:block; }
 
-    .section-header { display:flex; align-items:center; justify-content:space-between; margin:8px 0 20px; }
-    .section-title { font-family:'Syne',sans-serif; font-weight:700; font-size:1.2rem; }
+.section-header { display:flex; align-items:center; justify-content:space-between; margin:8px 0 20px; }
+.section-title { font-family:'Syne',sans-serif; font-weight:700; font-size:1.2rem; }
 
-    /* TABLE */
-    .table-wrap { background:var(--white); border-radius:16px; border:1px solid var(--border); overflow:hidden; overflow-x:auto; }
-    table { width:100%; border-collapse:collapse; }
-    th { text-align:left; padding:12px 16px; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--muted); border-bottom:1px solid var(--border); background:var(--off-white); }
-    td { padding:14px 16px; font-size:0.875rem; border-bottom:1px solid var(--border); }
-    tr:last-child td { border-bottom:none; }
-    tr:hover td { background:#fafaf8; }
+/* TABLE */
+.table-wrap { background:var(--white); border-radius:16px; border:1px solid var(--border); overflow:hidden; overflow-x:auto; }
+table { width:100%; border-collapse:collapse; }
+th { text-align:left; padding:12px 16px; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--muted); border-bottom:1px solid var(--border); background:var(--off-white); }
+td { padding:14px 16px; font-size:0.875rem; border-bottom:1px solid var(--border); }
+tr:last-child td { border-bottom:none; }
+tr:hover td { background:#fafaf8; }
 
-    /* BADGES */
-    .badge { display:inline-flex; align-items:center; padding:4px 12px; border-radius:100px; font-size:0.72rem; font-weight:600; }
-    .badge-active { background:#f0fdf4; color:var(--success); }
-    .badge-pending { background:#eff6ff; color:var(--pending); }
-    .badge-cancelled { background:#fef2f2; color:var(--red); }
-    .badge-pastdue { background:#fffbeb; color:var(--warning); }
-    .badge-completed { background:#f0fdf4; color:var(--success); }
-    .badge-assigned { background:#eff6ff; color:var(--pending); }
+/* BADGES */
+.badge { display:inline-flex; align-items:center; padding:4px 12px; border-radius:100px; font-size:0.72rem; font-weight:600; }
+.badge-active { background:#f0fdf4; color:var(--success); }
+.badge-pending { background:#eff6ff; color:var(--pending); }
+.badge-cancelled { background:#fef2f2; color:var(--red); }
+.badge-pastdue { background:#fffbeb; color:var(--warning); }
+.badge-completed { background:#f0fdf4; color:var(--success); }
+.badge-assigned { background:#eff6ff; color:var(--pending); }
 
-    /* BUTTONS */
-    .btn-sm { padding:7px 16px; border-radius:8px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.8rem; cursor:pointer; border:none; transition:all 0.2s; }
-    .btn-teal { background:var(--teal); color:white; }
-    .btn-teal:hover { background:var(--teal-dark); }
-    .btn-red { background:#fef2f2; color:var(--red); }
-    .btn-red:hover { background:#fee2e2; }
-    .btn-dark { background:var(--black); color:white; }
+/* BUTTONS */
+.btn-sm { padding:7px 16px; border-radius:8px; font-family:'DM Sans',sans-serif; font-weight:600; font-size:0.8rem; cursor:pointer; border:none; transition:all 0.2s; }
+.btn-teal { background:var(--teal); color:white; }
+.btn-teal:hover { background:var(--teal-dark); }
+.btn-red { background:#fef2f2; color:var(--red); }
+.btn-red:hover { background:#fee2e2; }
+.btn-dark { background:var(--black); color:white; }
 
-    /* INVITE */
-    .invite-box { background:var(--white); border-radius:16px; border:1px solid var(--border); padding:28px; margin-bottom:24px; }
-    .invite-box h3 { font-family:'Syne',sans-serif; font-weight:700; margin-bottom:8px; }
-    .invite-box p { color:var(--muted); font-size:0.875rem; margin-bottom:20px; }
-    .invite-form { display:flex; gap:10px; flex-wrap:wrap; }
-    .invite-input { flex:1; min-width:200px; padding:11px 16px; border:1.5px solid var(--border); border-radius:10px; font-family:'DM Sans',sans-serif; font-size:0.9rem; outline:none; }
-    .invite-input:focus { border-color:var(--teal); }
-    .invite-link { background:var(--off-white); border:1px solid var(--border); border-radius:10px; padding:12px 16px; font-size:0.8rem; color:var(--muted); word-break:break-all; margin-top:12px; display:none; }
-    .invite-link strong { color:var(--teal); }
+/* INVITE */
+.invite-box { background:var(--white); border-radius:16px; border:1px solid var(--border); padding:28px; margin-bottom:24px; }
+.invite-box h3 { font-family:'Syne',sans-serif; font-weight:700; margin-bottom:8px; }
+.invite-box p { color:var(--muted); font-size:0.875rem; margin-bottom:20px; }
+.invite-form { display:flex; gap:10px; flex-wrap:wrap; }
+.invite-input { flex:1; min-width:200px; padding:11px 16px; border:1.5px solid var(--border); border-radius:10px; font-family:'DM Sans',sans-serif; font-size:0.9rem; outline:none; }
+.invite-input:focus { border-color:var(--teal); }
+.invite-link { background:var(--off-white); border:1px solid var(--border); border-radius:10px; padding:12px 16px; font-size:0.8rem; color:var(--muted); word-break:break-all; margin-top:12px; display:none; }
+.invite-link strong { color:var(--teal); }
 
-    /* EMPTY */
-    .empty { text-align:center; padding:48px; color:var(--muted); font-size:0.875rem; }
+/* EMPTY */
+.empty { text-align:center; padding:48px; color:var(--muted); font-size:0.875rem; }
 
-    /* TOAST */
-    .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(100px); background:var(--black); color:white; padding:12px 24px; border-radius:100px; font-size:0.875rem; transition:transform 0.3s; z-index:300; }
-    .toast.show { transform:translateX(-50%) translateY(0); }
-    .toast.success { background:var(--success); }
+/* TOAST */
+.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(100px); background:var(--black); color:white; padding:12px 24px; border-radius:100px; font-size:0.875rem; transition:transform 0.3s; z-index:300; }
+.toast.show { transform:translateX(-50%) translateY(0); }
+.toast.success { background:var(--success); }
 
-    @media(max-width:600px) { .stats { grid-template-columns:1fr 1fr; } }
+@media(max-width:600px) { .stats { grid-template-columns:1fr 1fr; } }
+```
+
   </style>
 </head>
 <body>
 
 <!-- AUTH -->
+
 <div class="auth-overlay" id="authOverlay">
   <div class="auth-box">
     <h2>ChoreOFF Admin</h2>
@@ -121,6 +126,7 @@
 </div>
 
 <!-- STATS -->
+
 <div class="stats" id="statsBar">
   <div class="stat-card"><div class="stat-value" id="statMembers">—</div><div class="stat-label">Active Members</div></div>
   <div class="stat-card"><div class="stat-value" id="statJobs">—</div><div class="stat-label">Total Jobs</div></div>
@@ -133,6 +139,7 @@
 <div class="content">
 
   <!-- OVERVIEW -->
+
   <div class="section active" id="section-overview">
     <div class="section-header">
       <div class="section-title">Recent Activity</div>
@@ -147,6 +154,7 @@
   </div>
 
   <!-- JOBS -->
+
   <div class="section" id="section-jobs">
     <div class="section-header">
       <div class="section-title">All Jobs</div>
@@ -161,6 +169,7 @@
   </div>
 
   <!-- MEMBERS -->
+
   <div class="section" id="section-members">
     <div class="section-header">
       <div class="section-title">Members</div>
@@ -175,6 +184,7 @@
   </div>
 
   <!-- WORKERS -->
+
   <div class="section" id="section-workers">
     <div class="invite-box">
       <h3>Invite a Worker</h3>
@@ -199,6 +209,7 @@
   </div>
 
   <!-- PAYOUTS -->
+
   <div class="section" id="section-payouts">
     <div class="section-header">
       <div class="section-title">Payouts</div>
@@ -331,7 +342,7 @@
         <td>${w.jobs_completed || 0}</td>
         <td style="font-weight:600">$${w.total_earned || 0}</td>
         <td style="display:flex;gap:6px">
-          ${w.status === 'Pending' ? `<button class="btn-sm btn-teal" onclick="approveWorker('${w.id}')">Approve</button>` : ''}
+          ${w.status === 'Pending' ? `<button class="btn-sm btn-teal" onclick="approveWorker('${w.id}')">Approve</button><button class="btn-sm btn-red" onclick="rejectWorker('${w.id}')" style="margin-left:4px">Reject</button>` : ''}
           ${w.status === 'Active' ? `<button class="btn-sm btn-red" onclick="pauseWorker('${w.id}')">Pause</button>` : ''}
         </td>
       </tr>`).join('');
@@ -355,12 +366,17 @@
   }
 
   async function approveWorker(id) {
-    await fetch(SUPABASE_URL + '/rest/v1/workers?id=eq.' + id, {
-      method: 'PATCH',
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status: 'Active' })
+    const res = await fetch('/api/approve-worker', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ worker_id: id, action: 'approve' })
     });
-    showToast('Worker approved ✓', 'success');
+    const data = await res.json();
+    if (data.success) {
+      showToast('Worker approved — SMS + email sent ✓', 'success');
+    } else {
+      showToast('Approved but notification failed', 'success');
+    }
     loadWorkers();
   }
 
@@ -371,6 +387,17 @@
       body: JSON.stringify({ status: 'Inactive' })
     });
     showToast('Worker paused', 'success');
+    loadWorkers();
+  }
+
+  async function rejectWorker(id) {
+    if (!confirm('Reject this worker application?')) return;
+    await fetch('/api/approve-worker', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ worker_id: id, action: 'reject' })
+    });
+    showToast('Worker rejected', '');
     loadWorkers();
   }
 
@@ -402,5 +429,6 @@
     setTimeout(() => t.classList.remove('show'), 3000);
   }
 </script>
+
 </body>
 </html>
