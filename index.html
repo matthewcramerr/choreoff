@@ -1159,93 +1159,10 @@
 </footer>
 
 <script>
-  // FOCUS ZIP INPUT
-  function focusZip() {
-    setTimeout(() => {
-      const input = document.getElementById('zipInput');
-      if (input) {
-        input.focus();
-        input.classList.add('pulse');
-        setTimeout(() => input.classList.remove('pulse'), 1000);
-      }
-    }, 500);
-  }
-
-  // ZIP MODAL + LOCK
+  // ── STATE ──────────────────────────────────────────
   let validZipConfirmed = false;
   let pendingUrl = null;
 
-  function requireZip(url) {
-    if (validZipConfirmed) {
-      window.open(url, '_blank');
-      return;
-    }
-    pendingUrl = url;
-    const modal = document.getElementById('zipModal');
-    modal.style.display = 'flex';
-    setTimeout(() => document.getElementById('modalZipInput').focus(), 100);
-  }
-
-  function closeZipModal() {
-    document.getElementById('zipModal').style.display = 'none';
-    pendingUrl = null;
-  }
-
-  function checkModalZip() {
-    const zip = document.getElementById('modalZipInput').value.trim();
-    const result = document.getElementById('modalZipResult');
-    if (zip.length !== 5 || isNaN(zip)) {
-      result.textContent = 'Please enter a valid 5-digit zip code.';
-      result.style.color = '#cc3322';
-      result.style.display = 'block';
-      return;
-    }
-    if (SERVICE_ZIPS.includes(zip)) {
-      validZipConfirmed = true;
-      // Also update main zip section
-      document.getElementById('zipInput').value = zip;
-      document.getElementById('zipResult').innerHTML = '✓ ChoreOFF is available in your area.';
-      document.getElementById('zipResult').className = 'zip-result success';
-      document.getElementById('zipResult').style.display = 'block';
-      document.getElementById('zipButtons').style.display = 'flex';
-      document.getElementById('zipWaitlist').style.display = 'none';
-      closeZipModal();
-      if (pendingUrl) { window.open(pendingUrl, '_blank'); pendingUrl = null; }
-    } else {
-      result.style.display = 'block';
-      result.style.color = '#cc3322';
-      result.textContent = "We\'re not in your area yet.";
-      // Show waitlist in modal
-      result.innerHTML = \`We're not in your area yet. <br><br>
-        <input id="modalWaitlistEmail" type="email" placeholder="Your email" style="width:100%;padding:11px 16px;border:1.5px solid #e8e8e4;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:0.9rem;margin-bottom:8px;outline:none">
-        <button onclick="joinModalWaitlist('${zip}')" style="width:100%;padding:11px;background:#0e0e0e;color:white;border:none;border-radius:100px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer">Notify me when we launch →</button>\`;
-    }
-  }
-
-  function joinModalWaitlist(zip) {
-    const email = document.getElementById('modalWaitlistEmail').value.trim();
-    if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
-    fetch('https://bijjtificxcekmesgwrn.supabase.co/rest/v1/waitlist', {
-      method: 'POST',
-      headers: {
-        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpamp0aWZpY3hjZWttZXNnd3JuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NjExMzAsImV4cCI6MjA5MDIzNzEzMH0.19_WTJl5cRKaGZSxOS9QLWguFgYhPAyQYDGdP2iZdkM',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpamp0aWZpY3hjZWttZXNnd3JuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NjExMzAsImV4cCI6MjA5MDIzNzEzMH0.19_WTJl5cRKaGZSxOS9QLWguFgYhPAyQYDGdP2iZdkM',
-        'Content-Type': 'application/json',
-        'Prefer': 'return=minimal'
-      },
-      body: JSON.stringify({ email, zip, created_at: new Date().toISOString() })
-    }).catch(() => {});
-    document.getElementById('modalZipResult').innerHTML = "✓ You're on the list! We'll reach out when we launch in your area.";
-    document.getElementById('modalZipResult').style.color = '#1e9494';
-  }
-
-  // NAV SCROLL
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
-  });
-
-  // ZIP CHECKER
   const SERVICE_ZIPS = [
     '53701','53702','53703','53704','53705','53706','53707','53708',
     '53711','53713','53714','53715','53716','53717','53718','53719',
@@ -1256,6 +1173,25 @@
     '53598','53571','53508','53523','53590','53589'
   ];
 
+  // ── NAV SCROLL ──────────────────────────────────────
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ── FOCUS ZIP INPUT ─────────────────────────────────
+  function focusZip() {
+    setTimeout(() => {
+      const input = document.getElementById('zipInput');
+      if (input) {
+        input.focus();
+        input.classList.add('pulse');
+        setTimeout(() => input.classList.remove('pulse'), 1000);
+      }
+    }, 400);
+  }
+
+  // ── MAIN ZIP CHECKER (inline section) ───────────────
   function checkZip() {
     const zip = document.getElementById('zipInput').value.trim();
     const result = document.getElementById('zipResult');
@@ -1272,12 +1208,14 @@
     }
 
     if (SERVICE_ZIPS.includes(zip)) {
+      validZipConfirmed = true;
       result.innerHTML = '✓ ChoreOFF is available in your area.';
       result.className = 'zip-result success';
       result.style.display = 'block';
       waitlist.style.display = 'none';
       buttons.style.display = 'flex';
     } else {
+      validZipConfirmed = false;
       result.textContent = "We're not in your area yet — but we're expanding fast.";
       result.className = 'zip-result error';
       result.style.display = 'block';
@@ -1290,23 +1228,92 @@
     document.getElementById('zipInput').addEventListener('keypress', e => {
       if (e.key === 'Enter') checkZip();
     });
+    document.getElementById('modalZipInput').addEventListener('keypress', e => {
+      if (e.key === 'Enter') confirmModalZip();
+    });
   });
 
-  function toggleRoom(btn) {
-    const item = btn.closest('.room-item');
-    const isOpen = item.classList.contains('open');
-    // Close all
-    document.querySelectorAll('.room-item').forEach(r => r.classList.remove('open'));
-    // Toggle clicked
-    if (!isOpen) item.classList.add('open');
+  // ── ZIP GATE MODAL ──────────────────────────────────
+  // Called by every payment button
+  function requireZip(url) {
+    if (validZipConfirmed) {
+      // Already confirmed — go straight to Stripe
+      window.open(url, '_blank');
+      return;
+    }
+    // Show modal
+    pendingUrl = url;
+    document.getElementById('modalZipError').style.display = 'none';
+    document.getElementById('modalZipInput').value = '';
+    document.getElementById('zipModal').style.display = 'flex';
+    setTimeout(() => document.getElementById('modalZipInput').focus(), 150);
   }
 
+  function closeZipModal() {
+    document.getElementById('zipModal').style.display = 'none';
+    pendingUrl = null;
+  }
+
+  function confirmModalZip() {
+    const zip = document.getElementById('modalZipInput').value.trim();
+    const errEl = document.getElementById('modalZipError');
+
+    if (zip.length !== 5 || isNaN(zip)) {
+      errEl.textContent = 'Please enter a valid 5-digit zip code.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    if (SERVICE_ZIPS.includes(zip)) {
+      validZipConfirmed = true;
+      document.getElementById('zipModal').style.display = 'none';
+
+      // Also update the main zip section to show available state
+      const mainZip = document.getElementById('zipInput');
+      if (mainZip) mainZip.value = zip;
+      const result = document.getElementById('zipResult');
+      if (result) {
+        result.innerHTML = '✓ ChoreOFF is available in your area.';
+        result.className = 'zip-result success';
+        result.style.display = 'block';
+      }
+      const buttons = document.getElementById('zipButtons');
+      if (buttons) buttons.style.display = 'flex';
+
+      // Open the Stripe link they wanted
+      if (pendingUrl) {
+        window.open(pendingUrl, '_blank');
+        pendingUrl = null;
+      }
+    } else {
+      errEl.textContent = "Sorry, we're not in your area yet.";
+      errEl.style.display = 'block';
+
+      // Show waitlist after a beat
+      setTimeout(() => {
+        document.getElementById('zipModal').style.display = 'none';
+        // Scroll to zip section
+        document.getElementById('zip-check').scrollIntoView({ behavior: 'smooth' });
+        const result = document.getElementById('zipResult');
+        if (result) {
+          result.textContent = "We're not in your area yet — but we're expanding fast.";
+          result.className = 'zip-result error';
+          result.style.display = 'block';
+        }
+        const mainZip = document.getElementById('zipInput');
+        if (mainZip) mainZip.value = zip;
+        const waitlist = document.getElementById('zipWaitlist');
+        if (waitlist) waitlist.style.display = 'flex';
+      }, 1200);
+    }
+  }
+
+  // ── WAITLIST ────────────────────────────────────────
   function joinWaitlist() {
     const email = document.getElementById('waitlistEmail').value.trim();
     const zip = document.getElementById('zipInput').value.trim();
     if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
 
-    // Save to Supabase waitlist
     fetch('https://bijjtificxcekmesgwrn.supabase.co/rest/v1/waitlist', {
       method: 'POST',
       headers: {
@@ -1316,12 +1323,26 @@
         'Prefer': 'return=minimal'
       },
       body: JSON.stringify({ email, zip, created_at: new Date().toISOString() })
-    }).catch(() => {}); // silent fail — UX shouldn't block on this
+    }).catch(() => {});
 
     document.getElementById('waitlistConfirm').style.display = 'block';
     document.getElementById('waitlistEmail').style.display = 'none';
     document.querySelector('.zip-waitlist-btn').style.display = 'none';
   }
+
+  // ── ROOM ACCORDION ──────────────────────────────────
+  function toggleRoom(btn) {
+    const item = btn.closest('.room-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.room-item').forEach(r => r.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // ── CLOSE MODAL ON BACKDROP CLICK ──────────────────
+  document.addEventListener('click', (e) => {
+    const modal = document.getElementById('zipModal');
+    if (e.target === modal) closeZipModal();
+  });
 </script>
 
 
@@ -1339,6 +1360,24 @@
     </div>
     <div id="modalZipResult" style="font-size:0.875rem;margin-bottom:16px;display:none"></div>
     <button onclick="closeZipModal()" style="background:none;border:none;color:#888;font-size:0.85rem;cursor:pointer;margin-top:4px">Cancel</button>
+  </div>
+</div>
+
+
+<!-- ZIP GATE MODAL -->
+<div id="zipModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;border-radius:24px;padding:40px 36px;width:100%;max-width:420px;text-align:center">
+    <div style="font-size:1.8rem;margin-bottom:12px">📍</div>
+    <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:8px">Check your area first</h3>
+    <p style="color:#888;font-size:0.9rem;margin-bottom:24px">Enter your zip code to confirm ChoreOFF is available near you.</p>
+    <div style="display:flex;gap:10px;margin-bottom:16px">
+      <input id="modalZipInput" type="text" maxlength="5" inputmode="numeric" placeholder="Enter zip code"
+        style="flex:1;padding:13px 16px;border:1.5px solid #e8e8e4;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:1rem;outline:none;text-align:center"
+        onkeypress="if(event.key==='Enter')confirmModalZip()">
+      <button onclick="confirmModalZip()" style="background:#2ab8b8;color:white;border:none;border-radius:100px;padding:13px 24px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer">Go</button>
+    </div>
+    <div id="modalZipError" style="color:#cc3322;font-size:0.85rem;margin-bottom:12px;display:none"></div>
+    <button onclick="closeZipModal()" style="background:none;border:none;color:#888;font-size:0.85rem;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
   </div>
 </div>
 
