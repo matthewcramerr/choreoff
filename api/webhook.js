@@ -5,12 +5,12 @@ const { createClient } = require('@supabase/supabase-js');
 console.log('[project-check] choreoff-main-v3');
 
 const URLS = {
-  memberVisitPaymentLink: 'STRIPE_139_ID',
-  memberVisitStripe: 'https://buy.stripe.com/STRIPE_139',
+  memberVisitPaymentLink: 'test_8x2dR25WPdoufnEeQW6oo08',
+  memberVisitStripe: 'https://buy.stripe.com/test_8x2dR25WPdoufnEeQW6oo08',
   memberPortal: 'https://billing.stripe.com/p/login/00w7sE2KD5W22AScIO6oo00',
   site: 'https://choreoff.com',
-  membershipMonthly: 'https://buy.stripe.com/STRIPE_29',
-  membershipYearly: 'https://buy.stripe.com/STRIPE_261',
+  membershipMonthly: 'https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05',
+  membershipYearly: 'https://buy.stripe.com/test_dRmeV63OHckq1wO7ou6oo07',
 };
 
 function getSupabase() {
