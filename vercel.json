@@ -12,6 +12,7 @@
     { "src": "legal.html", "use": "@vercel/static" },
     { "src": "onboard.html", "use": "@vercel/static" },
     { "src": "admin.html", "use": "@vercel/static" }
+    { "src": "api/approve-worker.js", "use": "@vercel/node" }
   ],
   "routes": [
     { "src": "/api/webhook", "dest": "/api/webhook.js" },
@@ -29,5 +30,6 @@
     { "src": "/admin", "dest": "/admin.html" },
     { "src": "/admin.html", "dest": "/admin.html" },
     { "src": "/(.*)", "dest": "/index.html" }
+    { "src": "/api/approve-worker", "dest": "/api/approve-worker.js" }
   ]
 }
