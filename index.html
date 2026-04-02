@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -22,1015 +23,236 @@
       --border: #e5e2dc;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+```
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+/* ── NAVIGATION ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 20px 5vw; display: flex; align-items: center; justify-content: space-between;
+  background: transparent; transition: background 0.3s, backdrop-filter 0.3s, transform 0.3s ease;
+}
+nav.scrolled { background: rgba(250,249,246,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+.nav-logo { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 1.25rem; color: var(--white); letter-spacing: -0.02em; transition: color 0.3s; }
+nav.scrolled .nav-logo { color: var(--black); }
+.nav-logo span { color: var(--red); }
+.nav-links { display: flex; align-items: center; gap: 8px; }
+.nav-member { font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.7); text-decoration: none; padding: 8px 16px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.25); transition: all 0.2s; }
+nav.scrolled .nav-member { color: var(--muted); border-color: var(--border); }
+.nav-member:hover { color: var(--white); border-color: var(--white); }
+nav.scrolled .nav-member:hover { color: var(--teal); border-color: var(--teal); }
+.nav-cta { font-size: 0.85rem; font-weight: 600; color: var(--black); text-decoration: none; padding: 10px 22px; background: var(--white); border-radius: 100px; transition: all 0.2s; }
+nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh; background: var(--black);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 120px 5vw 100px; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(42,184,184,0.15) 0%, transparent 70%),
+              radial-gradient(ellipse 40% 40% at 80% 80%, rgba(204,51,34,0.08) 0%, transparent 60%);
+}
+/* Gradient bridge — softens dark hero into lighter section below */
+.hero::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 90px;
+  background: linear-gradient(to bottom, transparent, rgba(14,14,14,0.5));
+  pointer-events: none;
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(42,184,184,0.15); border: 1px solid rgba(42,184,184,0.3);
+  border-radius: 100px; padding: 6px 16px; font-size: 0.78rem; font-weight: 500;
+  color: var(--teal); letter-spacing: 0.06em; text-transform: uppercase;
+  margin-bottom: 32px; position: relative; animation: fadeUp 0.6s ease both;
+}
+.hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--teal); border-radius: 50%; }
+.hero-headline { font-family: 'Playfair Display', serif; font-size: clamp(3rem,8vw,7rem); font-weight: 900; color: var(--white); line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 8px; position: relative; animation: fadeUp 0.6s 0.1s ease both; }
+.hero-headline em { font-style: italic; color: var(--teal); }
+.hero-headline-2 { font-family: 'Playfair Display', serif; font-size: clamp(3rem,8vw,7rem); font-weight: 900; color: var(--white); line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 36px; position: relative; animation: fadeUp 0.6s 0.15s ease both; }
+.hero-sub { font-size: clamp(1rem,2vw,1.2rem); color: rgba(255,255,255,0.68); max-width: 640px; line-height: 1.65; margin-bottom: 48px; font-weight: 300; animation: fadeUp 0.6s 0.2s ease both; }
+.hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; animation: fadeUp 0.6s 0.25s ease both; }
+.btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--teal); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.95rem; padding: 16px 32px; border-radius: 100px; text-decoration: none; transition: all 0.2s; border: none; cursor: pointer; }
+.btn-primary:hover { background: var(--teal-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(42,184,184,0.35); }
+.btn-ghost { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: rgba(255,255,255,0.7); font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.95rem; padding: 16px 32px; border-radius: 100px; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); transition: all 0.2s; }
+.btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
+/* SCROLL helper — sits below buttons, fades on scroll */
+.hero-scroll {
+  position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: rgba(255,255,255,0.3); font-size: 0.75rem; letter-spacing: 0.1em;
+  text-transform: uppercase; animation: fadeUp 0.6s 0.4s ease both;
+  transition: opacity 0.4s ease; pointer-events: none;
+}
+.scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent); animation: scrollPulse 2s ease-in-out infinite; }
+
+/* ── ZIP CHECKER ── */
+.zip-section {
+  background: linear-gradient(to bottom, #0e0e0e, #161616);
+  padding: 100px 5vw; border-top: 1px solid rgba(255,255,255,0.06); border-bottom: none;
+}
+.zip-shell { max-width: 760px; margin: 0 auto; background: rgba(255,255,255,0.06); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 28px; padding: 42px 32px; text-align: center; box-shadow: 0 14px 60px rgba(0,0,0,0.3); }
+.zip-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(42,184,184,0.12); border: 1px solid rgba(42,184,184,0.3); color: var(--teal); border-radius: 100px; padding: 7px 14px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 18px; }
+.zip-badge::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--teal); }
+.zip-label { font-family: 'Playfair Display', serif; font-size: clamp(2rem,4vw,2.8rem); font-weight: 700; color: var(--white); margin-bottom: 10px; line-height: 1.05; }
+.zip-sub { color: rgba(255,255,255,0.5); font-size: 1rem; line-height: 1.7; max-width: 560px; margin: 0 auto 28px; }
+.zip-form { display: flex; gap: 12px; justify-content: center; max-width: 520px; margin: 0 auto; flex-wrap: wrap; }
+.zip-input { flex: 1; min-width: 180px; padding: 15px 20px; border: 1.5px solid rgba(255,255,255,0.15); border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 1rem; background: rgba(255,255,255,0.08); color: var(--white); outline: none; transition: border-color 0.2s, box-shadow 0.2s; text-align: center; }
+.zip-input::placeholder { color: rgba(255,255,255,0.35); }
+.zip-input:focus { border-color: var(--teal); box-shadow: 0 0 0 4px rgba(42,184,184,0.15); }
+.zip-btn { background: var(--teal); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.92rem; padding: 15px 24px; border-radius: 100px; border: none; cursor: pointer; transition: all 0.2s; }
+.zip-btn:hover { background: var(--teal-dark); transform: translateY(-1px); }
+.zip-result { margin-top: 18px; font-size: 0.95rem; font-weight: 600; display: none; }
+.zip-result.success { color: var(--teal); }
+.zip-result.error { color: #ff6b6b; }
+#zipButtons { display: none; flex-direction: column; align-items: center; gap: 12px; margin-top: 28px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); }
+.zip-waitlist { margin-top: 22px; display: none; flex-direction: column; align-items: center; gap: 10px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.08); }
+.zip-waitlist input { padding: 13px 20px; border: 1.5px solid rgba(255,255,255,0.15); border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; width: 280px; outline: none; background: rgba(255,255,255,0.08); color: var(--white); text-align: center; }
+.zip-waitlist input::placeholder { color: rgba(255,255,255,0.35); }
+.zip-waitlist input:focus { border-color: var(--teal); box-shadow: 0 0 0 4px rgba(42,184,184,0.12); }
+.zip-waitlist-btn { background: rgba(255,255,255,0.1); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.85rem; padding: 12px 24px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.15); cursor: pointer; transition: all 0.2s; }
+.zip-waitlist-btn:hover { background: var(--teal); border-color: var(--teal); transform: translateY(-1px); }
+
+/* ── WHAT WE DO ── */
+.services { padding: 100px 5vw; background: linear-gradient(to bottom, #161616, #1c1c1c); }
+.section-eyebrow { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--teal); margin-bottom: 16px; }
+.section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem,4vw,3.2rem); font-weight: 700; color: var(--white); line-height: 1.1; margin-bottom: 16px; }
+.section-title em { font-style: italic; color: var(--teal); }
+.section-sub { color: rgba(255,255,255,0.45); font-size: 1rem; max-width: 520px; line-height: 1.65; margin-bottom: 60px; }
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 2px; background: var(--border); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+.service-item { background: var(--white); padding: 40px 32px; transition: background 0.2s; }
+.service-item:hover { background: var(--cream); }
+.service-icon { font-size: 2rem; margin-bottom: 20px; display: block; }
+.service-name { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--black); margin-bottom: 8px; }
+.service-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+.services-note { margin-top: 32px; padding: 20px 24px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; font-size: 0.875rem; color: rgba(255,255,255,0.45); }
+.services-note strong { color: rgba(255,255,255,0.85); }
+
+/* ── ZIP CTA GROUP ── */
+.zip-cta-group { display: flex; align-items: flex-start; gap: 28px; justify-content: center; flex-wrap: wrap; margin-top: 4px; }
+.zip-cta-col { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.zip-cta-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.45); font-weight: 700; }
+.zip-cta-divider { font-size: 0.82rem; color: rgba(255,255,255,0.3); padding-top: 34px; }
+.zip-link-sub { font-size: 0.82rem; color: rgba(42,184,184,0.85); font-weight: 600; text-decoration: none; }
+.zip-link-sub:hover { text-decoration: underline; }
+
+/* ── CHECKLIST ── */
+.checklist-rooms { display: flex; flex-direction: column; gap: 2px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px; }
+.room-item { background: var(--white); }
+.room-header { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 24px 32px; background: none; border: none; cursor: pointer; text-align: left; transition: background 0.2s; border-bottom: 1px solid var(--border); }
+.room-header:hover { background: var(--cream); }
+.room-item.open .room-header { background: var(--cream); }
+.room-left { display: flex; align-items: center; gap: 16px; }
+.room-icon { font-size: 1.5rem; }
+.room-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--black); margin-bottom: 2px; }
+.room-preview { font-size: 0.8rem; color: var(--muted); }
+.room-arrow { font-size: 1rem; color: var(--teal); transition: transform 0.3s; font-weight: 600; }
+.room-item.open .room-arrow { transform: rotate(180deg); }
+.room-tasks { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; background: var(--cream); }
+.room-item.open .room-tasks { max-height: 300px; }
+.task-item { display: flex; align-items: center; gap: 12px; padding: 12px 32px; font-size: 0.875rem; color: #444; border-bottom: 1px solid var(--border); }
+.task-item:last-child { border-bottom: none; }
+.task-check { color: var(--teal); font-weight: 700; font-size: 0.8rem; flex-shrink: 0; }
+
+/* ── HOW IT WORKS ── */
+.how {
+  padding: 100px 5vw; background: var(--black); color: var(--white);
+  position: relative; z-index: 1;
+}
+.how .section-eyebrow { color: var(--teal); }
+.how .section-title { color: var(--white); }
+.how .section-sub { color: rgba(255,255,255,0.5); }
+.steps { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 48px; margin-top: 16px; }
+.step { position: relative; }
+.step-num { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900; color: rgba(255,255,255,0.06); line-height: 1; margin-bottom: -12px; }
+.step-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--white); margin-bottom: 12px; }
+.step-desc { font-size: 0.9rem; color: rgba(255,255,255,0.5); line-height: 1.65; }
+.step-dot { width: 8px; height: 8px; background: var(--teal); border-radius: 50%; margin-bottom: 24px; }
+
+/* ── TRUST STRIP — gradient bridge from dark to light ── */
+.trust-strip {
+  background: #111111;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 52px 5vw 40px;
+  position: relative; z-index: 0;
+}
+.trust-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 28px; }
+.trust-item { display: flex; align-items: flex-start; gap: 14px; }
+.trust-icon { font-size: 1.4rem; line-height: 1; margin-top: 2px; flex-shrink: 0; }
+.trust-title { font-size: 1.05rem; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+.trust-copy { font-size: 0.92rem; line-height: 1.65; color: rgba(255,255,255,0.55); max-width: 280px; }
+
+/* ── PRICING ── */
+.pricing { padding: 100px 5vw; background: linear-gradient(to bottom, #1a1a1a, #141414); }
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
+.price-card { background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 40px 36px; position: relative; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
+.price-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.4); }
+.price-card.featured { border-color: var(--teal); background: rgba(42,184,184,0.08); }
+.price-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--teal); color: var(--white); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 5px 16px; border-radius: 100px; white-space: nowrap; }
+.price-name { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.4); margin-bottom: 20px; }
+.price-card.featured .price-name { color: rgba(255,255,255,0.5); }
+.price-amount { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--white); line-height: 1; margin-bottom: 4px; }
+.price-card.featured .price-amount { color: var(--white); }
+.price-amount sup { font-size: 1.5rem; font-family: 'DM Sans', sans-serif; font-weight: 600; vertical-align: top; margin-top: 12px; display: inline-block; }
+.price-period { font-size: 0.85rem; color: rgba(255,255,255,0.4); margin-bottom: 18px; }
+.price-card.featured .price-period { color: rgba(255,255,255,0.4); }
+.price-payoff { display: inline-block; margin-bottom: 26px; padding: 8px 14px; border-radius: 100px; background: rgba(42,184,184,0.14); color: var(--teal); font-size: 0.82rem; font-weight: 700; }
+.price-card.featured .price-payoff { background: rgba(255,255,255,0.1); color: #8ee3e3; }
+.price-features { list-style: none; margin-bottom: 36px; flex: 1; }
+.price-features li { display: flex; align-items: center; gap: 10px; font-size: 0.875rem; color: rgba(255,255,255,0.65); margin-bottom: 12px; }
+.price-card.featured .price-features li { color: rgba(255,255,255,0.8); }
+.price-features li::before { content: '✓'; color: var(--teal); font-weight: 700; font-size: 0.8rem; flex-shrink: 0; }
+.price-cta { display: block; text-align: center; padding: 14px; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.9rem; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; margin-top: auto; }
+.price-cta-outline { border: 1.5px solid rgba(255,255,255,0.2); color: var(--white); background: transparent; }
+.price-cta-outline:hover { border-color: var(--teal); color: var(--teal); }
+.price-cta-filled { background: var(--teal); color: var(--white); }
+.price-cta-filled:hover { background: var(--teal-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(42,184,184,0.3); }
+.price-cta-dark { background: var(--teal); color: var(--white); }
+.price-cta-dark:hover { background: var(--teal-dark); color: var(--white); }
+.yearly-note { text-align: center; margin-top: 28px; font-size: 0.875rem; color: rgba(255,255,255,0.4); }
+.yearly-note strong { color: var(--teal); }
+
+/* ── FOOTER ── */
+footer { background: var(--black); color: rgba(255,255,255,0.4); padding: 48px 5vw; }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+.footer-logo { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 1rem; color: var(--white); }
+.footer-logo span { color: var(--red); }
+.footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+.footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.8rem; transition: color 0.2s; }
+.footer-links a:hover { color: var(--teal); }
+.footer-meta { width: 100%; font-size: 0.75rem; margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); }
+
+/* ── ANIMATIONS ── */
+.zip-input.pulse { border-color: var(--teal); box-shadow: 0 0 0 4px rgba(42,184,184,0.15); transition: all 0.3s; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes scrollPulse { 0%,100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) { .trust-grid { grid-template-columns: 1fr; gap: 20px; } }
+@media (max-width: 768px) {
+  .hero-actions { flex-direction: column; align-items: center; }
+  .steps { gap: 40px; }
+  .footer-inner { flex-direction: column; }
+  nav { padding: 16px 5vw; }
+  .nav-links { gap: 6px; }
+  .zip-section { padding: 80px 5vw; }
+  .zip-shell { padding: 32px 20px; border-radius: 22px; }
+  .zip-cta-divider { display: none; }
+}
+```
 
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--cream);
-      color: var(--text);
-      overflow-x: hidden;
-    }
-
-    /* ── NAVIGATION ─────────────────────────────────── */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 20px 5vw;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: transparent;
-      transition: background 0.3s, backdrop-filter 0.3s;
-    }
-
-    nav.scrolled {
-      background: rgba(250, 249, 246, 0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav-logo {
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      font-size: 1.25rem;
-      color: var(--white);
-      letter-spacing: -0.02em;
-      transition: color 0.3s;
-    }
-
-    nav.scrolled .nav-logo { color: var(--black); }
-
-    .nav-logo span { color: var(--red); }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .nav-member {
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: rgba(255,255,255,0.7);
-      text-decoration: none;
-      padding: 8px 16px;
-      border-radius: 100px;
-      border: 1px solid rgba(255,255,255,0.25);
-      transition: all 0.2s;
-    }
-
-    nav.scrolled .nav-member {
-      color: var(--muted);
-      border-color: var(--border);
-    }
-
-    .nav-member:hover { color: var(--white); border-color: var(--white); }
-    nav.scrolled .nav-member:hover { color: var(--teal); border-color: var(--teal); }
-
-    .nav-cta {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--black);
-      text-decoration: none;
-      padding: 10px 22px;
-      background: var(--white);
-      border-radius: 100px;
-      transition: all 0.2s;
-    }
-
-    nav.scrolled .nav-cta {
-      background: var(--teal);
-      color: var(--white);
-    }
-
-    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
-
-    /* ── HERO ───────────────────────────────────────── */
-    .hero {
-      min-height: 100vh;
-      background: var(--black);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 120px 5vw 80px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(42, 184, 184, 0.15) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 40% at 80% 80%, rgba(204, 51, 34, 0.08) 0%, transparent 60%);
-    }
-
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(42, 184, 184, 0.15);
-      border: 1px solid rgba(42, 184, 184, 0.3);
-      border-radius: 100px;
-      padding: 6px 16px;
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--teal);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      margin-bottom: 32px;
-      position: relative;
-      animation: fadeUp 0.6s ease both;
-    }
-
-    .hero-tag::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      background: var(--teal);
-      border-radius: 50%;
-    }
-
-    .hero-headline {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 8vw, 7rem);
-      font-weight: 900;
-      color: var(--white);
-      line-height: 1.0;
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-      position: relative;
-      animation: fadeUp 0.6s 0.1s ease both;
-    }
-
-    .hero-headline em {
-      font-style: italic;
-      color: var(--teal);
-    }
-
-    .hero-headline-2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 8vw, 7rem);
-      font-weight: 900;
-      color: var(--white);
-      line-height: 1.0;
-      letter-spacing: -0.02em;
-      margin-bottom: 36px;
-      position: relative;
-      animation: fadeUp 0.6s 0.15s ease both;
-    }
-
-    .hero-sub {
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      color: rgba(255,255,255,0.68);
-      max-width: 640px;
-      line-height: 1.65;
-      margin-bottom: 48px;
-      font-weight: 300;
-      animation: fadeUp 0.6s 0.2s ease both;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-      animation: fadeUp 0.6s 0.25s ease both;
-    }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--teal);
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      font-size: 0.95rem;
-      padding: 16px 32px;
-      border-radius: 100px;
-      text-decoration: none;
-      transition: all 0.2s;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn-primary:hover {
-      background: var(--teal-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(42, 184, 184, 0.35);
-    }
-
-    .btn-ghost {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: transparent;
-      color: rgba(255,255,255,0.7);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 500;
-      font-size: 0.95rem;
-      padding: 16px 32px;
-      border-radius: 100px;
-      text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.2);
-      transition: all 0.2s;
-    }
-
-    .btn-ghost:hover {
-      border-color: rgba(255,255,255,0.5);
-      color: var(--white);
-    }
-
-    .hero-scroll {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      color: rgba(255,255,255,0.3);
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      animation: fadeUp 0.6s 0.4s ease both;
-    }
-
-    .scroll-line {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
-      animation: scrollPulse 2s ease-in-out infinite;
-    }
-
-    /* ── ZIP CHECKER ────────────────────────────────── */
-    .zip-section {
-      background:
-        radial-gradient(ellipse 120% 120% at 50% 0%, rgba(42, 184, 184, 0.06) 0%, transparent 55%),
-        var(--cream);
-      padding: 100px 5vw;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .zip-shell {
-      max-width: 760px;
-      margin: 0 auto;
-      background: rgba(255,255,255,0.72);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(229, 226, 220, 0.9);
-      border-radius: 28px;
-      padding: 42px 32px;
-      text-align: center;
-      box-shadow: 0 14px 40px rgba(0,0,0,0.04);
-    }
-
-    .zip-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(42, 184, 184, 0.08);
-      border: 1px solid rgba(42, 184, 184, 0.22);
-      color: var(--teal-dark);
-      border-radius: 100px;
-      padding: 7px 14px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 18px;
-    }
-
-    .zip-badge::before {
-      content: '';
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--teal);
-    }
-
-    .zip-label {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 2.8rem);
-      font-weight: 700;
-      color: var(--black);
-      margin-bottom: 10px;
-      line-height: 1.05;
-    }
-
-    .zip-sub {
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.7;
-      max-width: 560px;
-      margin: 0 auto 28px;
-    }
-
-    .zip-form {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      max-width: 520px;
-      margin: 0 auto;
-      flex-wrap: wrap;
-    }
-
-    .zip-input {
-      flex: 1;
-      min-width: 180px;
-      padding: 15px 20px;
-      border: 1.5px solid var(--border);
-      border-radius: 100px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 1rem;
-      background: var(--white);
-      color: var(--black);
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      text-align: center;
-    }
-
-    .zip-input:focus {
-      border-color: var(--teal);
-      box-shadow: 0 0 0 4px rgba(42, 184, 184, 0.12);
-    }
-
-    .zip-btn {
-      background: var(--black);
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      font-size: 0.92rem;
-      padding: 15px 24px;
-      border-radius: 100px;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .zip-btn:hover {
-      background: var(--teal);
-      transform: translateY(-1px);
-    }
-
-    .zip-result {
-      margin-top: 18px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      display: none;
-    }
-
-    .zip-result.success { color: var(--teal-dark); }
-    .zip-result.error { color: var(--red); }
-
-    #zipButtons {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      margin-top: 28px;
-      padding-top: 24px;
-      border-top: 1px solid var(--border);
-    }
-
-    .zip-waitlist {
-      margin-top: 22px;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      padding-top: 22px;
-      border-top: 1px solid var(--border);
-    }
-
-    .zip-waitlist input {
-      padding: 13px 20px;
-      border: 1.5px solid var(--border);
-      border-radius: 100px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
-      width: 280px;
-      outline: none;
-      background: var(--white);
-      text-align: center;
-    }
-
-    .zip-waitlist input:focus {
-      border-color: var(--teal);
-      box-shadow: 0 0 0 4px rgba(42, 184, 184, 0.12);
-    }
-
-    .zip-waitlist-btn {
-      background: var(--black);
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 500;
-      font-size: 0.85rem;
-      padding: 12px 24px;
-      border-radius: 100px;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .zip-waitlist-btn:hover {
-      background: var(--teal);
-      transform: translateY(-1px);
-    }
-
-    /* ── WHAT WE DO ─────────────────────────────────── */
-    .services {
-      padding: 100px 5vw;
-      background: var(--white);
-    }
-
-    .section-eyebrow {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--teal);
-      margin-bottom: 16px;
-    }
-
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 700;
-      color: var(--black);
-      line-height: 1.1;
-      margin-bottom: 16px;
-    }
-
-    .section-title em { font-style: italic; color: var(--teal); }
-
-    .section-sub {
-      color: var(--muted);
-      font-size: 1rem;
-      max-width: 520px;
-      line-height: 1.65;
-      margin-bottom: 60px;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 2px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      overflow: hidden;
-    }
-
-    .service-item {
-      background: var(--white);
-      padding: 40px 32px;
-      transition: background 0.2s;
-    }
-
-    .service-item:hover { background: var(--cream); }
-
-    .service-icon {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      display: block;
-    }
-
-    .service-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--black);
-      margin-bottom: 8px;
-    }
-
-    .service-desc {
-      font-size: 0.875rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .services-note {
-      margin-top: 32px;
-      padding: 20px 24px;
-      background: var(--warm-gray);
-      border-radius: 12px;
-      font-size: 0.875rem;
-      color: var(--muted);
-    }
-
-    .services-note strong { color: var(--black); }
-
-    /* ── ZIP CTA GROUP ──────────────────────────────── */
-    .zip-cta-group {
-      display: flex;
-      align-items: flex-start;
-      gap: 28px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 4px;
-    }
-
-    .zip-cta-col {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .zip-cta-label {
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    .zip-cta-divider {
-      font-size: 0.82rem;
-      color: var(--muted);
-      padding-top: 34px;
-    }
-
-    .zip-link-sub {
-      font-size: 0.82rem;
-      color: var(--teal);
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    .zip-link-sub:hover {
-      text-decoration: underline;
-    }
-
-    /* ── CHECKLIST ─────────────────────────────────── */
-    .checklist-rooms {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      border-radius: 20px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      margin-bottom: 32px;
-    }
-
-    .room-item { background: var(--white); }
-
-    .room-header {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 24px 32px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      text-align: left;
-      transition: background 0.2s;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .room-header:hover { background: var(--cream); }
-    .room-item.open .room-header { background: var(--cream); }
-
-    .room-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .room-icon { font-size: 1.5rem; }
-
-    .room-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--black);
-      margin-bottom: 2px;
-    }
-
-    .room-preview {
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    .room-arrow {
-      font-size: 1rem;
-      color: var(--teal);
-      transition: transform 0.3s;
-      font-weight: 600;
-    }
-
-    .room-item.open .room-arrow { transform: rotate(180deg); }
-
-    .room-tasks {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.35s ease;
-      background: var(--cream);
-    }
-
-    .room-item.open .room-tasks { max-height: 300px; }
-
-    .task-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 32px;
-      font-size: 0.875rem;
-      color: #444;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .task-item:last-child { border-bottom: none; }
-
-    .task-check {
-      color: var(--teal);
-      font-weight: 700;
-      font-size: 0.8rem;
-      flex-shrink: 0;
-    }
-
-    /* ── HOW IT WORKS ───────────────────────────────── */
-    .how {
-      padding: 100px 5vw;
-      background: var(--black);
-      color: var(--white);
-    }
-
-    .how .section-eyebrow { color: var(--teal); }
-    .how .section-title { color: var(--white); }
-    .how .section-sub { color: rgba(255,255,255,0.5); }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 48px;
-      margin-top: 16px;
-    }
-
-    .step {
-      position: relative;
-    }
-
-    .step-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 4rem;
-      font-weight: 900;
-      color: rgba(255,255,255,0.06);
-      line-height: 1;
-      margin-bottom: -12px;
-    }
-
-    .step-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 12px;
-    }
-
-    .step-desc {
-      font-size: 0.9rem;
-      color: rgba(255,255,255,0.5);
-      line-height: 1.65;
-    }
-
-    .step-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--teal);
-      border-radius: 50%;
-      margin-bottom: 24px;
-    }
-
-    /* ── TRUST STRIP ────────────────────────────────── */
-    .trust-strip {
-      background: var(--warm-gray);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 34px 5vw;
-    }
-
-    .trust-grid {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 28px;
-    }
-
-    .trust-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-    }
-
-    .trust-icon {
-      font-size: 1.4rem;
-      line-height: 1;
-      margin-top: 2px;
-      flex-shrink: 0;
-    }
-
-    .trust-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--black);
-      margin-bottom: 6px;
-    }
-
-    .trust-copy {
-      font-size: 0.92rem;
-      line-height: 1.65;
-      color: var(--muted);
-      max-width: 280px;
-    }
-
-    /* ── PRICING ────────────────────────────────────── */
-    .pricing {
-      padding: 100px 5vw;
-      background: var(--cream);
-    }
-
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .price-card {
-      background: var(--white);
-      border: 1.5px solid var(--border);
-      border-radius: 24px;
-      padding: 40px 36px;
-      position: relative;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .price-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.08);
-    }
-
-    .price-card.featured {
-      border-color: var(--teal);
-      background: var(--black);
-    }
-
-    .price-badge {
-      position: absolute;
-      top: -14px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--teal);
-      color: var(--white);
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 5px 16px;
-      border-radius: 100px;
-      white-space: nowrap;
-    }
-
-    .price-name {
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      margin-bottom: 20px;
-    }
-
-    .price-card.featured .price-name { color: rgba(255,255,255,0.5); }
-
-    .price-amount {
-      font-family: 'Playfair Display', serif;
-      font-size: 3.5rem;
-      font-weight: 900;
-      color: var(--black);
-      line-height: 1;
-      margin-bottom: 4px;
-    }
-
-    .price-card.featured .price-amount { color: var(--white); }
-
-    .price-amount sup {
-      font-size: 1.5rem;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      vertical-align: top;
-      margin-top: 12px;
-      display: inline-block;
-    }
-
-    .price-period {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 18px;
-    }
-
-    .price-card.featured .price-period { color: rgba(255,255,255,0.4); }
-
-    .price-payoff {
-      display: inline-block;
-      margin-bottom: 26px;
-      padding: 8px 14px;
-      border-radius: 100px;
-      background: rgba(42, 184, 184, 0.14);
-      color: var(--teal);
-      font-size: 0.82rem;
-      font-weight: 700;
-    }
-
-    .price-card.featured .price-payoff {
-      background: rgba(255,255,255,0.1);
-      color: #8ee3e3;
-    }
-
-    .price-features {
-      list-style: none;
-      margin-bottom: 36px;
-    }
-
-    .price-features li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.875rem;
-      color: #444;
-      margin-bottom: 12px;
-    }
-
-    .price-card.featured .price-features li { color: rgba(255,255,255,0.7); }
-
-    .price-features li::before {
-      content: '✓';
-      color: var(--teal);
-      font-weight: 700;
-      font-size: 0.8rem;
-      flex-shrink: 0;
-    }
-
-    .price-cta {
-      display: block;
-      text-align: center;
-      padding: 14px;
-      border-radius: 100px;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      font-size: 0.9rem;
-      text-decoration: none;
-      transition: all 0.2s;
-      cursor: pointer;
-      border: none;
-    }
-
-    .price-cta-outline {
-      border: 1.5px solid var(--border);
-      color: var(--black);
-      background: transparent;
-    }
-
-    .price-cta-outline:hover { border-color: var(--teal); color: var(--teal); }
-
-    .price-cta-filled {
-      background: var(--teal);
-      color: var(--white);
-    }
-
-    .price-cta-filled:hover {
-      background: var(--teal-dark);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(42,184,184,0.3);
-    }
-
-    .price-cta-dark {
-      background: var(--white);
-      color: var(--black);
-    }
-
-    .price-cta-dark:hover { background: var(--teal); color: var(--white); }
-
-    .yearly-note {
-      text-align: center;
-      margin-top: 28px;
-      font-size: 0.875rem;
-      color: var(--muted);
-    }
-
-    .yearly-note strong { color: var(--teal); }
-
-    /* ── FOOTER ─────────────────────────────────────── */
-    footer {
-      background: var(--black);
-      color: rgba(255,255,255,0.4);
-      padding: 48px 5vw;
-    }
-
-    .footer-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .footer-logo {
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      font-size: 1rem;
-      color: var(--white);
-    }
-
-    .footer-logo span { color: var(--red); }
-
-    .footer-links {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-
-    .footer-links a {
-      color: rgba(255,255,255,0.4);
-      text-decoration: none;
-      font-size: 0.8rem;
-      transition: color 0.2s;
-    }
-
-    .footer-links a:hover { color: var(--teal); }
-
-    .footer-meta {
-      width: 100%;
-      font-size: 0.75rem;
-      margin-top: 24px;
-      padding-top: 24px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
-
-    /* ── ANIMATIONS ─────────────────────────────────── */
-    .zip-input.pulse {
-      border-color: var(--teal);
-      box-shadow: 0 0 0 4px rgba(42, 184, 184, 0.15);
-      transition: all 0.3s;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 0.8; }
-    }
-
-    /* ── RESPONSIVE ─────────────────────────────────── */
-    @media (max-width: 900px) {
-      .trust-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .hero-actions { flex-direction: column; align-items: center; }
-      .steps { gap: 40px; }
-      .footer-inner { flex-direction: column; }
-      nav { padding: 16px 5vw; }
-      .nav-links { gap: 6px; }
-
-      .zip-section {
-        padding: 80px 5vw;
-      }
-
-      .zip-shell {
-        padding: 32px 20px;
-        border-radius: 22px;
-      }
-
-      .zip-cta-divider {
-        display: none;
-      }
-    }
   </style>
 </head>
 <body>
 
 <!-- NAVIGATION -->
+
 <nav id="nav">
   <div class="nav-logo">Chore<span>OFF</span></div>
   <div class="nav-links">
@@ -1040,6 +262,7 @@
 </nav>
 
 <!-- HERO -->
+
 <section class="hero">
   <div class="hero-tag">Now available in Madison, WI</div>
   <h1 class="hero-headline">Turn your</h1>
@@ -1047,7 +270,7 @@
   <p class="hero-sub">One visit. Laundry done. Dishes handled. Floors swept. Home reset. So you can actually enjoy your time off.</p>
   <div class="hero-actions">
     <a class="btn-primary" href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;">Book a Reset — $179 →</a>
-    <a class="btn-ghost" href="#pricing">View membership</a>
+    <a class="btn-ghost" href="#pricing">Membership options</a>
   </div>
   <div class="hero-scroll">
     <span>Scroll</span>
@@ -1056,21 +279,17 @@
 </section>
 
 <!-- ZIP CHECKER -->
+
 <section class="zip-section" id="zip-check">
   <div class="zip-shell">
     <div class="zip-badge">Limited launch area</div>
     <p class="zip-label">Check your area</p>
-    <p class="zip-sub">
-      We’re expanding carefully to maintain quality. Enter your zip code to confirm ChoreOFF is available near you.
-    </p>
-
+    <p class="zip-sub">We're expanding carefully to maintain quality. Enter your zip code to confirm ChoreOFF is available near you.</p>
     <div class="zip-form">
       <input class="zip-input" type="text" id="zipInput" placeholder="Enter zip code" maxlength="5" inputmode="numeric">
       <button class="zip-btn" onclick="checkZip()">Check availability</button>
     </div>
-
     <div class="zip-result" id="zipResult"></div>
-
     <div id="zipButtons">
       <div class="zip-cta-group">
         <div class="zip-cta-col">
@@ -1078,9 +297,7 @@
           <a href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;" target="_blank" class="btn-primary" style="font-size:0.95rem">Book a Reset — $179 →</a>
           <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05');return false;" target="_blank" class="zip-link-sub">Become a Member — $29/month</a>
         </div>
-
         <div class="zip-cta-divider">or</div>
-
         <div class="zip-cta-col">
           <div class="zip-cta-label">Already a member</div>
           <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x2dR25WPdoufnEeQW6oo08');return false;" target="_blank" class="btn-primary" style="font-size:0.95rem;background:var(--black)">Book a Member Visit — $139 →</a>
@@ -1088,7 +305,6 @@
         </div>
       </div>
     </div>
-
     <div class="zip-waitlist" id="zipWaitlist">
       <input type="email" id="waitlistEmail" placeholder="Enter your email">
       <button class="zip-waitlist-btn" onclick="joinWaitlist()">Notify me when we launch →</button>
@@ -1098,143 +314,119 @@
 </section>
 
 <!-- SERVICES -->
+
 <section class="services">
   <div class="section-eyebrow">What we do</div>
   <h2 class="section-title">The full reset.<br><em>Every room.</em></h2>
   <p class="section-sub">Every ChoreOFF visit covers every room — no menu, no customization. A complete house reset, every time. Tap each room to see exactly what we do.</p>
 
   <div class="checklist-rooms">
-
     <div class="room-item">
       <button class="room-header" onclick="toggleRoom(this)">
-        <div class="room-left">
-          <span class="room-icon">🧺</span>
-          <div>
-            <div class="room-name">Laundry Room</div>
-            <div class="room-preview">4 tasks · We start a load right when we arrive</div>
-          </div>
-        </div>
-        <span class="room-arrow">↓</span>
+        <div class="room-left"><span class="room-icon">🧺</span>
+          <div><div class="room-name">Laundry Room</div><div class="room-preview">4 tasks · We start a load right when we arrive</div></div>
+        </div><span class="room-arrow">↓</span>
       </button>
       <div class="room-tasks">
-        <div class="task-item"><span class="task-check">✓</span>Empty dryer vent</div>
+        <div class="task-item"><span class="task-check">✓</span>Empty dryer filter</div>
         <div class="task-item"><span class="task-check">✓</span>Transfer washed clothes to dryer (if applicable)</div>
         <div class="task-item"><span class="task-check">✓</span>Add a load of clothes to washer from hamper (if applicable)</div>
         <div class="task-item"><span class="task-check">✓</span>Empty laundry room trash can and re-bag</div>
       </div>
     </div>
 
-    <div class="room-item">
-      <button class="room-header" onclick="toggleRoom(this)">
-        <div class="room-left">
-          <span class="room-icon">🚿</span>
-          <div>
-            <div class="room-name">Bathroom</div>
-            <div class="room-preview">4 tasks · Surfaces wiped, sink cleaned, reset</div>
-          </div>
-        </div>
-        <span class="room-arrow">↓</span>
-      </button>
-      <div class="room-tasks">
-        <div class="task-item"><span class="task-check">✓</span>Wipe main surfaces</div>
-        <div class="task-item"><span class="task-check">✓</span>Reorganize and tidy up area</div>
-        <div class="task-item"><span class="task-check">✓</span>Put any clothes lying around in hamper</div>
-        <div class="task-item"><span class="task-check">✓</span>Clean sink(s)</div>
-      </div>
-    </div>
+```
+<div class="room-item">
+  <button class="room-header" onclick="toggleRoom(this)">
+    <div class="room-left"><span class="room-icon">🚿</span>
+      <div><div class="room-name">Bathroom</div><div class="room-preview">4 tasks · Surfaces wiped, sink cleaned, reset</div></div>
+    </div><span class="room-arrow">↓</span>
+  </button>
+  <div class="room-tasks">
+    <div class="task-item"><span class="task-check">✓</span>Wipe main surfaces</div>
+    <div class="task-item"><span class="task-check">✓</span>Reorganize and tidy up area</div>
+    <div class="task-item"><span class="task-check">✓</span>Put any clothes lying around in hamper</div>
+    <div class="task-item"><span class="task-check">✓</span>Clean sink(s)</div>
+  </div>
+</div>
 
-    <div class="room-item">
-      <button class="room-header" onclick="toggleRoom(this)">
-        <div class="room-left">
-          <span class="room-icon">🛋️</span>
-          <div>
-            <div class="room-name">Living Room</div>
-            <div class="room-preview">4 tasks · Decluttered, wiped down, reset</div>
-          </div>
-        </div>
-        <span class="room-arrow">↓</span>
-      </button>
-      <div class="room-tasks">
-        <div class="task-item"><span class="task-check">✓</span>Fold blankets and re-organize items lying around</div>
-        <div class="task-item"><span class="task-check">✓</span>Refresh living quarters, improving overall appearance and decluttering</div>
-        <div class="task-item"><span class="task-check">✓</span>Wipe main surfaces</div>
-        <div class="task-item"><span class="task-check">✓</span>Collect any dishes</div>
-      </div>
-    </div>
+<div class="room-item">
+  <button class="room-header" onclick="toggleRoom(this)">
+    <div class="room-left"><span class="room-icon">🛋️</span>
+      <div><div class="room-name">Living Room</div><div class="room-preview">4 tasks · Decluttered, wiped down, reset</div></div>
+    </div><span class="room-arrow">↓</span>
+  </button>
+  <div class="room-tasks">
+    <div class="task-item"><span class="task-check">✓</span>Fold blankets and re-organize items lying around</div>
+    <div class="task-item"><span class="task-check">✓</span>Refresh living quarters, improving overall appearance and decluttering</div>
+    <div class="task-item"><span class="task-check">✓</span>Wipe main surfaces</div>
+    <div class="task-item"><span class="task-check">✓</span>Collect any dishes</div>
+  </div>
+</div>
 
-    <div class="room-item">
-      <button class="room-header" onclick="toggleRoom(this)">
-        <div class="room-left">
-          <span class="room-icon">🪑</span>
-          <div>
-            <div class="room-name">Dining Room</div>
-            <div class="room-preview">4 tasks · Surfaces wiped, floor swept, tidied</div>
-          </div>
-        </div>
-        <span class="room-arrow">↓</span>
-      </button>
-      <div class="room-tasks">
-        <div class="task-item"><span class="task-check">✓</span>Collect any dishes around living quarters</div>
-        <div class="task-item"><span class="task-check">✓</span>Wipe down all main surfaces</div>
-        <div class="task-item"><span class="task-check">✓</span>Sweep floor</div>
-        <div class="task-item"><span class="task-check">✓</span>Decluttering and tidying up</div>
-      </div>
-    </div>
+<div class="room-item">
+  <button class="room-header" onclick="toggleRoom(this)">
+    <div class="room-left"><span class="room-icon">🪑</span>
+      <div><div class="room-name">Dining Room</div><div class="room-preview">4 tasks · Surfaces wiped, floor swept, tidied</div></div>
+    </div><span class="room-arrow">↓</span>
+  </button>
+  <div class="room-tasks">
+    <div class="task-item"><span class="task-check">✓</span>Collect any dishes around living quarters</div>
+    <div class="task-item"><span class="task-check">✓</span>Wipe down all main surfaces</div>
+    <div class="task-item"><span class="task-check">✓</span>Sweep floor</div>
+    <div class="task-item"><span class="task-check">✓</span>Decluttering and tidying up</div>
+  </div>
+</div>
 
-    <div class="room-item">
-      <button class="room-header" onclick="toggleRoom(this)">
-        <div class="room-left">
-          <span class="room-icon">🍽️</span>
-          <div>
-            <div class="room-name">Kitchen</div>
-            <div class="room-preview">4 tasks · Dishes hand washed, counters scrubbed, trash out</div>
-          </div>
-        </div>
-        <span class="room-arrow">↓</span>
-      </button>
-      <div class="room-tasks">
-        <div class="task-item"><span class="task-check">✓</span>Wash all dishes by hand — no dishwasher services</div>
-        <div class="task-item"><span class="task-check">✓</span>Scrub all countertops, wipe down and dry</div>
-        <div class="task-item"><span class="task-check">✓</span>Sweep floor</div>
-        <div class="task-item"><span class="task-check">✓</span>Take trash out for kitchen, bathroom and laundry room + recycling</div>
-      </div>
-    </div>
+<div class="room-item">
+  <button class="room-header" onclick="toggleRoom(this)">
+    <div class="room-left"><span class="room-icon">🍽️</span>
+      <div><div class="room-name">Kitchen</div><div class="room-preview">4 tasks · Dishes loaded, counters scrubbed, trash out</div></div>
+    </div><span class="room-arrow">↓</span>
+  </button>
+  <div class="room-tasks">
+    <div class="task-item"><span class="task-check">✓</span>Load and run dishwasher</div>
+    <div class="task-item"><span class="task-check">✓</span>Scrub all countertops, wipe down and dry</div>
+    <div class="task-item"><span class="task-check">✓</span>Sweep floor</div>
+    <div class="task-item"><span class="task-check">✓</span>Take trash out for kitchen, bathroom and laundry room + recycling</div>
+  </div>
+</div>
+```
 
   </div>
 
   <div class="services-note">
-    <strong>You provide the supplies.</strong> Have detergent, dish soap, and cleaning products ready before we arrive. No deep cleaning, toilet bowls, shower tubs, moving, mounting, or repairs — we keep it focused so we can do it fast and consistently.
+    <strong>Before we arrive:</strong> Please empty your dishwasher and have a laundry hamper or basket with dirty clothes ready. Have detergent, dish soap, and cleaning products on hand. No deep cleaning, toilet bowls, shower tubs, moving, mounting, or repairs — we keep it simple so we can do it fast and consistently.
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
+
 <section class="how">
   <div class="section-eyebrow">How it works</div>
   <h2 class="section-title" style="color:var(--white)">Three steps.<br><em>Zero stress.</em></h2>
   <p class="section-sub">Book online in under two minutes. We handle everything else.</p>
   <div class="steps">
     <div class="step">
-      <div class="step-num">01</div>
-      <div class="step-dot"></div>
+      <div class="step-num">01</div><div class="step-dot"></div>
       <div class="step-title">Book online</div>
       <p class="step-desc">Pick a time that works. Confirm your address. We'll take it from there — no back-and-forth.</p>
     </div>
     <div class="step">
-      <div class="step-num">02</div>
-      <div class="step-dot"></div>
+      <div class="step-num">02</div><div class="step-dot"></div>
       <div class="step-title">We show up</div>
       <p class="step-desc">A vetted ChoreOFF worker arrives and works through the full checklist. Consistently. Every time.</p>
     </div>
     <div class="step">
-      <div class="step-num">03</div>
-      <div class="step-dot"></div>
+      <div class="step-num">03</div><div class="step-dot"></div>
       <div class="step-title">Come home to this</div>
       <p class="step-desc">Done laundry. Clean dishes. Reset space. Actual relief — so you can enjoy your time off.</p>
     </div>
   </div>
 </section>
 
-<!-- TRUST STRIP -->
+<!-- TRUST STRIP — gradient bridge from dark how-section into lighter pricing -->
+
 <section class="trust-strip">
   <div class="trust-grid">
     <div class="trust-item">
@@ -1244,7 +436,6 @@
         <div class="trust-copy">Screened, trained, and held to the same checklist every visit.</div>
       </div>
     </div>
-
     <div class="trust-item">
       <div class="trust-icon">📋</div>
       <div>
@@ -1252,7 +443,6 @@
         <div class="trust-copy">The same full reset — laundry, dishes, floors, tidying — every single time.</div>
       </div>
     </div>
-
     <div class="trust-item">
       <div class="trust-icon">🚫</div>
       <div>
@@ -1264,67 +454,70 @@
 </section>
 
 <!-- PRICING -->
-<section class="pricing" id="pricing">
-  <div style="text-align:center;margin-bottom:60px">
-    <div class="section-eyebrow">Pricing</div>
-    <h2 class="section-title">Simple pricing.<br><em>No surprises.</em></h2>
-    <p class="section-sub" style="margin:0 auto">Start with one visit. Save more as a member.</p>
-  </div>
 
+<section class="pricing" id="pricing">
+  <div style="text-align:center;margin-bottom:60px;color:var(--white)">
+    <div class="section-eyebrow">Pricing</div>
+    <h2 class="section-title" style="color:var(--white)">Simple pricing.<br><em>No surprises.</em></h2>
+    <p class="section-sub" style="margin:0 auto;color:rgba(255,255,255,0.45)">Start with one visit. Save more as a member.</p>
+  </div>
   <div class="pricing-grid">
 
-    <!-- One-Time -->
-    <div class="price-card">
-      <div class="price-name">One-Time Reset</div>
-      <div class="price-amount"><sup>$</sup>179</div>
-      <div class="price-period">per visit — no commitment</div>
-      <ul class="price-features">
-        <li>Full checklist every visit</li>
-        <li>Vetted ChoreOFF worker</li>
-        <li>No subscription required</li>
-        <li>Book once, cancel anytime</li>
-      </ul>
-      <a href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;" target="_blank" class="price-cta price-cta-outline">Book a Reset</a>
-    </div>
+```
+<!-- One-Time -->
+<div class="price-card">
+  <div class="price-name">One-Time Reset</div>
+  <div class="price-amount"><sup>$</sup>179</div>
+  <div class="price-period">per visit — no commitment</div>
+  <ul class="price-features">
+    <li>Full checklist every visit</li>
+    <li>Vetted ChoreOFF worker</li>
+    <li>No subscription required</li>
+    <li>Book once, cancel anytime</li>
+  </ul>
+  <a href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;" class="price-cta price-cta-outline">Book a Reset</a>
+</div>
 
-    <!-- Monthly Membership -->
-    <div class="price-card featured">
-      <div class="price-badge">Most popular</div>
-      <div class="price-name">Monthly Membership</div>
-      <div class="price-amount"><sup>$</sup>29</div>
-      <div class="price-period">/month — cancel anytime</div>
-      <div class="price-payoff">Pays for itself in 1 visit.</div>
-      <ul class="price-features">
-        <li>$139/visit instead of $179</li>
-        <li>Save $40 every single visit</li>
-        <li>Priority booking (3-day min)</li>
-        <li>Full checklist every visit</li>
-        <li>Cancel anytime via portal</li>
-      </ul>
-      <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05');return false;" target="_blank" class="price-cta price-cta-dark">Become a Member</a>
-    </div>
+<!-- Monthly Membership -->
+<div class="price-card featured">
+  <div class="price-badge">Most popular</div>
+  <div class="price-name">Monthly Membership</div>
+  <div class="price-amount"><sup>$</sup>29</div>
+  <div class="price-period">/month — cancel anytime</div>
+  <div class="price-payoff">Pays for itself in 1 visit.</div>
+  <ul class="price-features">
+    <li>$139/visit instead of $179</li>
+    <li>Save $40 every single visit</li>
+    <li>Priority booking</li>
+    <li>Full checklist every visit</li>
+    <li>Cancel anytime via portal</li>
+  </ul>
+  <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05');return false;" class="price-cta price-cta-dark">Become a Member</a>
+</div>
 
-    <!-- Yearly Membership -->
-    <div class="price-card">
-      <div class="price-badge" style="background:var(--red)">3 months free</div>
-      <div class="price-name">Annual Membership</div>
-      <div class="price-amount"><sup>$</sup>261</div>
-      <div class="price-period">/year — just $21.75/month</div>
-      <ul class="price-features">
-        <li>$139/visit instead of $179</li>
-        <li>Save $87 vs monthly plan</li>
-        <li>Priority booking (3-day min)</li>
-        <li>Full checklist every visit</li>
-        <li>Best value for regular use</li>
-      </ul>
-      <a href="#" onclick="requireZip('https://buy.stripe.com/test_dRmeV63OHckq1wO7ou6oo07');return false;" target="_blank" class="price-cta price-cta-outline">Get 3 Months Free</a>
-    </div>
+<!-- Yearly Membership -->
+<div class="price-card">
+  <div class="price-badge" style="background:var(--red)">3 months free</div>
+  <div class="price-name">Annual Membership</div>
+  <div class="price-amount"><sup>$</sup>259</div>
+  <div class="price-period">/year — just $21.58/month</div>
+  <ul class="price-features">
+    <li>$139/visit instead of $179</li>
+    <li>Save $89 vs monthly plan</li>
+    <li>Priority booking</li>
+    <li>Full checklist every visit</li>
+    <li>Best value for regular use</li>
+  </ul>
+  <a href="#" onclick="requireZip('https://buy.stripe.com/test_dRmeV63OHckq1wO7ou6oo07');return false;" class="price-cta price-cta-outline">Get 3 Months Free</a>
+</div>
+```
 
   </div>
   <p class="yearly-note">All visits include the full checklist. You provide supplies. Workers are vetted independents. <strong>Members save $40+ every visit.</strong></p>
 </section>
 
 <!-- FOOTER -->
+
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">Chore<span>OFF</span></div>
@@ -1332,7 +525,6 @@
       <a href="/legal#privacy">Privacy Policy</a>
       <a href="/legal#terms">Terms of Service</a>
       <a href="/legal#refund">Refund Policy</a>
-      <a href="/legal#contractor">Contractor Agreement</a>
       <a href="https://billing.stripe.com/p/login/00w7sE2KD5W22AScIO6oo00" target="_blank">Member Login</a>
       <a href="/worker">Worker Portal</a>
     </div>
@@ -1341,7 +533,6 @@
 </footer>
 
 <script>
-  // ── STATE ──────────────────────────────────────────
   let validZipConfirmed = false;
   let pendingUrl = null;
 
@@ -1355,80 +546,57 @@
     '53598','53571','53508','53523','53590','53589'
   ];
 
-  // ── NAV SCROLL ──────────────────────────────────────
   const nav = document.getElementById('nav');
+  const heroScroll = document.querySelector('.hero-scroll');
+  let lastScroll = 0;
+
   window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
+    const current = window.scrollY;
+    nav.classList.toggle('scrolled', current > 60);
+    if (heroScroll) heroScroll.style.opacity = current > 80 ? '0' : '1';
+    nav.style.transform = current > lastScroll && current > 80 ? 'translateY(-100%)' : 'translateY(0)';
+    lastScroll = current;
   });
 
-  // ── FOCUS ZIP INPUT ─────────────────────────────────
   function focusZip() {
     setTimeout(() => {
       const input = document.getElementById('zipInput');
-      if (input) {
-        input.focus();
-        input.classList.add('pulse');
-        setTimeout(() => input.classList.remove('pulse'), 1000);
-      }
+      if (input) { input.focus(); input.classList.add('pulse'); setTimeout(() => input.classList.remove('pulse'), 1000); }
     }, 400);
   }
 
-  // ── MAIN ZIP CHECKER (inline section) ───────────────
   function checkZip() {
     const zip = document.getElementById('zipInput').value.trim();
     const result = document.getElementById('zipResult');
     const waitlist = document.getElementById('zipWaitlist');
     const buttons = document.getElementById('zipButtons');
-
     if (zip.length !== 5 || isNaN(zip)) {
       result.textContent = 'Please enter a valid 5-digit zip code.';
-      result.className = 'zip-result error';
-      result.style.display = 'block';
-      waitlist.style.display = 'none';
-      buttons.style.display = 'none';
-      return;
+      result.className = 'zip-result error'; result.style.display = 'block';
+      waitlist.style.display = 'none'; buttons.style.display = 'none'; return;
     }
-
     if (SERVICE_ZIPS.includes(zip)) {
       validZipConfirmed = true;
       result.innerHTML = '✓ ChoreOFF is available in your area.';
-      result.className = 'zip-result success';
-      result.style.display = 'block';
-      waitlist.style.display = 'none';
-      buttons.style.display = 'flex';
+      result.className = 'zip-result success'; result.style.display = 'block';
+      waitlist.style.display = 'none'; buttons.style.display = 'flex';
     } else {
       validZipConfirmed = false;
       result.textContent = "We're not in your area yet — but we're expanding fast.";
-      result.className = 'zip-result error';
-      result.style.display = 'block';
-      waitlist.style.display = 'flex';
-      buttons.style.display = 'none';
+      result.className = 'zip-result error'; result.style.display = 'block';
+      waitlist.style.display = 'flex'; buttons.style.display = 'none';
     }
   }
 
   document.addEventListener('DOMContentLoaded', () => {
     const zipInput = document.getElementById('zipInput');
     const modalZipInput = document.getElementById('modalZipInput');
-
-    if (zipInput) {
-      zipInput.addEventListener('keypress', e => {
-        if (e.key === 'Enter') checkZip();
-      });
-    }
-
-    if (modalZipInput) {
-      modalZipInput.addEventListener('keypress', e => {
-        if (e.key === 'Enter') confirmModalZip();
-      });
-    }
+    if (zipInput) zipInput.addEventListener('keypress', e => { if (e.key === 'Enter') checkZip(); });
+    if (modalZipInput) modalZipInput.addEventListener('keypress', e => { if (e.key === 'Enter') confirmModalZip(); });
   });
 
-  // ── ZIP GATE MODAL ──────────────────────────────────
   function requireZip(url) {
-    if (validZipConfirmed) {
-      window.open(url, '_blank');
-      return;
-    }
+    if (validZipConfirmed) { window.open(url, '_blank'); return; }
     pendingUrl = url;
     document.getElementById('modalZipError').style.display = 'none';
     document.getElementById('modalZipInput').value = '';
@@ -1444,54 +612,28 @@
   function confirmModalZip() {
     const zip = document.getElementById('modalZipInput').value.trim();
     const errEl = document.getElementById('modalZipError');
-
-    if (zip.length !== 5 || isNaN(zip)) {
-      errEl.textContent = 'Please enter a valid 5-digit zip code.';
-      errEl.style.display = 'block';
-      return;
-    }
-
+    if (zip.length !== 5 || isNaN(zip)) { errEl.textContent = 'Please enter a valid 5-digit zip code.'; errEl.style.display = 'block'; return; }
     if (SERVICE_ZIPS.includes(zip)) {
       validZipConfirmed = true;
       document.getElementById('zipModal').style.display = 'none';
-
       const mainZip = document.getElementById('zipInput');
       if (mainZip) mainZip.value = zip;
-
       const result = document.getElementById('zipResult');
-      if (result) {
-        result.innerHTML = '✓ ChoreOFF is available in your area.';
-        result.className = 'zip-result success';
-        result.style.display = 'block';
-      }
-
+      if (result) { result.innerHTML = '✓ ChoreOFF is available in your area.'; result.className = 'zip-result success'; result.style.display = 'block'; }
       const buttons = document.getElementById('zipButtons');
       const waitlist = document.getElementById('zipWaitlist');
       if (buttons) buttons.style.display = 'flex';
       if (waitlist) waitlist.style.display = 'none';
-
-      if (pendingUrl) {
-        window.open(pendingUrl, '_blank');
-        pendingUrl = null;
-      }
+      if (pendingUrl) { window.open(pendingUrl, '_blank'); pendingUrl = null; }
     } else {
-      errEl.textContent = "Sorry, we're not in your area yet.";
-      errEl.style.display = 'block';
-
+      errEl.textContent = "Sorry, we're not in your area yet."; errEl.style.display = 'block';
       setTimeout(() => {
         document.getElementById('zipModal').style.display = 'none';
         document.getElementById('zip-check').scrollIntoView({ behavior: 'smooth' });
-
         const result = document.getElementById('zipResult');
-        if (result) {
-          result.textContent = "We're not in your area yet — but we're expanding fast.";
-          result.className = 'zip-result error';
-          result.style.display = 'block';
-        }
-
+        if (result) { result.textContent = "We're not in your area yet — but we're expanding fast."; result.className = 'zip-result error'; result.style.display = 'block'; }
         const mainZip = document.getElementById('zipInput');
         if (mainZip) mainZip.value = zip;
-
         const buttons = document.getElementById('zipButtons');
         const waitlist = document.getElementById('zipWaitlist');
         if (buttons) buttons.style.display = 'none';
@@ -1500,29 +642,24 @@
     }
   }
 
-  // ── WAITLIST ────────────────────────────────────────
   function joinWaitlist() {
     const email = document.getElementById('waitlistEmail').value.trim();
     const zip = document.getElementById('zipInput').value.trim();
     if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
-
     fetch('https://bijjtificxcekmesgwrn.supabase.co/rest/v1/waitlist', {
       method: 'POST',
       headers: {
         'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpamp0aWZpY3hjZWttZXNnd3JuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NjExMzAsImV4cCI6MjA5MDIzNzEzMH0.19_WTJl5cRKaGZSxOS9QLWguFgYhPAyQYDGdP2iZdkM',
         'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpamp0aWZpY3hjZWttZXNnd3JuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NjExMzAsImV4cCI6MjA5MDIzNzEzMH0.19_WTJl5cRKaGZSxOS9QLWguFgYhPAyQYDGdP2iZdkM',
-        'Content-Type': 'application/json',
-        'Prefer': 'return=minimal'
+        'Content-Type': 'application/json', 'Prefer': 'return=minimal'
       },
       body: JSON.stringify({ email, zip, created_at: new Date().toISOString() })
     }).catch(() => {});
-
     document.getElementById('waitlistConfirm').style.display = 'block';
     document.getElementById('waitlistEmail').style.display = 'none';
     document.querySelector('.zip-waitlist-btn').style.display = 'none';
   }
 
-  // ── ROOM ACCORDION ──────────────────────────────────
   function toggleRoom(btn) {
     const item = btn.closest('.room-item');
     const isOpen = item.classList.contains('open');
@@ -1530,7 +667,6 @@
     if (!isOpen) item.classList.add('open');
   }
 
-  // ── CLOSE MODAL ON BACKDROP CLICK ──────────────────
   document.addEventListener('click', (e) => {
     const modal = document.getElementById('zipModal');
     if (e.target === modal) closeZipModal();
@@ -1538,30 +674,23 @@
 </script>
 
 <!-- ZIP GATE MODAL -->
+
 <div id="zipModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);z-index:500;align-items:center;justify-content:center;padding:20px">
   <div style="background:#fff;border-radius:28px;padding:42px 36px;width:100%;max-width:440px;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,0.2);border:1px solid rgba(229,226,220,0.9)">
     <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(42,184,184,0.08);border:1px solid rgba(42,184,184,0.2);color:#1e9494;border-radius:100px;padding:7px 14px;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:18px">
       <span style="width:7px;height:7px;border-radius:50%;background:#2ab8b8;display:inline-block"></span>
       Limited launch area
     </div>
-
     <div style="font-size:1.8rem;margin-bottom:12px">📍</div>
-
     <h3 style="font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:700;margin-bottom:8px;color:#0e0e0e">Check your area first</h3>
-
-    <p style="color:#888;font-size:0.94rem;line-height:1.65;margin-bottom:24px">
-      We’re expanding carefully to maintain quality. Enter your zip code to confirm ChoreOFF is available near you.
-    </p>
-
+    <p style="color:#888;font-size:0.94rem;line-height:1.65;margin-bottom:24px">We're expanding carefully to maintain quality. Enter your zip code to confirm ChoreOFF is available near you.</p>
     <div style="display:flex;gap:10px;margin-bottom:16px">
       <input id="modalZipInput" type="text" maxlength="5" inputmode="numeric" placeholder="Enter zip code"
         style="flex:1;padding:14px 16px;border:1.5px solid #e8e8e4;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:1rem;outline:none;text-align:center"
         onkeypress="if(event.key==='Enter')confirmModalZip()">
       <button onclick="confirmModalZip()" style="background:#2ab8b8;color:white;border:none;border-radius:100px;padding:14px 24px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer">Go</button>
     </div>
-
     <div id="modalZipError" style="color:#cc3322;font-size:0.85rem;margin-bottom:12px;display:none"></div>
-
     <button onclick="closeZipModal()" style="background:none;border:none;color:#888;font-size:0.85rem;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
   </div>
 </div>
