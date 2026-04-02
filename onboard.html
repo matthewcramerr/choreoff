@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -20,713 +21,699 @@
       --text: #1a1a18;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--cream);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    /* ── HEADER ── */
-    .header {
-      background: var(--black);
-      padding: 20px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      font-size: 1.2rem;
-      color: var(--white);
-      text-decoration: none;
-    }
-
-    .logo span { color: var(--red); }
-
-    .header-tag {
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.4);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    /* ── PROGRESS BAR ── */
-    .progress-wrap {
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 16px 24px;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-
-    .progress-steps {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .prog-step {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      flex: 1;
-      position: relative;
-    }
-
-    .prog-step:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      top: 14px;
-      left: 50%;
-      width: 100%;
-      height: 2px;
-      background: var(--border);
-      z-index: -1;
-      transition: background 0.4s;
-    }
-
-    .prog-step.done:not(:last-child)::after { background: var(--teal); }
-
-    .prog-dot {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: var(--border);
-      color: var(--muted);
-      font-size: 0.75rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s;
-      position: relative;
-      z-index: 1;
-    }
-
-    .prog-step.active .prog-dot {
-      background: var(--teal);
-      color: white;
-      box-shadow: 0 0 0 4px rgba(42,184,184,0.2);
-    }
-
-    .prog-step.done .prog-dot {
-      background: var(--teal);
-      color: white;
-    }
-
-    .prog-label {
-      font-size: 0.65rem;
-      color: var(--muted);
-      text-align: center;
-      white-space: nowrap;
-      font-weight: 500;
-    }
-
-    .prog-step.active .prog-label { color: var(--teal); font-weight: 600; }
-    .prog-step.done .prog-label { color: var(--teal); }
-
-    /* ── MAIN LAYOUT ── */
-    .main {
-      max-width: 560px;
-      margin: 0 auto;
-      padding: 40px 24px 80px;
-    }
-
-    /* ── STEP ── */
-    .step { display: none; }
-    .step.active { display: block; animation: fadeIn 0.3s ease; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .step-eyebrow {
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--teal);
-      margin-bottom: 8px;
-    }
-
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--black);
-      line-height: 1.15;
-      margin-bottom: 12px;
-    }
-
-    .step-sub {
-      color: var(--muted);
-      font-size: 0.9rem;
-      line-height: 1.65;
-      margin-bottom: 32px;
-    }
-
-    /* ── FORM FIELDS ── */
-    .field { margin-bottom: 18px; }
-
-    label {
-      display: block;
-      font-size: 0.78rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 14px 18px;
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem;
-      background: var(--white);
-      color: var(--black);
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      -webkit-appearance: none;
-    }
-
-    input:focus, select:focus {
-      border-color: var(--teal);
-      box-shadow: 0 0 0 3px rgba(42,184,184,0.12);
-    }
-
-    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-    /* ── EARN CARD ── */
-    .earn-card {
-      background: var(--black);
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 28px;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 16px;
-      text-align: center;
-    }
-
-    .earn-stat-val {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
-      font-weight: 900;
-      color: var(--teal);
-    }
-
-    .earn-stat-label {
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.5);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-top: 4px;
-    }
-
-    /* ── TRAINING CHECKLIST ── */
-    .training-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 28px;
-    }
-
-    .train-item {
-      background: var(--white);
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      padding: 16px 20px;
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      cursor: pointer;
-      transition: all 0.2s;
-      user-select: none;
-    }
-
-    .train-item:hover { border-color: var(--teal); background: var(--teal-light); }
-    .train-item.checked { border-color: var(--teal); background: var(--teal-light); }
-
-    .train-checkbox {
-      width: 22px;
-      height: 22px;
-      border: 2px solid var(--border);
-      border-radius: 6px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 1px;
-      transition: all 0.2s;
-      font-size: 0.8rem;
-      color: white;
-    }
-
-    .train-item.checked .train-checkbox {
-      background: var(--teal);
-      border-color: var(--teal);
-    }
-
-    .train-text strong {
-      display: block;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--black);
-      margin-bottom: 3px;
-    }
-
-    .train-text span {
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    /* ── CHECKLIST CARD ── */
-    .checklist-card {
-      background: var(--white);
-      border: 1.5px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      margin-bottom: 28px;
-    }
-
-    .checklist-header {
-      background: var(--black);
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .checklist-header h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--white);
-    }
-
-    .checklist-header span {
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.4);
-      margin-left: auto;
-    }
-
-    .checklist-room {
-      border-bottom: 1px solid var(--border);
-    }
-
-    .checklist-room:last-child { border-bottom: none; }
-
-    .room-title {
-      padding: 14px 20px;
-      font-weight: 600;
-      font-size: 0.875rem;
-      color: var(--black);
-      background: #fafaf8;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-    }
-
-    .room-tasks-list {
-      padding: 0 20px 12px;
-    }
-
-    .room-task {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 0;
-      font-size: 0.85rem;
-      color: #444;
-      border-bottom: 1px solid #f0ede8;
-    }
-
-    .room-task:last-child { border-bottom: none; }
-
-    .task-num {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--teal-light);
-      color: var(--teal-dark);
-      font-size: 0.7rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    /* ── VIDEO PLACEHOLDER ── */
-    .video-card {
-      background: var(--black);
-      border-radius: 16px;
-      aspect-ratio: 16/9;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .video-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at center, rgba(42,184,184,0.15) 0%, transparent 70%);
-    }
-
-    .play-btn {
-      width: 64px;
-      height: 64px;
-      background: var(--teal);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .play-btn::after {
-      content: '';
-      width: 0;
-      height: 0;
-      border-left: 20px solid white;
-      border-top: 12px solid transparent;
-      border-bottom: 12px solid transparent;
-      margin-left: 4px;
-    }
-
-    .video-label {
-      color: rgba(255,255,255,0.7);
-      font-size: 0.85rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .video-label strong { color: white; display: block; margin-bottom: 4px; font-size: 1rem; }
-
-    .video-note {
-      background: var(--teal-light);
-      border: 1px solid rgba(42,184,184,0.3);
-      border-radius: 10px;
-      padding: 12px 16px;
-      font-size: 0.82rem;
-      color: var(--teal-dark);
-      margin-bottom: 28px;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    /* ── AGREEMENT ── */
-    .agreement-scroll {
-      background: var(--white);
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
-      height: 240px;
-      overflow-y: auto;
-      font-size: 0.82rem;
-      line-height: 1.7;
-      color: #444;
-      margin-bottom: 20px;
-    }
-
-    .agreement-scroll h4 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      color: var(--black);
-      margin-bottom: 12px;
-      margin-top: 16px;
-    }
-
-    .agreement-scroll h4:first-child { margin-top: 0; }
-
-    .agreement-scroll p { margin-bottom: 10px; }
-
-    .sign-row { display: flex; gap: 10px; margin-bottom: 8px; }
-    .sign-row input { flex: 1; }
-
-    .sign-note {
-      font-size: 0.78rem;
-      color: var(--muted);
-      margin-bottom: 24px;
-    }
-
-    /* ── PAYOUT SETUP ── */
-    .payout-options {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 28px;
-    }
-
-    .payout-option {
-      background: var(--white);
-      border: 1.5px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .payout-option:hover { border-color: var(--teal); }
-    .payout-option.selected { border-color: var(--teal); background: var(--teal-light); }
-
-    .payout-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: var(--teal-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      flex-shrink: 0;
-    }
-
-    .payout-info strong {
-      display: block;
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: var(--black);
-      margin-bottom: 2px;
-    }
-
-    .payout-info span {
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    .payout-radio {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: 2px solid var(--border);
-      margin-left: auto;
-      flex-shrink: 0;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .payout-option.selected .payout-radio {
-      border-color: var(--teal);
-      background: var(--teal);
-    }
-
-    .payout-option.selected .payout-radio::after {
-      content: '';
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: white;
-    }
-
-    .connect-cta {
-      background: var(--teal);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      padding: 16px;
-      width: 100%;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      font-size: 0.95rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition: all 0.2s;
-      margin-bottom: 12px;
-    }
-
-    .connect-cta:hover { background: var(--teal-dark); transform: translateY(-1px); }
-
-    .skip-link {
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--muted);
-      display: block;
-      cursor: pointer;
-      margin-bottom: 24px;
-    }
-
-    .skip-link:hover { color: var(--teal); }
-
-    /* ── SUCCESS ── */
-    .success-wrap {
-      text-align: center;
-      padding: 20px 0 40px;
-    }
-
-    .success-icon {
-      width: 80px;
-      height: 80px;
-      background: var(--teal-light);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 24px;
-      font-size: 2.5rem;
-    }
-
-    .success-wrap h1 { margin-bottom: 12px; }
-
-    .next-steps {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      margin: 32px 0;
-      text-align: left;
-    }
-
-    .next-steps h3 {
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      margin-bottom: 16px;
-      font-size: 1rem;
-    }
-
-    .next-step-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .next-step-item:last-child { margin-bottom: 0; }
-
-    .ns-num {
-      width: 24px;
-      height: 24px;
-      background: var(--teal);
-      color: white;
-      border-radius: 50%;
-      font-size: 0.72rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    .ns-text strong { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 2px; }
-    .ns-text span { font-size: 0.8rem; color: var(--muted); }
-
-    /* ── BUTTONS ── */
-    .btn-next {
-      width: 100%;
-      padding: 15px;
-      background: var(--teal);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-top: 8px;
-    }
-
-    .btn-next:hover { background: var(--teal-dark); transform: translateY(-1px); }
-    .btn-next:disabled { background: var(--muted); cursor: not-allowed; transform: none; }
-
-    .btn-outline {
-      width: 100%;
-      padding: 15px;
-      background: transparent;
-      color: var(--black);
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 500;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-top: 8px;
-    }
-
-    .btn-outline:hover { border-color: var(--teal); color: var(--teal); }
-
-    .btn-portal {
-      display: inline-block;
-      padding: 15px 40px;
-      background: var(--black);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      font-size: 0.95rem;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .btn-portal:hover { background: var(--teal); }
-
-    /* ── ERROR ── */
-    .error-msg {
-      color: var(--red);
-      font-size: 0.82rem;
-      margin-top: 10px;
-      display: none;
-    }
-
-    /* ── INFO BOX ── */
-    .info-box {
-      background: var(--teal-light);
-      border: 1px solid rgba(42,184,184,0.3);
-      border-radius: 12px;
-      padding: 16px 20px;
-      font-size: 0.85rem;
-      color: var(--teal-dark);
-      margin-bottom: 24px;
-      line-height: 1.55;
-    }
-
-    .info-box strong { color: var(--black); }
-
-    @media (max-width: 480px) {
-      .main { padding: 28px 20px 60px; }
-      .field-row { grid-template-columns: 1fr; }
-      .earn-card { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-      .earn-stat-val { font-size: 1.4rem; }
-      .prog-label { display: none; }
-    }
+```
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--black);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--white);
+  text-decoration: none;
+}
+
+.logo span { color: var(--red); }
+
+.header-tag {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-wrap {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.progress-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.prog-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  position: relative;
+  cursor: default;
+}
+
+/* Done steps are clickable to go back */
+.prog-step.done { cursor: pointer; }
+.prog-step.done:hover .prog-dot { box-shadow: 0 0 0 4px rgba(42,184,184,0.25); }
+
+.prog-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--border);
+  z-index: -1;
+  transition: background 0.4s;
+}
+
+.prog-step.done:not(:last-child)::after { background: var(--teal); }
+
+.prog-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--border);
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  position: relative;
+  z-index: 1;
+}
+
+.prog-step.active .prog-dot {
+  background: var(--teal);
+  color: white;
+  box-shadow: 0 0 0 4px rgba(42,184,184,0.2);
+}
+
+.prog-step.done .prog-dot {
+  background: var(--teal);
+  color: white;
+}
+
+.prog-label {
+  font-size: 0.65rem;
+  color: var(--muted);
+  text-align: center;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.prog-step.active .prog-label { color: var(--teal); font-weight: 600; }
+.prog-step.done .prog-label { color: var(--teal); }
+
+/* ── MAIN LAYOUT ── */
+.main {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+/* ── STEP ── */
+.step { display: none; }
+.step.active { display: block; animation: fadeIn 0.3s ease; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.step-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--teal);
+  margin-bottom: 8px;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--black);
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+
+.step-sub {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+  margin-bottom: 32px;
+}
+
+/* ── FORM FIELDS ── */
+.field { margin-bottom: 18px; }
+
+label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+input, select {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  background: var(--white);
+  color: var(--black);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+}
+
+input:focus, select:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(42,184,184,0.12);
+}
+
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* ── EARN CARD ── */
+.earn-card {
+  background: var(--black);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 28px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  text-align: center;
+}
+
+.earn-stat-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--teal);
+}
+
+.earn-stat-label {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 4px;
+}
+
+/* ── TRAINING CHECKLIST ── */
+.training-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.train-item {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.train-item:hover { border-color: var(--teal); background: var(--teal-light); }
+.train-item.checked { border-color: var(--teal); background: var(--teal-light); }
+
+.train-checkbox {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+  transition: all 0.2s;
+  font-size: 0.8rem;
+  color: white;
+}
+
+.train-item.checked .train-checkbox {
+  background: var(--teal);
+  border-color: var(--teal);
+}
+
+.train-text strong {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 3px;
+}
+
+.train-text span {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── CHECKLIST CARD ── */
+.checklist-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.checklist-header {
+  background: var(--black);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.checklist-header h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.checklist-header span {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.4);
+  margin-left: auto;
+}
+
+.checklist-room { border-bottom: 1px solid var(--border); }
+.checklist-room:last-child { border-bottom: none; }
+
+.room-title {
+  padding: 14px 20px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--black);
+  background: #fafaf8;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.room-tasks-list { padding: 0 20px 12px; }
+
+.room-task {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 0.85rem;
+  color: #444;
+  border-bottom: 1px solid #f0ede8;
+}
+
+.room-task:last-child { border-bottom: none; }
+
+.task-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--teal-light);
+  color: var(--teal-dark);
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── VIDEO PLACEHOLDER ── */
+.video-card {
+  background: var(--black);
+  border-radius: 16px;
+  aspect-ratio: 16/9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.video-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(42,184,184,0.15) 0%, transparent 70%);
+}
+
+.play-btn {
+  width: 64px;
+  height: 64px;
+  background: var(--teal);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.play-btn::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 20px solid white;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  margin-left: 4px;
+}
+
+.video-label {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.85rem;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.video-label strong { color: white; display: block; margin-bottom: 4px; font-size: 1rem; }
+
+.video-note {
+  background: var(--teal-light);
+  border: 1px solid rgba(42,184,184,0.3);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 0.82rem;
+  color: var(--teal-dark);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+/* ── AGREEMENT ── */
+.agreement-scroll {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  height: 240px;
+  overflow-y: auto;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+.agreement-scroll h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  color: var(--black);
+  margin-bottom: 12px;
+  margin-top: 16px;
+}
+
+.agreement-scroll h4:first-child { margin-top: 0; }
+.agreement-scroll p { margin-bottom: 10px; }
+
+.sign-row { display: flex; gap: 10px; margin-bottom: 8px; }
+.sign-row input { flex: 1; }
+
+.sign-note {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+/* ── PAYOUT SETUP ── */
+.payout-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.payout-option {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.payout-option:hover { border-color: var(--teal); }
+.payout-option.selected { border-color: var(--teal); background: var(--teal-light); }
+
+.payout-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--teal-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.payout-info strong {
+  display: block;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--black);
+  margin-bottom: 2px;
+}
+
+.payout-info span { font-size: 0.8rem; color: var(--muted); }
+
+.payout-radio {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.payout-option.selected .payout-radio { border-color: var(--teal); background: var(--teal); }
+.payout-option.selected .payout-radio::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: white; }
+
+.connect-cta {
+  background: var(--teal);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  width: 100%;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s;
+  margin-bottom: 12px;
+}
+
+.connect-cta:hover { background: var(--teal-dark); transform: translateY(-1px); }
+
+.skip-link {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+  display: block;
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+
+.skip-link:hover { color: var(--teal); }
+
+/* ── SUCCESS ── */
+.success-wrap { text-align: center; padding: 20px 0 40px; }
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  background: var(--teal-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  font-size: 2.5rem;
+}
+
+.success-wrap h1 { margin-bottom: 12px; }
+
+.next-steps {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin: 32px 0;
+  text-align: left;
+}
+
+.next-steps h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  margin-bottom: 16px;
+  font-size: 1rem;
+}
+
+.next-step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.next-step-item:last-child { margin-bottom: 0; }
+
+.ns-num {
+  width: 24px;
+  height: 24px;
+  background: var(--teal);
+  color: white;
+  border-radius: 50%;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ns-text strong { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 2px; }
+.ns-text span { font-size: 0.8rem; color: var(--muted); }
+
+/* ── BUTTONS ── */
+.btn-next {
+  width: 100%;
+  padding: 15px;
+  background: var(--teal);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+
+.btn-next:hover { background: var(--teal-dark); transform: translateY(-1px); }
+.btn-next:disabled { background: var(--muted); cursor: not-allowed; transform: none; }
+
+.btn-outline {
+  width: 100%;
+  padding: 15px;
+  background: transparent;
+  color: var(--black);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+
+.btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+
+.btn-portal {
+  display: inline-block;
+  padding: 15px 40px;
+  background: var(--black);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.btn-portal:hover { background: var(--teal); }
+
+/* ── ERROR ── */
+.error-msg {
+  color: var(--red);
+  font-size: 0.82rem;
+  margin-top: 10px;
+  display: none;
+}
+
+/* ── INFO BOX ── */
+.info-box {
+  background: var(--teal-light);
+  border: 1px solid rgba(42,184,184,0.3);
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-size: 0.85rem;
+  color: var(--teal-dark);
+  margin-bottom: 24px;
+  line-height: 1.55;
+}
+
+.info-box strong { color: var(--black); }
+
+@media (max-width: 480px) {
+  .main { padding: 28px 20px 60px; }
+  .field-row { grid-template-columns: 1fr; }
+  .earn-card { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .earn-stat-val { font-size: 1.4rem; }
+  .prog-label { display: none; }
+}
+```
+
   </style>
 </head>
 <body>
@@ -737,25 +724,26 @@
 </header>
 
 <!-- PROGRESS -->
+
 <div class="progress-wrap">
   <div class="progress-steps" id="progressSteps">
-    <div class="prog-step active" id="prog-1">
+    <div class="prog-step active" id="prog-1" onclick="navigateToStep(1)">
       <div class="prog-dot">1</div>
       <div class="prog-label">Info</div>
     </div>
-    <div class="prog-step" id="prog-2">
+    <div class="prog-step" id="prog-2" onclick="navigateToStep(2)">
       <div class="prog-dot">2</div>
       <div class="prog-label">Training</div>
     </div>
-    <div class="prog-step" id="prog-3">
+    <div class="prog-step" id="prog-3" onclick="navigateToStep(3)">
       <div class="prog-dot">3</div>
       <div class="prog-label">Checklist</div>
     </div>
-    <div class="prog-step" id="prog-4">
+    <div class="prog-step" id="prog-4" onclick="navigateToStep(4)">
       <div class="prog-dot">4</div>
       <div class="prog-label">Agreement</div>
     </div>
-    <div class="prog-step" id="prog-5">
+    <div class="prog-step" id="prog-5" onclick="navigateToStep(5)">
       <div class="prog-dot">5</div>
       <div class="prog-label">Payouts</div>
     </div>
@@ -769,341 +757,372 @@
 <div class="main">
 
   <!-- ── STEP 1: Welcome + Basic Info ── -->
+
   <div class="step active" id="step-1">
     <div class="step-eyebrow">Step 1 of 5</div>
     <h1>Welcome to<br>ChoreOFF.</h1>
     <p class="step-sub">You've been invited to join our worker team. Complete this quick setup to start claiming jobs in your area and getting paid automatically.</p>
 
-    <div class="earn-card">
-      <div>
-        <div class="earn-stat-val">$50</div>
-        <div class="earn-stat-label">Per job</div>
-      </div>
-      <div>
-        <div class="earn-stat-val">45m</div>
-        <div class="earn-stat-label">Avg time</div>
-      </div>
-      <div>
-        <div class="earn-stat-val">$60+</div>
-        <div class="earn-stat-label">Per hour</div>
-      </div>
-    </div>
+```
+<div class="earn-card">
+  <div>
+    <div class="earn-stat-val">$50</div>
+    <div class="earn-stat-label">Per job</div>
+  </div>
+  <div>
+    <div class="earn-stat-val">45m</div>
+    <div class="earn-stat-label">Avg time</div>
+  </div>
+  <div>
+    <div class="earn-stat-val">$60+</div>
+    <div class="earn-stat-label">Per hour</div>
+  </div>
+</div>
 
-    <div class="field-row">
-      <div class="field">
-        <label>First Name</label>
-        <input type="text" id="firstName" placeholder="First" autocomplete="given-name">
-      </div>
-      <div class="field">
-        <label>Last Name</label>
-        <input type="text" id="lastName" placeholder="Last" autocomplete="family-name">
-      </div>
-    </div>
-    <div class="field">
-      <label>Email Address</label>
-      <input type="email" id="email" placeholder="your@email.com" autocomplete="email">
-    </div>
-    <div class="field">
-      <label>Phone Number</label>
-      <input type="tel" id="phone" placeholder="+1 (608) 555-0000" autocomplete="tel">
-    </div>
-    <!-- ID Upload -->
-    <div class="field" style="margin-bottom:18px">
-      <label>Government-Issued ID</label>
-      <div id="idUploadArea" onclick="document.getElementById('idFile').click()"
-        style="border:1.5px dashed #e5e2dc;border-radius:12px;padding:20px;text-align:center;cursor:pointer;background:white;transition:all 0.2s">
-        <div style="font-size:1.8rem;margin-bottom:8px">🪪</div>
-        <div style="font-size:0.875rem;font-weight:600;color:#1a1a18;margin-bottom:4px">Upload Driver's License or State ID</div>
-        <div style="font-size:0.78rem;color:#888">Tap to upload photo — JPG, PNG accepted</div>
-      </div>
-      <input type="file" id="idFile" accept="image/*" style="display:none" onchange="handleIdUpload(this)">
-      <div id="idUploadStatus" style="display:none;margin-top:8px;font-size:0.82rem;color:#2ab8b8;font-weight:500">✓ ID uploaded</div>
-    </div>
+<div class="field-row">
+  <div class="field">
+    <label>First Name</label>
+    <input type="text" id="firstName" placeholder="First" autocomplete="given-name"
+      oninput="clearErr('err-1')">
+  </div>
+  <div class="field">
+    <label>Last Name</label>
+    <input type="text" id="lastName" placeholder="Last" autocomplete="family-name"
+      oninput="clearErr('err-1')">
+  </div>
+</div>
+<div class="field">
+  <label>Email Address</label>
+  <input type="email" id="email" placeholder="your@email.com" autocomplete="email"
+    oninput="clearErr('err-1')">
+</div>
+<div class="field">
+  <label>Phone Number</label>
+  <input type="tel" id="phone" placeholder="+1 (608) 555-0000" autocomplete="tel"
+    oninput="clearErr('err-1')">
+</div>
 
-    <!-- Declaration -->
-    <div class="train-item" id="declarationCheck" onclick="toggleTrain(this)" style="margin-bottom:18px">
-      <div class="train-checkbox"></div>
-      <div class="train-text">
-        <strong>Background declaration</strong>
-        <span>I confirm I have no felony convictions and am not listed on any sex offender registry. I understand that providing false information will result in immediate termination.</span>
-      </div>
-    </div>
+<!-- ID Upload -->
+<div class="field" style="margin-bottom:18px">
+  <label>Government-Issued ID</label>
+  <div id="idUploadArea" onclick="document.getElementById('idFile').click()"
+    style="border:1.5px dashed #e5e2dc;border-radius:12px;padding:20px;text-align:center;cursor:pointer;background:white;transition:all 0.2s">
+    <div style="font-size:1.8rem;margin-bottom:8px">🪪</div>
+    <div style="font-size:0.875rem;font-weight:600;color:#1a1a18;margin-bottom:4px">Upload Driver's License or State ID</div>
+    <div style="font-size:0.78rem;color:#888">Tap to upload photo — JPG, PNG accepted</div>
+  </div>
+  <input type="file" id="idFile" accept="image/*" style="display:none" onchange="handleIdUpload(this)">
+  <div id="idUploadStatus" style="display:none;margin-top:8px;font-size:0.82rem;color:#2ab8b8;font-weight:500">✓ ID uploaded</div>
+</div>
 
-    <div class="field-row">
-      <div class="field">
-        <label>City</label>
-        <input type="text" id="city" placeholder="Madison" value="Madison">
-      </div>
-      <div class="field">
-        <label>State</label>
-        <select id="state">
-          <option value="WI">WI</option>
-          <option value="IL">IL</option>
-          <option value="MN">MN</option>
-          <option value="TX">TX</option>
-          <option value="TN">TN</option>
-          <option value="CO">CO</option>
-          <option value="NC">NC</option>
-          <option value="AZ">AZ</option>
-          <option value="FL">FL</option>
-          <option value="CA">CA</option>
-          <option value="OH">OH</option>
-          <option value="GA">GA</option>
-        </select>
-      </div>
-    </div>
-    <div class="error-msg" id="err-1">Please fill in all fields.</div>
-    <button class="btn-next" onclick="goStep(2)">Continue →</button>
+<!-- Declaration -->
+<div class="train-item" id="declarationCheck"
+  onclick="toggleTrain(this);clearErr('err-1')" style="margin-bottom:18px">
+  <div class="train-checkbox"></div>
+  <div class="train-text">
+    <strong>Background declaration</strong>
+    <span>I confirm I have no felony convictions and am not listed on any sex offender registry. I understand that providing false information will result in immediate termination.</span>
+  </div>
+</div>
+
+<div class="field-row">
+  <div class="field">
+    <label>City</label>
+    <input type="text" id="city" placeholder="Madison" value="Madison">
+  </div>
+  <div class="field">
+    <label>State</label>
+    <select id="state">
+      <option value="WI">WI</option>
+      <option value="IL">IL</option>
+      <option value="MN">MN</option>
+      <option value="TX">TX</option>
+      <option value="TN">TN</option>
+      <option value="CO">CO</option>
+      <option value="NC">NC</option>
+      <option value="AZ">AZ</option>
+      <option value="FL">FL</option>
+      <option value="CA">CA</option>
+      <option value="OH">OH</option>
+      <option value="GA">GA</option>
+    </select>
+  </div>
+</div>
+<div class="error-msg" id="err-1">Please fill in all fields.</div>
+<button class="btn-next" onclick="goStep(2)">Continue →</button>
+```
+
   </div>
 
   <!-- ── STEP 2: Training ── -->
+
   <div class="step" id="step-2">
     <div class="step-eyebrow">Step 2 of 5</div>
     <h1>Before your<br>first job.</h1>
     <p class="step-sub">Read and acknowledge each item below. This is how ChoreOFF works — understanding this is the key to success on the platform.</p>
 
-    <div class="video-card" onclick="alert('Training video coming soon! Check back before your first job.')">
-      <div class="play-btn"></div>
-      <div class="video-label">
-        <strong>ChoreOFF Training Video</strong>
-        How to complete a perfect reset (12 min)
-      </div>
-    </div>
+```
+<div class="video-card" onclick="alert('Training video coming soon! Check back before your first job.')">
+  <div class="play-btn"></div>
+  <div class="video-label">
+    <strong>ChoreOFF Training Video</strong>
+    How to complete a perfect reset (12 min)
+  </div>
+</div>
 
-    <div class="video-note">
-      📋 Watch the video, then check each item below to confirm you understand. You must check all items to continue.
-    </div>
+<div class="video-note">
+  📋 Watch the video, then check each item below to confirm you understand. You must check all items to continue.
+</div>
 
-    <div class="training-list">
-      <div class="train-item" onclick="toggleTrain(this)">
-        <div class="train-checkbox"></div>
-        <div class="train-text">
-          <strong>This is NOT cleaning — it's a reset system</strong>
-          <span>Speed + consistency over perfection. Every job follows the same checklist. You are not a maid service. You are a home reset specialist.</span>
-        </div>
-      </div>
-      <div class="train-item" onclick="toggleTrain(this)">
-        <div class="train-checkbox"></div>
-        <div class="train-text">
-          <strong>Jobs are first-come, first-served</strong>
-          <span>New jobs are posted in the worker portal. First worker to claim gets it. Full address and customer details sent via SMS after you claim.</span>
-        </div>
-      </div>
-      <div class="train-item" onclick="toggleTrain(this)">
-        <div class="train-checkbox"></div>
-        <div class="train-text">
-          <strong>Follow the checklist on every single visit</strong>
-          <span>5 rooms: Laundry, Bathroom, Living Room, Dining Room, Kitchen. Do not skip rooms or tasks. The checklist is your job description.</span>
-        </div>
-      </div>
-      <div class="train-item" onclick="toggleTrain(this)">
-        <div class="train-checkbox"></div>
-        <div class="train-text">
-          <strong>Customers provide all supplies</strong>
-          <span>Detergent, dish soap, cleaning products — all provided by the customer. Bring your own rubber gloves. Do not use the dishwasher — hand wash only.</span>
-        </div>
-      </div>
-      <div class="train-item" onclick="toggleTrain(this)">
-        <div class="train-checkbox"></div>
-        <div class="train-text">
-          <strong>Photo required to get paid</strong>
-          <span>After completing a job, upload a photo of the kitchen sink area showing completed work through the worker portal. No photo = no payment processed.</span>
-        </div>
-      </div>
-      <div class="train-item" onclick="toggleTrain(this)">
-        <div class="train-checkbox"></div>
-        <div class="train-text">
-          <strong>Stay within scope — always</strong>
-          <span>No deep cleaning, no toilet bowls, no shower tubs, no moving, mounting, or repairs. If a customer asks for anything outside scope, say: "That's outside my scope — please contact info@choreoff.com."</span>
-        </div>
-      </div>
-      <div class="train-item" onclick="toggleTrain(this)">
-        <div class="train-checkbox"></div>
-        <div class="train-text">
-          <strong>You are a 1099 independent contractor</strong>
-          <span>You are not an employee of ChoreOFF. You set your own schedule by claiming jobs. You are responsible for your own taxes. You will receive a Form 1099-NEC if you earn $600+ in a calendar year.</span>
-        </div>
-      </div>
+<div class="training-list">
+  <div class="train-item" onclick="toggleTrain(this);clearErr('err-2')">
+    <div class="train-checkbox"></div>
+    <div class="train-text">
+      <strong>This is NOT cleaning — it's a reset system</strong>
+      <span>Speed + consistency over perfection. Every job follows the same checklist. You are not a maid service. You are a home reset specialist.</span>
     </div>
+  </div>
+  <div class="train-item" onclick="toggleTrain(this);clearErr('err-2')">
+    <div class="train-checkbox"></div>
+    <div class="train-text">
+      <strong>Jobs are first-come, first-served</strong>
+      <span>New jobs are posted in the worker portal. First worker to claim gets it. Full address and customer details sent via SMS after you claim.</span>
+    </div>
+  </div>
+  <div class="train-item" onclick="toggleTrain(this);clearErr('err-2')">
+    <div class="train-checkbox"></div>
+    <div class="train-text">
+      <strong>Follow the checklist on every single visit</strong>
+      <span>5 rooms: Laundry, Bathroom, Living Room, Dining Room, Kitchen. Do not skip rooms or tasks. The checklist is your job description.</span>
+    </div>
+  </div>
+  <div class="train-item" onclick="toggleTrain(this);clearErr('err-2')">
+    <div class="train-checkbox"></div>
+    <div class="train-text">
+      <strong>Customers provide all supplies</strong>
+      <span>Detergent, dish soap, cleaning products — all provided by the customer. Bring your own rubber gloves.</span>
+    </div>
+  </div>
+  <div class="train-item" onclick="toggleTrain(this);clearErr('err-2')">
+    <div class="train-checkbox"></div>
+    <div class="train-text">
+      <strong>Photo required to get paid</strong>
+      <span>After completing a job, upload a completion photo of your finished work through the worker portal. No photo = no payment processed.</span>
+    </div>
+  </div>
+  <div class="train-item" onclick="toggleTrain(this);clearErr('err-2')">
+    <div class="train-checkbox"></div>
+    <div class="train-text">
+      <strong>Stay within scope — always</strong>
+      <span>No deep cleaning, no toilet bowls, no shower tubs, no moving, mounting, or repairs. If a customer asks for anything outside scope, say: "That's outside my scope — please contact info@choreoff.com."</span>
+    </div>
+  </div>
+  <div class="train-item" onclick="toggleTrain(this);clearErr('err-2')">
+    <div class="train-checkbox"></div>
+    <div class="train-text">
+      <strong>You are a 1099 independent contractor</strong>
+      <span>You are not an employee of ChoreOFF. You set your own schedule by claiming jobs. You are responsible for your own taxes. You will receive a Form 1099-NEC if you earn $600+ in a calendar year.</span>
+    </div>
+  </div>
+</div>
 
-    <div class="error-msg" id="err-2">Please check all items before continuing.</div>
-    <button class="btn-next" onclick="goStep(3)">I understand — Continue →</button>
-    <button class="btn-outline" onclick="goStep(1)">← Back</button>
+<div class="error-msg" id="err-2">Please check all items before continuing.</div>
+<button class="btn-next" onclick="goStep(3)">I understand — Continue →</button>
+<button class="btn-outline" onclick="goStep(1)">← Back</button>
+```
+
   </div>
 
   <!-- ── STEP 3: The Checklist ── -->
+
   <div class="step" id="step-3">
     <div class="step-eyebrow">Step 3 of 5</div>
     <h1>Your job<br>checklist.</h1>
-    <p class="step-sub">This is the exact checklist you will follow on every ChoreOFF visit. Screenshot it or bookmark this page for reference before your first job.</p>
+    <p class="step-sub">This is the exact checklist you will follow on every ChoreOFF visit. Screenshot this or save it to your phone for reference before your first job.</p>
 
-    <div class="checklist-card">
-      <div class="checklist-header">
-        <span>🗒️</span>
-        <h3>ChoreOFF Service Checklist</h3>
-        <span>20 tasks</span>
-      </div>
+```
+<div class="checklist-card">
+  <div class="checklist-header">
+    <span>🗒️</span>
+    <h3>ChoreOFF Service Checklist</h3>
+    <span>20 tasks</span>
+  </div>
 
-      <div class="checklist-room">
-        <div class="room-title">🧺 Laundry Room <span style="margin-left:auto;font-size:0.72rem;color:var(--muted);font-weight:400">~10 min</span></div>
-        <div class="room-tasks-list">
-          <div class="room-task"><div class="task-num">1</div>Empty dryer vent — check it before starting</div>
-          <div class="room-task"><div class="task-num">2</div>Transfer washed clothes from washer to dryer (if applicable)</div>
-          <div class="room-task"><div class="task-num">3</div>Add a new load from hamper to washer (if applicable)</div>
-          <div class="room-task"><div class="task-num">4</div>Empty laundry room trash can and re-bag</div>
-        </div>
-      </div>
-
-      <div class="checklist-room">
-        <div class="room-title">🚿 Bathroom <span style="margin-left:auto;font-size:0.72rem;color:var(--muted);font-weight:400">~20 min</span></div>
-        <div class="room-tasks-list">
-          <div class="room-task"><div class="task-num">1</div>Wipe all main surfaces — counters, mirror frame, fixtures</div>
-          <div class="room-task"><div class="task-num">2</div>Reorganize and tidy up the area</div>
-          <div class="room-task"><div class="task-num">3</div>Put any clothes lying around into the hamper</div>
-          <div class="room-task"><div class="task-num">4</div>Clean sink(s) — scrub and wipe dry</div>
-        </div>
-      </div>
-
-      <div class="checklist-room">
-        <div class="room-title">🛋️ Living Room <span style="margin-left:auto;font-size:0.72rem;color:var(--muted);font-weight:400">~20 min</span></div>
-        <div class="room-tasks-list">
-          <div class="room-task"><div class="task-num">1</div>Fold blankets and re-organize items lying around</div>
-          <div class="room-task"><div class="task-num">2</div>Refresh the space — declutter, improve overall appearance</div>
-          <div class="room-task"><div class="task-num">3</div>Wipe all main surfaces</div>
-          <div class="room-task"><div class="task-num">4</div>Collect any dishes and bring to kitchen</div>
-        </div>
-      </div>
-
-      <div class="checklist-room">
-        <div class="room-title">🪑 Dining Room <span style="margin-left:auto;font-size:0.72rem;color:var(--muted);font-weight:400">~20 min</span></div>
-        <div class="room-tasks-list">
-          <div class="room-task"><div class="task-num">1</div>Collect any dishes from around the living quarters</div>
-          <div class="room-task"><div class="task-num">2</div>Wipe down all main surfaces — table, chairs, shelves</div>
-          <div class="room-task"><div class="task-num">3</div>Sweep floor</div>
-          <div class="room-task"><div class="task-num">4</div>General decluttering and tidying up</div>
-        </div>
-      </div>
-
-      <div class="checklist-room" style="border-bottom:none">
-        <div class="room-title">🍽️ Kitchen <span style="margin-left:auto;font-size:0.72rem;color:var(--muted);font-weight:400">~20 min</span></div>
-        <div class="room-tasks-list">
-          <div class="room-task"><div class="task-num">1</div>Hand wash ALL dishes — no dishwasher, ever</div>
-          <div class="room-task"><div class="task-num">2</div>Scrub all countertops, wipe down and dry</div>
-          <div class="room-task"><div class="task-num">3</div>Sweep floor</div>
-          <div class="room-task"><div class="task-num">4</div>Take out trash for kitchen, bathroom and laundry + recycling</div>
-        </div>
-      </div>
+  <div class="checklist-room">
+    <div class="room-title">🧺 Laundry Room <span style="margin-left:auto;font-size:0.72rem;color:var(--muted);font-weight:400">~10 min</span></div>
+    <div class="room-tasks-list">
+      <div class="room-task"><div class="task-num">1</div>Empty dryer filter — check it before starting</div>
+      <div class="room-task"><div class="task-num">2</div>Transfer washed clothes from washer to dryer (if applicable)</div>
+      <div class="room-task"><div class="task-num">3</div>Add a new load from hamper to washer (if applicable)</div>
+      <div class="room-task"><div class="task-num">4</div>Empty laundry room trash can and re-bag</div>
     </div>
+  </div>
 
-    <div class="info-box">
-      💡 <strong>Pro tip:</strong> Start laundry first so it can run while you work through the other rooms. Most experienced workers finish in 45 minutes — that's $60+/hour.
+  <div class="checklist-room">
+    <div class="room-title">🚿 Bathroom <span style="margin-left:auto;font-size:0.72rem;color:var(--muted);font-weight:400">~20 min</span></div>
+    <div class="room-tasks-list">
+      <div class="room-task"><div class="task-num">1</div>Wipe all main surfaces — counters, mirror frame, fixtures</div>
+      <div class="room-task"><div class="task-num">2</div>Reorganize and tidy up the area</div>
+      <div class="room-task"><div class="task-num">3</div>Put any clothes lying around into the hamper</div>
+      <div class="room-task"><div class="task-num">4</div>Clean sink(s) — scrub and wipe dry</div>
     </div>
+  </div>
 
-    <button class="btn-next" onclick="goStep(4)">Got it — Continue →</button>
-    <button class="btn-outline" onclick="goStep(2)">← Back</button>
+  <div class="checklist-room">
+    <div class="room-title">🛋️ Living Room <span style="margin-left:auto;font-size:0.72rem;color:var(--muted);font-weight:400">~20 min</span></div>
+    <div class="room-tasks-list">
+      <div class="room-task"><div class="task-num">1</div>Fold blankets and re-organize items lying around</div>
+      <div class="room-task"><div class="task-num">2</div>Refresh the space — declutter, improve overall appearance</div>
+      <div class="room-task"><div class="task-num">3</div>Wipe all main surfaces</div>
+      <div class="room-task"><div class="task-num">4</div>Collect any dishes and bring to kitchen</div>
+    </div>
+  </div>
+
+  <div class="checklist-room">
+    <div class="room-title">🪑 Dining Room <span style="margin-left:auto;font-size:0.72rem;color:var(--muted);font-weight:400">~20 min</span></div>
+    <div class="room-tasks-list">
+      <div class="room-task"><div class="task-num">1</div>Collect any dishes from around the living quarters</div>
+      <div class="room-task"><div class="task-num">2</div>Wipe down all main surfaces — table, chairs, shelves</div>
+      <div class="room-task"><div class="task-num">3</div>Sweep floor</div>
+      <div class="room-task"><div class="task-num">4</div>General decluttering and tidying up</div>
+    </div>
+  </div>
+
+  <div class="checklist-room" style="border-bottom:none">
+    <div class="room-title">🍽️ Kitchen <span style="margin-left:auto;font-size:0.72rem;color:var(--muted);font-weight:400">~20 min</span></div>
+    <div class="room-tasks-list">
+      <div class="room-task"><div class="task-num">1</div>Load and run dishwasher</div>
+      <div class="room-task"><div class="task-num">2</div>Scrub all countertops, wipe down and dry</div>
+      <div class="room-task"><div class="task-num">3</div>Sweep floor</div>
+      <div class="room-task"><div class="task-num">4</div>Take out trash for kitchen, bathroom and laundry + recycling</div>
+    </div>
+  </div>
+</div>
+
+<div class="info-box">
+  💡 <strong>Pro tip:</strong> Start laundry first so it can run while you work through the other rooms. Most experienced workers finish in 45 minutes — that's $60+/hour.
+</div>
+
+<button class="btn-next" onclick="goStep(4)">Got it — Continue →</button>
+<button class="btn-outline" onclick="goStep(2)">← Back</button>
+```
+
   </div>
 
   <!-- ── STEP 4: Contractor Agreement ── -->
+
   <div class="step" id="step-4">
     <div class="step-eyebrow">Step 4 of 5</div>
     <h1>Contractor<br>Agreement.</h1>
     <p class="step-sub">Read the full agreement below, then sign with your full name to confirm you agree to all terms.</p>
 
-    <div class="agreement-scroll">
-      <h4>Independent Contractor Agreement</h4>
-      <p>This Independent Contractor Agreement ("Agreement") is entered into between ChoreOFF ("Company") and the individual signing below ("Contractor"). By signing, Contractor agrees to all terms stated herein.</p>
+```
+<div class="agreement-scroll">
+  <h4>Independent Contractor Agreement</h4>
+  <p>This Independent Contractor Agreement ("Agreement") is entered into between ChoreOFF ("Company") and the individual signing below ("Contractor"). By signing, Contractor agrees to all terms stated herein.</p>
 
-      <h4>1. Independent Contractor Status</h4>
-      <p>Contractor is an independent contractor and not an employee, agent, partner, or joint venturer of ChoreOFF. Contractor is solely responsible for all federal, state, and local taxes on compensation received. ChoreOFF will not withhold income taxes, Social Security, or Medicare from payments. Contractor will receive a Form 1099-NEC for earnings of $600 or more in a calendar year.</p>
+  <h4>1. Independent Contractor Status</h4>
+  <p>Contractor is an independent contractor and not an employee, agent, partner, or joint venturer of ChoreOFF. Contractor is solely responsible for all federal, state, and local taxes on compensation received. ChoreOFF will not withhold income taxes, Social Security, or Medicare from payments. Contractor will receive a Form 1099-NEC for earnings of $600 or more in a calendar year.</p>
 
-      <h4>2. Services</h4>
-      <p>Contractor agrees to perform home reset services as assigned through the ChoreOFF platform, including laundry, dishes, floors and surfaces, and tidying. Contractor agrees to follow ChoreOFF's standard service checklist on every job. Services are limited to the defined scope — no deep cleaning, repairs, moving, or mounting.</p>
+  <h4>2. Services</h4>
+  <p>Contractor agrees to perform home reset services as assigned through the ChoreOFF platform, including laundry, dishes, floors and surfaces, and tidying. Contractor agrees to follow ChoreOFF's standard service checklist on every job. Services are limited to the defined scope — no deep cleaning, repairs, moving, or mounting.</p>
 
-      <h4>3. Compensation</h4>
-      <p>Contractor will be paid $50.00 USD per completed household visit, upon job completion and photo confirmation through the ChoreOFF worker portal. ChoreOFF reserves the right to adjust compensation rates with 7 days written notice.</p>
+  <h4>3. Compensation</h4>
+  <p>Contractor will be paid $50.00 USD per completed household visit, upon job completion and photo confirmation through the ChoreOFF worker portal. ChoreOFF reserves the right to adjust compensation rates with 7 days written notice.</p>
 
-      <h4>4. Clothing & Property Damage</h4>
-      <p>Contractor assumes responsibility for exercising reasonable care with customer property and clothing during laundry services. ChoreOFF is not liable for incidental clothing damage resulting from normal laundry operations. In cases of gross negligence, ChoreOFF reserves the right to deduct damages from Contractor compensation.</p>
+  <h4>4. Appliance Use & Liability</h4>
+  <p>Contractor may operate the customer's dishwasher as part of the standard service. ChoreOFF and its contractors are not liable for any water damage, flooding, leaking, or appliance malfunction resulting from normal dishwasher operation. Customers are responsible for ensuring their dishwasher is in proper working condition before each visit.</p>
 
-      <h4>5. Discretionary Charges</h4>
-      <p>For visits where the living quarters are found to be in an excessively unmaintained or overflowing state beyond normal scope, ChoreOFF reserves the right to assess a discretionary charge to the customer, which may be shared with the Contractor at ChoreOFF's discretion.</p>
+  <h4>5. Clothing & Property Damage</h4>
+  <p>Contractor assumes responsibility for exercising reasonable care with customer property and clothing during laundry services. ChoreOFF is not liable for incidental clothing damage resulting from normal laundry operations. In cases of gross negligence, ChoreOFF reserves the right to deduct damages from Contractor compensation.</p>
 
-      <h4>6. Conduct & Standards</h4>
-      <p>Contractor must: arrive on time; treat customers and their property with respect; complete the full checklist on every visit; submit a completion photo; communicate promptly through the worker portal; not solicit customers directly outside of ChoreOFF.</p>
+  <h4>6. Discretionary Charges</h4>
+  <p>For visits where the living quarters are found to be in an excessively unmaintained or overflowing state beyond normal scope, ChoreOFF reserves the right to assess a discretionary charge to the customer, which may be shared with the Contractor at ChoreOFF's discretion.</p>
 
-      <h4>7. Confidentiality</h4>
-      <p>Contractor agrees to keep all customer information — including names, addresses, contact details, and home layouts — strictly confidential. This information may not be shared or used for any purpose outside of completing ChoreOFF assignments.</p>
+  <h4>7. Conduct & Standards</h4>
+  <p>Contractor must: arrive on time; treat customers and their property with respect; complete the full checklist on every visit; submit a completion photo; communicate promptly through the worker portal; not solicit customers directly outside of ChoreOFF.</p>
 
-      <h4>8. Non-Solicitation</h4>
-      <p>During this agreement and for 12 months after termination, Contractor agrees not to directly solicit ChoreOFF customers for any competing home service.</p>
+  <h4>8. Confidentiality</h4>
+  <p>Contractor agrees to keep all customer information — including names, addresses, contact details, and home layouts — strictly confidential. This information may not be shared or used for any purpose outside of completing ChoreOFF assignments.</p>
 
-      <h4>9. Termination</h4>
-      <p>Either party may terminate with 7 days written notice. ChoreOFF may terminate immediately for misconduct, policy violations, or repeated poor performance without notice or compensation.</p>
+  <h4>9. Non-Solicitation</h4>
+  <p>During this agreement and for 12 months after termination, Contractor agrees not to directly solicit ChoreOFF customers for any competing home service.</p>
 
-      <h4>10. Governing Law</h4>
-      <p>This agreement is governed by the laws of the State of Wisconsin. Any disputes shall be resolved in Dane County, Wisconsin.</p>
-    </div>
+  <h4>10. Termination</h4>
+  <p>Either party may terminate with 7 days written notice. ChoreOFF may terminate immediately for misconduct, policy violations, or repeated poor performance without notice or compensation.</p>
 
-    <div class="sign-row">
-      <input type="text" id="signature" placeholder="Type your full legal name to sign">
-    </div>
-    <p class="sign-note">By typing your name above, you confirm you have read and agree to all terms of this Independent Contractor Agreement.</p>
+  <h4>11. Governing Law</h4>
+  <p>This agreement is governed by the laws of the State of Wisconsin. Any disputes shall be resolved in Dane County, Wisconsin.</p>
+</div>
 
-    <div class="error-msg" id="err-4">Please type your full name exactly as entered in Step 1 to sign.</div>
-    <button class="btn-next" onclick="goStep(5)">Sign & Continue →</button>
-    <button class="btn-outline" onclick="goStep(3)">← Back</button>
+<div class="sign-row">
+  <input type="text" id="signature" placeholder="Type your full legal name to sign"
+    oninput="clearErr('err-4')">
+</div>
+<p class="sign-note">By typing your name above, you confirm you have read and agree to all terms of this Independent Contractor Agreement.</p>
+
+<div class="error-msg" id="err-4">Please type your full name exactly as entered in Step 1 to sign.</div>
+<button class="btn-next" onclick="goStep(5)">Sign & Continue →</button>
+<button class="btn-outline" onclick="goStep(3)">← Back</button>
+```
+
   </div>
 
   <!-- ── STEP 5: Payout Setup ── -->
+
   <div class="step" id="step-5">
     <div class="step-eyebrow">Step 5 of 5</div>
     <h1>Set up<br>your payouts.</h1>
     <p class="step-sub">Choose how you'd like to receive your $50 payments after each completed job.</p>
 
-    <div class="payout-options">
-      <div class="payout-option selected" id="opt-connect" onclick="selectPayout('connect')">
-        <div class="payout-icon">🏦</div>
-        <div class="payout-info">
-          <strong>Direct Bank Transfer (Recommended)</strong>
-          <span>Powered by Stripe Connect. Automatic $50 transfer after each job. 1-2 business days to your account.</span>
-        </div>
-        <div class="payout-radio"></div>
-      </div>
-      <div class="payout-option" id="opt-manual" onclick="selectPayout('manual')">
-        <div class="payout-icon">💸</div>
-        <div class="payout-info">
-          <strong>Manual Payout (Venmo / Zelle)</strong>
-          <span>We'll send your payment manually within 24 hours of job completion. Provide your Venmo/Zelle handle below.</span>
-        </div>
-        <div class="payout-radio"></div>
-      </div>
+```
+<div class="payout-options">
+  <div class="payout-option selected" id="opt-connect" onclick="selectPayout('connect')">
+    <div class="payout-icon">🏦</div>
+    <div class="payout-info">
+      <strong>Direct Bank Transfer (Recommended)</strong>
+      <span>Powered by Stripe Connect. Automatic $50 transfer after each job. 1-2 business days to your account.</span>
     </div>
-
-    <div id="connect-section">
-      <div class="info-box">
-        🔒 <strong>Your banking info stays private.</strong> Stripe handles everything securely — ChoreOFF never sees your account details. Takes about 3 minutes to set up.
-      </div>
-      <button class="connect-cta" onclick="startConnect()">
-        <span>🏦</span> Connect Bank Account via Stripe
-      </button>
-      <span class="skip-link" onclick="skipConnect()">Skip for now — set up later in worker portal</span>
+    <div class="payout-radio"></div>
+  </div>
+  <div class="payout-option" id="opt-manual" onclick="selectPayout('manual')">
+    <div class="payout-icon">💸</div>
+    <div class="payout-info">
+      <strong>Manual Payout (Venmo / Zelle)</strong>
+      <span>We'll send your payment manually within 24 hours of job completion. Provide your Venmo/Zelle handle below.</span>
     </div>
+    <div class="payout-radio"></div>
+  </div>
+</div>
 
-    <div id="manual-section" style="display:none">
-      <div class="field">
-        <label>Venmo Handle or Zelle Phone/Email</label>
-        <input type="text" id="payoutHandle" placeholder="@yourvenmo or phone/email">
-      </div>
-      <div class="info-box">
-        📱 We'll send $50 to this handle within 24 hours of each completed job. You can switch to automatic bank transfer anytime from the worker portal.
-      </div>
-      <button class="btn-next" onclick="completeOnboarding()">Complete Setup →</button>
-    </div>
+<div id="connect-section">
+  <div class="info-box">
+    🔒 <strong>Your banking info stays private.</strong> Stripe handles everything securely — ChoreOFF never sees your account details. Takes about 3 minutes to set up.
+  </div>
+  <button class="connect-cta" onclick="startConnect()">
+    <span>🏦</span> Connect Bank Account via Stripe
+  </button>
+  <span class="skip-link" onclick="skipConnect()">Skip for now — set up later in worker portal</span>
+</div>
 
-    <button class="btn-outline" onclick="goStep(4)" style="margin-top:8px">← Back</button>
+<div id="manual-section" style="display:none">
+  <div class="field">
+    <label>Venmo Handle or Zelle Phone/Email</label>
+    <input type="text" id="payoutHandle" placeholder="@yourvenmo or phone/email">
+  </div>
+  <div class="info-box">
+    📱 We'll send $50 to this handle within 24 hours of each completed job. You can switch to automatic bank transfer anytime from the worker portal.
+  </div>
+  <button class="btn-next" onclick="validateManualPayout()">Complete Setup →</button>
+</div>
+
+<button class="btn-outline" onclick="goStep(4)" style="margin-top:8px">← Back</button>
+```
+
   </div>
 
   <!-- ── STEP 6: Success ── -->
+
   <div class="step" id="step-6">
     <div class="success-wrap">
       <div class="success-icon">🎉</div>
@@ -1111,41 +1130,44 @@
       <h1>Welcome to<br>the team.</h1>
       <p class="step-sub">Your application is being reviewed. We'll run a quick background check and reach out within 1-2 business days. Once approved you'll receive a text and can start claiming jobs.</p>
 
-      <div class="next-steps">
-        <h3>What happens next</h3>
-        <div class="next-step-item">
-          <div class="ns-num">1</div>
-          <div class="ns-text">
-            <strong>Background check (1-2 business days)</strong>
-            <span>We run a quick criminal background check. You'll receive a separate email from our screening partner.</span>
-          </div>
-        </div>
-        <div class="next-step-item">
-          <div class="ns-num">2</div>
-          <div class="ns-text">
-            <strong>You get a text</strong>
-            <span>We'll SMS you when you're approved and jobs are available in your area.</span>
-          </div>
-        </div>
-        <div class="next-step-item">
-          <div class="ns-num">3</div>
-          <div class="ns-text">
-            <strong>Log in to the worker portal</strong>
-            <span>Go to choreoff.com/worker — sign in with your email — claim your first job.</span>
-          </div>
-        </div>
-        <div class="next-step-item">
-          <div class="ns-num">4</div>
-          <div class="ns-text">
-            <strong>Complete job + submit photo</strong>
-            <span>Upload a photo of the kitchen sink area when done. Payment processes automatically.</span>
-          </div>
-        </div>
+```
+  <div class="next-steps">
+    <h3>What happens next</h3>
+    <div class="next-step-item">
+      <div class="ns-num">1</div>
+      <div class="ns-text">
+        <strong>Background check (1-2 business days)</strong>
+        <span>We run a quick criminal background check. You'll receive a separate email from our screening partner.</span>
       </div>
-
-      <a class="btn-portal" href="/worker">Go to Worker Portal →</a>
-      <p style="margin-top:16px;font-size:0.8rem;color:var(--muted)">Questions? Email <a href="mailto:info@choreoff.com" style="color:var(--teal)">info@choreoff.com</a> or follow us <a href="https://instagram.com/choreoff.us" style="color:var(--teal)">@choreoff.us</a></p>
     </div>
+    <div class="next-step-item">
+      <div class="ns-num">2</div>
+      <div class="ns-text">
+        <strong>You get a text</strong>
+        <span>We'll SMS you when you're approved and jobs are available in your area.</span>
+      </div>
+    </div>
+    <div class="next-step-item">
+      <div class="ns-num">3</div>
+      <div class="ns-text">
+        <strong>Log in to the worker portal</strong>
+        <span>Go to choreoff.com/worker — sign in with your email — claim your first job.</span>
+      </div>
+    </div>
+    <div class="next-step-item">
+      <div class="ns-num">4</div>
+      <div class="ns-text">
+        <strong>Complete job + submit photo</strong>
+        <span>Upload a completion photo of your finished work. Payment processes automatically.</span>
+      </div>
+    </div>
+  </div>
+
+  <a class="btn-portal" href="/worker">Go to Worker Portal →</a>
+  <p style="margin-top:16px;font-size:0.8rem;color:var(--muted)">Questions? Email <a href="mailto:info@choreoff.com" style="color:var(--teal)">info@choreoff.com</a> or follow us <a href="https://instagram.com/choreoff.us" style="color:var(--teal)">@choreoff.us</a></p>
+</div>
+```
+
   </div>
 
 </div>
@@ -1157,25 +1179,37 @@
   let currentStep = 1;
   let workerData = {};
   let selectedPayout = 'connect';
-
-  // ID Upload handler
   let idUploaded = false;
+
+  // ── Clear error on input ──────────────────────────
+  function clearErr(id) {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  }
+
+  // ── ID Upload with spinner ────────────────────────
   function handleIdUpload(input) {
     if (!input.files[0]) return;
     const file = input.files[0];
-    idUploaded = true;
     const area = document.getElementById('idUploadArea');
     area.style.borderColor = '#2ab8b8';
     area.style.background = '#e8f8f8';
-    area.innerHTML = '<div style="font-size:1.8rem;margin-bottom:8px">✅</div><div style="font-size:0.875rem;font-weight:600;color:#1e9494">ID uploaded — ' + file.name + '</div><div style="font-size:0.78rem;color:#888">Tap to change</div>';
-    document.getElementById('idUploadStatus').style.display = 'block';
-    // Store as base64 for later
+    area.innerHTML = '<div style="font-size:1.8rem;margin-bottom:8px">⏳</div><div style="font-size:0.875rem;font-weight:600;color:#1e9494">Uploading...</div>';
     const reader = new FileReader();
-    reader.onload = e => { workerData.idImage = e.target.result.substring(0, 100) + '...stored'; };
+    reader.onload = () => {
+      idUploaded = true;
+      workerData.idImage = file.name;
+      area.innerHTML = '<div style="font-size:1.8rem;margin-bottom:8px">✅</div><div style="font-size:0.875rem;font-weight:600;color:#1e9494">ID uploaded — ' + file.name + '</div><div style="font-size:0.78rem;color:#888">Tap to change</div>';
+      document.getElementById('idUploadStatus').style.display = 'block';
+      clearErr('err-1');
+    };
+    reader.onerror = () => {
+      area.innerHTML = '<div style="font-size:1.8rem;margin-bottom:8px">❌</div><div style="font-size:0.875rem;font-weight:600;color:#cc3322">Upload failed — tap to retry</div>';
+    };
     reader.readAsDataURL(file);
   }
 
-  // Pre-fill from URL params (invite link)
+  // ── Pre-fill from URL params ──────────────────────
   window.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('email')) document.getElementById('email').value = decodeURIComponent(params.get('email'));
@@ -1184,23 +1218,30 @@
       document.getElementById('firstName').value = parts[0] || '';
       document.getElementById('lastName').value = parts.slice(1).join(' ') || '';
     }
-    // Handle Stripe Connect return
-    if (params.get('connect') === 'success') {
-      completeOnboarding();
-    }
+    if (params.get('connect') === 'success') completeOnboarding();
   });
 
+  // ── Navigate back via progress bar ───────────────
+  function navigateToStep(step) {
+    if (step >= currentStep) return;
+    document.getElementById('step-' + currentStep).classList.remove('active');
+    document.getElementById('prog-' + currentStep).classList.remove('active');
+    currentStep = step;
+    document.getElementById('step-' + currentStep).classList.add('active');
+    document.getElementById('prog-' + currentStep).classList.remove('done');
+    document.getElementById('prog-' + currentStep).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── Step navigation ───────────────────────────────
   function goStep(step) {
-    // Validate before advancing
     if (step > currentStep) {
       if (!validate(currentStep)) return;
       if (currentStep === 1) saveWorkerData();
     }
-
     document.getElementById('step-' + currentStep).classList.remove('active');
     document.getElementById('prog-' + currentStep).classList.remove('active');
     document.getElementById('prog-' + currentStep).classList.add('done');
-
     currentStep = step;
     document.getElementById('step-' + currentStep).classList.add('active');
     if (document.getElementById('prog-' + currentStep)) {
@@ -1209,57 +1250,77 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  // ── Validation ────────────────────────────────────
   function validate(step) {
     if (step === 1) {
       const first = document.getElementById('firstName').value.trim();
       const last = document.getElementById('lastName').value.trim();
       const email = document.getElementById('email').value.trim();
       const phone = document.getElementById('phone').value.trim();
+      const errEl = document.getElementById('err-1');
+
       if (!first || !last || !email || !phone) {
-        document.getElementById('err-1').style.display = 'block';
-        return false;
+        errEl.textContent = 'Please fill in all fields.';
+        errEl.style.display = 'block'; return false;
       }
-      if (!email.includes('@')) {
-        document.getElementById('err-1').textContent = 'Please enter a valid email address.';
-        document.getElementById('err-1').style.display = 'block';
-        return false;
+
+      // Proper email format check
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        errEl.textContent = 'Please enter a valid email address (e.g. name@domain.com).';
+        errEl.style.display = 'block'; return false;
       }
-      const declared = document.getElementById('declarationCheck')?.classList.contains('checked');
-      if (!declared) {
-        document.getElementById('err-1').textContent = 'Please check the background declaration to continue.';
-        document.getElementById('err-1').style.display = 'block';
-        return false;
+
+      // Phone must have at least 10 digits
+      const phoneDigits = phone.replace(/\D/g, '');
+      if (phoneDigits.length < 10) {
+        errEl.textContent = 'Please enter a valid 10-digit phone number.';
+        errEl.style.display = 'block'; return false;
       }
-      document.getElementById('err-1').style.display = 'none';
-      workerData = { first, last, email, phone, city: document.getElementById('city').value.trim(), state: document.getElementById('state').value };
+
+      // ID upload required
+      if (!idUploaded) {
+        errEl.textContent = 'Please upload a government-issued ID to continue.';
+        errEl.style.display = 'block'; return false;
+      }
+
+      // Background declaration required
+      if (!document.getElementById('declarationCheck').classList.contains('checked')) {
+        errEl.textContent = 'Please check the background declaration to continue.';
+        errEl.style.display = 'block'; return false;
+      }
+
+      errEl.style.display = 'none';
+      workerData = { first, last, email, phone,
+        city: document.getElementById('city').value.trim(),
+        state: document.getElementById('state').value };
     }
 
     if (step === 2) {
       const checks = document.querySelectorAll('#step-2 .train-item');
       const allChecked = [...checks].every(c => c.classList.contains('checked'));
       if (!allChecked) {
-        document.getElementById('err-2').style.display = 'block';
-        return false;
+        document.getElementById('err-2').style.display = 'block'; return false;
       }
       document.getElementById('err-2').style.display = 'none';
     }
 
     if (step === 4) {
-      const sig = document.getElementById('signature').value.trim();
-      const fullName = (workerData.first + ' ' + workerData.last).toLowerCase();
+      // Trim + normalize spaces so "John  Smith" doesn't pass for "John Smith"
+      const sig = document.getElementById('signature').value.trim().replace(/\s+/g, ' ');
+      const fullName = (workerData.first.trim() + ' ' + workerData.last.trim()).toLowerCase().replace(/\s+/g, ' ');
+      const errEl = document.getElementById('err-4');
       if (!sig) {
-        document.getElementById('err-4').textContent = 'Please type your full name to sign.';
-        document.getElementById('err-4').style.display = 'block';
-        return false;
+        errEl.textContent = 'Please type your full name to sign.';
+        errEl.style.display = 'block'; return false;
       }
       if (sig.toLowerCase() !== fullName) {
-        document.getElementById('err-4').textContent = 'Signature must match your full name: ' + workerData.first + ' ' + workerData.last;
-        document.getElementById('err-4').style.display = 'block';
-        return false;
+        errEl.textContent = 'Signature must match: ' + workerData.first + ' ' + workerData.last;
+        errEl.style.display = 'block'; return false;
       }
       workerData.signature = sig;
       workerData.signedAt = new Date().toISOString();
-      document.getElementById('err-4').style.display = 'none';
+      errEl.style.display = 'none';
     }
 
     return true;
@@ -1279,6 +1340,17 @@
     document.getElementById('manual-section').style.display = type === 'manual' ? 'block' : 'none';
   }
 
+  // ── Manual payout validation ──────────────────────
+  function validateManualPayout() {
+    const handle = document.getElementById('payoutHandle').value.trim();
+    if (!handle || handle.length < 3) {
+      alert('Please enter a valid Venmo handle or Zelle phone/email.');
+      return;
+    }
+    completeOnboarding();
+  }
+
+  // ── Save to Supabase ──────────────────────────────
   async function saveWorkerData() {
     try {
       await fetch(SUPABASE_URL + '/rest/v1/workers', {
@@ -1290,7 +1362,7 @@
           'Prefer': 'return=minimal'
         },
         body: JSON.stringify({
-          name: workerData.first + ' ' + workerData.last,
+          name: (workerData.first + ' ' + workerData.last).replace(/[<>"']/g, ''),
           email: workerData.email.toLowerCase().trim(),
           phone: workerData.phone,
           city: workerData.city || 'Madison',
@@ -1300,17 +1372,13 @@
           status: 'Pending'
         })
       });
-      console.log('[onboard] Worker saved to Supabase');
-    } catch(e) {
-      console.error('[onboard] Save error:', e.message);
-    }
+    } catch(e) { console.error('[onboard] Save error:', e.message); }
   }
 
   async function startConnect() {
     const btn = document.querySelector('.connect-cta');
     btn.textContent = 'Redirecting to Stripe...';
     btn.disabled = true;
-
     try {
       const res = await fetch('/api/create-connect-account', {
         method: 'POST',
@@ -1318,22 +1386,13 @@
         body: JSON.stringify({ email: workerData.email, name: workerData.first + ' ' + workerData.last })
       });
       const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        skipConnect();
-      }
-    } catch(e) {
-      skipConnect();
-    }
+      if (data.url) { window.location.href = data.url; } else { skipConnect(); }
+    } catch(e) { skipConnect(); }
   }
 
-  function skipConnect() {
-    completeOnboarding();
-  }
+  function skipConnect() { completeOnboarding(); }
 
   async function completeOnboarding() {
-    // Update payout handle if manual
     if (selectedPayout === 'manual') {
       const handle = document.getElementById('payoutHandle')?.value?.trim();
       if (handle) {
@@ -1345,14 +1404,12 @@
               'Authorization': 'Bearer ' + SUPABASE_KEY,
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ notes: 'Payout: ' + handle })
+            body: JSON.stringify({ notes: 'Payout: ' + handle.replace(/[<>"']/g, '') })
           });
         } catch(e) {}
       }
     }
-
     goStep(6);
-    // Mark prog-6 done
     if (document.getElementById('prog-6')) {
       document.getElementById('prog-6').classList.add('active');
     }
