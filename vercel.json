@@ -7,12 +7,13 @@
     { "src": "api/complete-job.js", "use": "@vercel/node" },
     { "src": "api/payout.js", "use": "@vercel/node" },
     { "src": "api/create-connect-account.js", "use": "@vercel/node" },
+    { "src": "api/approve-worker.js", "use": "@vercel/node" },
+    { "src": "api/remind.js", "use": "@vercel/node" },
     { "src": "index.html", "use": "@vercel/static" },
     { "src": "worker.html", "use": "@vercel/static" },
     { "src": "legal.html", "use": "@vercel/static" },
     { "src": "onboard.html", "use": "@vercel/static" },
     { "src": "admin.html", "use": "@vercel/static" }
-    { "src": "api/approve-worker.js", "use": "@vercel/node" }
   ],
   "routes": [
     { "src": "/api/webhook", "dest": "/api/webhook.js" },
@@ -21,6 +22,8 @@
     { "src": "/api/complete-job", "dest": "/api/complete-job.js" },
     { "src": "/api/payout", "dest": "/api/payout.js" },
     { "src": "/api/create-connect-account", "dest": "/api/create-connect-account.js" },
+    { "src": "/api/approve-worker", "dest": "/api/approve-worker.js" },
+    { "src": "/api/remind", "dest": "/api/remind.js" },
     { "src": "/worker", "dest": "/worker.html" },
     { "src": "/worker.html", "dest": "/worker.html" },
     { "src": "/legal", "dest": "/legal.html" },
@@ -30,6 +33,5 @@
     { "src": "/admin", "dest": "/admin.html" },
     { "src": "/admin.html", "dest": "/admin.html" },
     { "src": "/(.*)", "dest": "/index.html" }
-    { "src": "/api/approve-worker", "dest": "/api/approve-worker.js" }
   ]
 }
