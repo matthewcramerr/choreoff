@@ -128,7 +128,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: 
+      background:
         radial-gradient(ellipse 80% 60% at 50% 0%, rgba(42, 184, 184, 0.15) 0%, transparent 70%),
         radial-gradient(ellipse 40% 40% at 80% 80%, rgba(204, 51, 34, 0.08) 0%, transparent 60%);
     }
@@ -190,8 +190,8 @@
 
     .hero-sub {
       font-size: clamp(1rem, 2vw, 1.2rem);
-      color: rgba(255,255,255,0.6);
-      max-width: 520px;
+      color: rgba(255,255,255,0.68);
+      max-width: 640px;
       line-height: 1.65;
       margin-bottom: 48px;
       font-weight: 300;
@@ -275,39 +275,80 @@
 
     /* ── ZIP CHECKER ────────────────────────────────── */
     .zip-section {
-      background: var(--cream);
-      padding: 80px 5vw;
-      text-align: center;
+      background:
+        radial-gradient(ellipse 120% 120% at 50% 0%, rgba(42, 184, 184, 0.06) 0%, transparent 55%),
+        var(--cream);
+      padding: 100px 5vw;
+      border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
+    }
+
+    .zip-shell {
+      max-width: 760px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(229, 226, 220, 0.9);
+      border-radius: 28px;
+      padding: 42px 32px;
+      text-align: center;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.04);
+    }
+
+    .zip-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(42, 184, 184, 0.08);
+      border: 1px solid rgba(42, 184, 184, 0.22);
+      color: var(--teal-dark);
+      border-radius: 100px;
+      padding: 7px 14px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 18px;
+    }
+
+    .zip-badge::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--teal);
     }
 
     .zip-label {
       font-family: 'Playfair Display', serif;
-      font-size: 1.6rem;
+      font-size: clamp(2rem, 4vw, 2.8rem);
       font-weight: 700;
       color: var(--black);
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      line-height: 1.05;
     }
 
     .zip-sub {
       color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 28px;
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 560px;
+      margin: 0 auto 28px;
     }
 
     .zip-form {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       justify-content: center;
-      max-width: 420px;
+      max-width: 520px;
       margin: 0 auto;
       flex-wrap: wrap;
     }
 
     .zip-input {
       flex: 1;
-      min-width: 140px;
-      padding: 14px 20px;
+      min-width: 180px;
+      padding: 15px 20px;
       border: 1.5px solid var(--border);
       border-radius: 100px;
       font-family: 'DM Sans', sans-serif;
@@ -315,30 +356,37 @@
       background: var(--white);
       color: var(--black);
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      text-align: center;
     }
 
-    .zip-input:focus { border-color: var(--teal); }
+    .zip-input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 4px rgba(42, 184, 184, 0.12);
+    }
 
     .zip-btn {
       background: var(--black);
       color: var(--white);
       font-family: 'DM Sans', sans-serif;
       font-weight: 600;
-      font-size: 0.9rem;
-      padding: 14px 28px;
+      font-size: 0.92rem;
+      padding: 15px 24px;
       border-radius: 100px;
       border: none;
       cursor: pointer;
       transition: all 0.2s;
     }
 
-    .zip-btn:hover { background: var(--teal); }
+    .zip-btn:hover {
+      background: var(--teal);
+      transform: translateY(-1px);
+    }
 
     .zip-result {
-      margin-top: 20px;
+      margin-top: 18px;
       font-size: 0.95rem;
-      font-weight: 500;
+      font-weight: 600;
       display: none;
     }
 
@@ -350,29 +398,37 @@
       flex-direction: column;
       align-items: center;
       gap: 12px;
-      margin-top: 24px;
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
     }
 
     .zip-waitlist {
-      margin-top: 16px;
+      margin-top: 22px;
       display: none;
       flex-direction: column;
       align-items: center;
       gap: 10px;
+      padding-top: 22px;
+      border-top: 1px solid var(--border);
     }
 
     .zip-waitlist input {
-      padding: 12px 20px;
+      padding: 13px 20px;
       border: 1.5px solid var(--border);
       border-radius: 100px;
       font-family: 'DM Sans', sans-serif;
       font-size: 0.9rem;
-      width: 260px;
+      width: 280px;
       outline: none;
       background: var(--white);
+      text-align: center;
     }
 
-    .zip-waitlist input:focus { border-color: var(--teal); }
+    .zip-waitlist input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 4px rgba(42, 184, 184, 0.12);
+    }
 
     .zip-waitlist-btn {
       background: var(--black);
@@ -380,14 +436,17 @@
       font-family: 'DM Sans', sans-serif;
       font-weight: 500;
       font-size: 0.85rem;
-      padding: 11px 24px;
+      padding: 12px 24px;
       border-radius: 100px;
       border: none;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: all 0.2s;
     }
 
-    .zip-waitlist-btn:hover { background: var(--teal); }
+    .zip-waitlist-btn:hover {
+      background: var(--teal);
+      transform: translateY(-1px);
+    }
 
     /* ── WHAT WE DO ─────────────────────────────────── */
     .services {
@@ -418,7 +477,7 @@
     .section-sub {
       color: var(--muted);
       font-size: 1rem;
-      max-width: 480px;
+      max-width: 520px;
       line-height: 1.65;
       margin-bottom: 60px;
     }
@@ -476,10 +535,10 @@
     .zip-cta-group {
       display: flex;
       align-items: flex-start;
-      gap: 24px;
+      gap: 28px;
       justify-content: center;
       flex-wrap: wrap;
-      margin-top: 8px;
+      margin-top: 4px;
     }
 
     .zip-cta-col {
@@ -494,23 +553,25 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--muted);
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .zip-cta-divider {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--muted);
-      padding-top: 32px;
+      padding-top: 34px;
     }
 
     .zip-link-sub {
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       color: var(--teal);
-      font-weight: 500;
+      font-weight: 600;
       text-decoration: none;
     }
 
-    .zip-link-sub:hover { text-decoration: underline; }
+    .zip-link-sub:hover {
+      text-decoration: underline;
+    }
 
     /* ── CHECKLIST ─────────────────────────────────── */
     .checklist-rooms {
@@ -653,6 +714,49 @@
       margin-bottom: 24px;
     }
 
+    /* ── TRUST STRIP ────────────────────────────────── */
+    .trust-strip {
+      background: var(--warm-gray);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 34px 5vw;
+    }
+
+    .trust-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 28px;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .trust-icon {
+      font-size: 1.4rem;
+      line-height: 1;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .trust-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 6px;
+    }
+
+    .trust-copy {
+      font-size: 0.92rem;
+      line-height: 1.65;
+      color: var(--muted);
+      max-width: 280px;
+    }
+
     /* ── PRICING ────────────────────────────────────── */
     .pricing {
       padding: 100px 5vw;
@@ -736,10 +840,26 @@
     .price-period {
       font-size: 0.85rem;
       color: var(--muted);
-      margin-bottom: 32px;
+      margin-bottom: 18px;
     }
 
     .price-card.featured .price-period { color: rgba(255,255,255,0.4); }
+
+    .price-payoff {
+      display: inline-block;
+      margin-bottom: 26px;
+      padding: 8px 14px;
+      border-radius: 100px;
+      background: rgba(42, 184, 184, 0.14);
+      color: var(--teal);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .price-card.featured .price-payoff {
+      background: rgba(255,255,255,0.1);
+      color: #8ee3e3;
+    }
 
     .price-features {
       list-style: none;
@@ -879,12 +999,32 @@
     }
 
     /* ── RESPONSIVE ─────────────────────────────────── */
+    @media (max-width: 900px) {
+      .trust-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
     @media (max-width: 768px) {
       .hero-actions { flex-direction: column; align-items: center; }
       .steps { gap: 40px; }
       .footer-inner { flex-direction: column; }
       nav { padding: 16px 5vw; }
       .nav-links { gap: 6px; }
+
+      .zip-section {
+        padding: 80px 5vw;
+      }
+
+      .zip-shell {
+        padding: 32px 20px;
+        border-radius: 22px;
+      }
+
+      .zip-cta-divider {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -904,7 +1044,7 @@
   <div class="hero-tag">Now available in Madison, WI</div>
   <h1 class="hero-headline">Turn your</h1>
   <h1 class="hero-headline-2">chores <em>OFF.</em></h1>
-  <p class="hero-sub">You're busy. The laundry's piling up. The dishes aren't done. ChoreOFF handles the basics so you can actually enjoy your time off.</p>
+  <p class="hero-sub">One visit. Laundry done. Dishes handled. Floors swept. Home reset. So you can actually enjoy your time off.</p>
   <div class="hero-actions">
     <a class="btn-primary" href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;">Book a Reset — $179 →</a>
     <a class="btn-ghost" href="#pricing">View membership</a>
@@ -917,32 +1057,43 @@
 
 <!-- ZIP CHECKER -->
 <section class="zip-section" id="zip-check">
-  <p class="zip-label">Check your area</p>
-  <p class="zip-sub">Enter your zip code to see if ChoreOFF is available near you.</p>
-  <div class="zip-form">
-    <input class="zip-input" type="text" id="zipInput" placeholder="Enter zip code" maxlength="5" inputmode="numeric">
-    <button class="zip-btn" onclick="checkZip()">Check</button>
-  </div>
-  <div class="zip-result" id="zipResult"></div>
-  <div id="zipButtons">
-    <div class="zip-cta-group">
-      <div class="zip-cta-col">
-        <div class="zip-cta-label">Not a member</div>
-        <a href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;" target="_blank" class="btn-primary" style="font-size:0.95rem">Book a Reset — $179 →</a>
-        <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05');return false;" target="_blank" class="zip-link-sub">Become a Member — $29/month</a>
-      </div>
-      <div class="zip-cta-divider">or</div>
-      <div class="zip-cta-col">
-        <div class="zip-cta-label">Already a member</div>
-        <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x2dR25WPdoufnEeQW6oo08');return false;" target="_blank" class="btn-primary" style="font-size:0.95rem;background:var(--black)">Book a Member Visit — $139 →</a>
-        <a href="https://billing.stripe.com/p/login/00w7sE2KD5W22AScIO6oo00" target="_blank" class="zip-link-sub">Manage my membership</a>
+  <div class="zip-shell">
+    <div class="zip-badge">Limited launch area</div>
+    <p class="zip-label">Check your area</p>
+    <p class="zip-sub">
+      We’re expanding carefully to maintain quality. Enter your zip code to confirm ChoreOFF is available near you.
+    </p>
+
+    <div class="zip-form">
+      <input class="zip-input" type="text" id="zipInput" placeholder="Enter zip code" maxlength="5" inputmode="numeric">
+      <button class="zip-btn" onclick="checkZip()">Check availability</button>
+    </div>
+
+    <div class="zip-result" id="zipResult"></div>
+
+    <div id="zipButtons">
+      <div class="zip-cta-group">
+        <div class="zip-cta-col">
+          <div class="zip-cta-label">Not a member</div>
+          <a href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;" target="_blank" class="btn-primary" style="font-size:0.95rem">Book a Reset — $179 →</a>
+          <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05');return false;" target="_blank" class="zip-link-sub">Become a Member — $29/month</a>
+        </div>
+
+        <div class="zip-cta-divider">or</div>
+
+        <div class="zip-cta-col">
+          <div class="zip-cta-label">Already a member</div>
+          <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x2dR25WPdoufnEeQW6oo08');return false;" target="_blank" class="btn-primary" style="font-size:0.95rem;background:var(--black)">Book a Member Visit — $139 →</a>
+          <a href="https://billing.stripe.com/p/login/00w7sE2KD5W22AScIO6oo00" target="_blank" class="zip-link-sub">Manage my membership</a>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="zip-waitlist" id="zipWaitlist">
-    <input type="email" id="waitlistEmail" placeholder="Enter your email">
-    <button class="zip-waitlist-btn" onclick="joinWaitlist()">Notify me when we launch →</button>
-    <p id="waitlistConfirm" style="font-size:0.85rem;color:var(--teal-dark);display:none">You're on the list. We'll reach out when we're in your area.</p>
+
+    <div class="zip-waitlist" id="zipWaitlist">
+      <input type="email" id="waitlistEmail" placeholder="Enter your email">
+      <button class="zip-waitlist-btn" onclick="joinWaitlist()">Notify me when we launch →</button>
+      <p id="waitlistConfirm" style="font-size:0.85rem;color:var(--teal-dark);display:none">You're on the list. We'll reach out when we're in your area.</p>
+    </div>
   </div>
 </section>
 
@@ -1083,13 +1234,43 @@
   </div>
 </section>
 
+<!-- TRUST STRIP -->
+<section class="trust-strip">
+  <div class="trust-grid">
+    <div class="trust-item">
+      <div class="trust-icon">✅</div>
+      <div>
+        <div class="trust-title">Vetted workers</div>
+        <div class="trust-copy">Screened, trained, and held to the same checklist every visit.</div>
+      </div>
+    </div>
+
+    <div class="trust-item">
+      <div class="trust-icon">📋</div>
+      <div>
+        <div class="trust-title">Fixed checklist</div>
+        <div class="trust-copy">The same full reset — laundry, dishes, floors, tidying — every single time.</div>
+      </div>
+    </div>
+
+    <div class="trust-item">
+      <div class="trust-icon">🚫</div>
+      <div>
+        <div class="trust-title">No contracts</div>
+        <div class="trust-copy">Book once or subscribe monthly. Cancel anytime.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- PRICING -->
 <section class="pricing" id="pricing">
   <div style="text-align:center;margin-bottom:60px">
     <div class="section-eyebrow">Pricing</div>
     <h2 class="section-title">Simple pricing.<br><em>No surprises.</em></h2>
-    <p class="section-sub" style="margin:0 auto">Two ways to get started. One way to keep going.</p>
+    <p class="section-sub" style="margin:0 auto">Start with one visit. Save more as a member.</p>
   </div>
+
   <div class="pricing-grid">
 
     <!-- One-Time -->
@@ -1112,6 +1293,7 @@
       <div class="price-name">Monthly Membership</div>
       <div class="price-amount"><sup>$</sup>29</div>
       <div class="price-period">/month — cancel anytime</div>
+      <div class="price-payoff">Pays for itself in 1 visit.</div>
       <ul class="price-features">
         <li>$139/visit instead of $179</li>
         <li>Save $40 every single visit</li>
@@ -1224,32 +1406,29 @@
     }
   }
 
- document.addEventListener('DOMContentLoaded', () => {
-  const zipInput = document.getElementById('zipInput');
-  const modalZipInput = document.getElementById('modalZipInput');
+  document.addEventListener('DOMContentLoaded', () => {
+    const zipInput = document.getElementById('zipInput');
+    const modalZipInput = document.getElementById('modalZipInput');
 
-  if (zipInput) {
-    zipInput.addEventListener('keypress', e => {
-      if (e.key === 'Enter') checkZip();
-    });
-  }
+    if (zipInput) {
+      zipInput.addEventListener('keypress', e => {
+        if (e.key === 'Enter') checkZip();
+      });
+    }
 
-  if (modalZipInput) {
-    modalZipInput.addEventListener('keypress', e => {
-      if (e.key === 'Enter') confirmModalZip();
-    });
-  }
-});
+    if (modalZipInput) {
+      modalZipInput.addEventListener('keypress', e => {
+        if (e.key === 'Enter') confirmModalZip();
+      });
+    }
+  });
 
   // ── ZIP GATE MODAL ──────────────────────────────────
-  // Called by every payment button
   function requireZip(url) {
     if (validZipConfirmed) {
-      // Already confirmed — go straight to Stripe
       window.open(url, '_blank');
       return;
     }
-    // Show modal
     pendingUrl = url;
     document.getElementById('modalZipError').style.display = 'none';
     document.getElementById('modalZipInput').value = '';
@@ -1276,19 +1455,21 @@
       validZipConfirmed = true;
       document.getElementById('zipModal').style.display = 'none';
 
-      // Also update the main zip section to show available state
       const mainZip = document.getElementById('zipInput');
       if (mainZip) mainZip.value = zip;
+
       const result = document.getElementById('zipResult');
       if (result) {
         result.innerHTML = '✓ ChoreOFF is available in your area.';
         result.className = 'zip-result success';
         result.style.display = 'block';
       }
-      const buttons = document.getElementById('zipButtons');
-      if (buttons) buttons.style.display = 'flex';
 
-      // Open the Stripe link they wanted
+      const buttons = document.getElementById('zipButtons');
+      const waitlist = document.getElementById('zipWaitlist');
+      if (buttons) buttons.style.display = 'flex';
+      if (waitlist) waitlist.style.display = 'none';
+
       if (pendingUrl) {
         window.open(pendingUrl, '_blank');
         pendingUrl = null;
@@ -1297,20 +1478,23 @@
       errEl.textContent = "Sorry, we're not in your area yet.";
       errEl.style.display = 'block';
 
-      // Show waitlist after a beat
       setTimeout(() => {
         document.getElementById('zipModal').style.display = 'none';
-        // Scroll to zip section
         document.getElementById('zip-check').scrollIntoView({ behavior: 'smooth' });
+
         const result = document.getElementById('zipResult');
         if (result) {
           result.textContent = "We're not in your area yet — but we're expanding fast.";
           result.className = 'zip-result error';
           result.style.display = 'block';
         }
+
         const mainZip = document.getElementById('zipInput');
         if (mainZip) mainZip.value = zip;
+
+        const buttons = document.getElementById('zipButtons');
         const waitlist = document.getElementById('zipWaitlist');
+        if (buttons) buttons.style.display = 'none';
         if (waitlist) waitlist.style.display = 'flex';
       }, 1200);
     }
@@ -1354,18 +1538,30 @@
 </script>
 
 <!-- ZIP GATE MODAL -->
-<div id="zipModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#fff;border-radius:24px;padding:40px 36px;width:100%;max-width:420px;text-align:center">
+<div id="zipModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(8px);z-index:500;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;border-radius:28px;padding:42px 36px;width:100%;max-width:440px;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,0.2);border:1px solid rgba(229,226,220,0.9)">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(42,184,184,0.08);border:1px solid rgba(42,184,184,0.2);color:#1e9494;border-radius:100px;padding:7px 14px;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:18px">
+      <span style="width:7px;height:7px;border-radius:50%;background:#2ab8b8;display:inline-block"></span>
+      Limited launch area
+    </div>
+
     <div style="font-size:1.8rem;margin-bottom:12px">📍</div>
-    <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:8px">Check your area first</h3>
-    <p style="color:#888;font-size:0.9rem;margin-bottom:24px">Enter your zip code to confirm ChoreOFF is available near you.</p>
+
+    <h3 style="font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:700;margin-bottom:8px;color:#0e0e0e">Check your area first</h3>
+
+    <p style="color:#888;font-size:0.94rem;line-height:1.65;margin-bottom:24px">
+      We’re expanding carefully to maintain quality. Enter your zip code to confirm ChoreOFF is available near you.
+    </p>
+
     <div style="display:flex;gap:10px;margin-bottom:16px">
       <input id="modalZipInput" type="text" maxlength="5" inputmode="numeric" placeholder="Enter zip code"
-        style="flex:1;padding:13px 16px;border:1.5px solid #e8e8e4;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:1rem;outline:none;text-align:center"
+        style="flex:1;padding:14px 16px;border:1.5px solid #e8e8e4;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:1rem;outline:none;text-align:center"
         onkeypress="if(event.key==='Enter')confirmModalZip()">
-      <button onclick="confirmModalZip()" style="background:#2ab8b8;color:white;border:none;border-radius:100px;padding:13px 24px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer">Go</button>
+      <button onclick="confirmModalZip()" style="background:#2ab8b8;color:white;border:none;border-radius:100px;padding:14px 24px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer">Go</button>
     </div>
+
     <div id="modalZipError" style="color:#cc3322;font-size:0.85rem;margin-bottom:12px;display:none"></div>
+
     <button onclick="closeZipModal()" style="background:none;border:none;color:#888;font-size:0.85rem;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
   </div>
 </div>
