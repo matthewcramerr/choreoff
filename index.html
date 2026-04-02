@@ -895,7 +895,7 @@
   <div class="nav-logo">Chore<span>OFF</span></div>
   <div class="nav-links">
     <a class="nav-member" href="https://billing.stripe.com/p/login/00w7sE2KD5W22AScIO6oo00" target="_blank">Member Login</a>
-    <a class="nav-cta" href="#zip-check" onclick="focusZip()">Book a Reset</a>
+    <a class="nav-cta" href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06'); return false;">Book a Reset</a>
   </div>
 </nav>
 
@@ -1224,14 +1224,22 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('zipInput').addEventListener('keypress', e => {
+ document.addEventListener('DOMContentLoaded', () => {
+  const zipInput = document.getElementById('zipInput');
+  const modalZipInput = document.getElementById('modalZipInput');
+
+  if (zipInput) {
+    zipInput.addEventListener('keypress', e => {
       if (e.key === 'Enter') checkZip();
     });
-    document.getElementById('modalZipInput').addEventListener('keypress', e => {
+  }
+
+  if (modalZipInput) {
+    modalZipInput.addEventListener('keypress', e => {
       if (e.key === 'Enter') confirmModalZip();
     });
-  });
+  }
+});
 
   // ── ZIP GATE MODAL ──────────────────────────────────
   // Called by every payment button
@@ -1344,25 +1352,6 @@
     if (e.target === modal) closeZipModal();
   });
 </script>
-
-
-<!-- ZIP MODAL -->
-<div id="zipModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;align-items:center;justify-content:center;padding:20px">
-  <div style="background:white;border-radius:20px;padding:36px;max-width:400px;width:100%;text-align:center">
-    <div style="font-size:1.8rem;margin-bottom:12px">📍</div>
-    <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:8px">Check your area first</h3>
-    <p style="color:#888;font-size:0.9rem;margin-bottom:24px">Enter your zip code to confirm ChoreOFF is available in your area.</p>
-    <div style="display:flex;gap:8px;margin-bottom:16px">
-      <input id="modalZipInput" type="text" maxlength="5" inputmode="numeric" placeholder="Enter zip code"
-        style="flex:1;padding:13px 16px;border:1.5px solid #e8e8e4;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:1rem;outline:none"
-        onkeypress="if(event.key==='Enter')checkModalZip()">
-      <button onclick="checkModalZip()" style="background:#0e0e0e;color:white;border:none;border-radius:100px;padding:13px 22px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer">Check</button>
-    </div>
-    <div id="modalZipResult" style="font-size:0.875rem;margin-bottom:16px;display:none"></div>
-    <button onclick="closeZipModal()" style="background:none;border:none;color:#888;font-size:0.85rem;cursor:pointer;margin-top:4px">Cancel</button>
-  </div>
-</div>
-
 
 <!-- ZIP GATE MODAL -->
 <div id="zipModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;align-items:center;justify-content:center;padding:20px">
