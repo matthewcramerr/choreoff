@@ -26,6 +26,10 @@
       "use": "@vercel/node"
     },
     {
+      "src": "api/approve-worker.js",
+      "use": "@vercel/node"
+    },
+    {
       "src": "index.html",
       "use": "@vercel/static"
     },
@@ -118,6 +122,10 @@
     {
       "src": "/api/worker-magic-link",
       "dest": "/api/worker-magic-link.js"
+    },
+    {
+      "src": "/api/approve-worker",
+      "dest": "/api/approve-worker.js"
     },
     {
       "src": "/(.*)",
