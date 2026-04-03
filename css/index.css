@@ -140,6 +140,90 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
   .outcome-sub, .outcome-detail { margin-left: auto; margin-right: auto; }
 }
 
+/* ── WHAT WE HANDLE ── */
+.handle {
+  background: var(--white);
+  padding: 100px 5vw;
+  text-align: center;
+}
+.handle-inner {
+  max-width: 960px;
+  margin: 0 auto;
+}
+.handle-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  color: var(--black);
+  line-height: 1.1;
+  margin-bottom: 52px;
+  letter-spacing: -0.02em;
+}
+.handle-headline em {
+  font-style: italic;
+  color: var(--teal);
+}
+.handle-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.handle-card {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 36px 16px 28px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.handle-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.06);
+}
+.handle-icon {
+  font-size: 2.4rem;
+  display: block;
+  margin-bottom: 14px;
+}
+.handle-label {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.handle-note {
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 480px;
+  margin: 0 auto 48px;
+}
+.handle-video {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.06);
+  max-width: 800px;
+  margin: 0 auto;
+}
+.handle-video video {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  display: block;
+  background: var(--warm-gray);
+}
+
+@media (max-width: 900px) {
+  .handle-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+  .handle { padding: 72px 6vw; }
+  .handle-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .handle-card { padding: 28px 12px 22px; }
+  .handle-video video { height: 280px; }
+}
+
 /* ── ZIP CHECKER ── */
 .zip-section {
   background: linear-gradient(to bottom, #0e0e0e, #161616);
