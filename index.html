@@ -97,6 +97,65 @@
   </div>
 </section>
 
+<!-- EARLY PRICING -->
+
+<section class="ep" id="pricing-early">
+  <div class="ep-header">
+    <div class="section-eyebrow" style="color:var(--teal)">Pricing</div>
+    <h2 class="ep-title">Simple pricing.<br><em>No surprises.</em></h2>
+    <p class="ep-sub">Two ways to book. One fixed checklist. Members save on every visit.</p>
+  </div>
+
+  <div class="ep-grid">
+
+    <!-- Non-member: visually recessive -->
+    <div class="ep-card">
+      <div class="ep-card-label">One-time reset</div>
+      <div class="ep-card-price"><sup>$</sup>179</div>
+      <div class="ep-card-period">per visit — no commitment</div>
+      <ul class="ep-card-list">
+        <li>Fixed checklist every visit</li>
+        <li>Vetted ChoreOFF worker</li>
+        <li>No subscription required</li>
+      </ul>
+      <a href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;" class="ep-cta ep-cta-ghost">Book a Reset</a>
+    </div>
+
+    <!-- Member: visually dominant -->
+    <div class="ep-card ep-card-featured">
+      <div class="ep-badge">Most popular</div>
+      <div class="ep-card-label">Member pricing</div>
+      <div class="ep-card-price"><sup>$</sup>129<span class="ep-per">/visit</span></div>
+      <div class="ep-card-period">with active membership</div>
+      <div class="ep-savings">Save $50 every visit</div>
+      <ul class="ep-card-list">
+        <li>Fixed checklist every visit</li>
+        <li>Vetted ChoreOFF worker</li>
+        <li>Priority booking</li>
+        <li>Cancel anytime — no contracts</li>
+      </ul>
+      <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x2dR25WPdoufnEeQW6oo08');return false;" class="ep-cta ep-cta-solid">Book a Member Visit</a>
+
+      <div class="ep-membership">
+        <div class="ep-membership-label">Become a member</div>
+        <div class="ep-membership-row">
+          <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05');return false;" class="ep-mem-option">
+            <strong>$29.99</strong>/month
+          </a>
+          <span class="ep-mem-or">or</span>
+          <a href="#" onclick="requireZip('https://buy.stripe.com/test_dRmeV63OHckq1wO7ou6oo07');return false;" class="ep-mem-option ep-mem-best">
+            <span class="ep-mem-best-tag">Best value</span>
+            <strong>$259</strong>/year
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="ep-footnote">All visits include the full checklist. You provide supplies. Workers are vetted independents.</p>
+</section>
+
 <!-- ZIP CHECKER -->
 
 <section class="zip-section" id="zip-check">
@@ -275,59 +334,60 @@
   <div style="text-align:center;margin-bottom:60px;color:var(--white)">
     <div class="section-eyebrow">Pricing</div>
     <h2 class="section-title" style="color:var(--white)">Simple pricing.<br><em>No surprises.</em></h2>
-    <p class="section-sub" style="margin:0 auto;color:rgba(255,255,255,0.45)">Start with one visit. Save more as a member.</p>
+    <p class="section-sub" style="margin:0 auto;color:rgba(255,255,255,0.45)">Two ways to book. One clear checklist. Members save every visit.</p>
   </div>
   <div class="pricing-grid">
 
-    <!-- One-Time -->
+    <!-- Non-member -->
     <div class="price-card">
-      <div class="price-name">One-Time Reset</div>
+      <div class="price-name">One-time reset</div>
       <div class="price-amount"><sup>$</sup>179</div>
       <div class="price-period">per visit — no commitment</div>
       <ul class="price-features">
-        <li>Full checklist every visit</li>
+        <li>Fixed checklist every visit</li>
         <li>Vetted ChoreOFF worker</li>
         <li>No subscription required</li>
-        <li>Book once, cancel anytime</li>
+        <li>No contracts</li>
       </ul>
       <a href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;" class="price-cta price-cta-outline">Book a Reset</a>
     </div>
 
-    <!-- Monthly Membership -->
+    <!-- Member -->
     <div class="price-card featured">
       <div class="price-badge">Most popular</div>
-      <div class="price-name">Monthly Membership</div>
-      <div class="price-amount"><sup>$</sup>29</div>
-      <div class="price-period">/month — cancel anytime</div>
-      <div class="price-payoff">Pays for itself in 1 visit.</div>
+      <div class="price-name">Member pricing</div>
+      <div class="price-amount"><sup>$</sup>129</div>
+      <div class="price-period">per visit — with active membership</div>
+      <div class="price-payoff">Save $50 every single visit.</div>
       <ul class="price-features">
-        <li>$139/visit instead of $179</li>
-        <li>Save $40 every single visit</li>
+        <li>Fixed checklist every visit</li>
+        <li>Vetted ChoreOFF worker</li>
         <li>Priority booking</li>
-        <li>Full checklist every visit</li>
-        <li>Cancel anytime via portal</li>
+        <li>No contracts — cancel anytime</li>
       </ul>
-      <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05');return false;" class="price-cta price-cta-dark">Become a Member</a>
-    </div>
-
-    <!-- Yearly Membership -->
-    <div class="price-card">
-      <div class="price-badge" style="background:var(--red)">3 months free</div>
-      <div class="price-name">Annual Membership</div>
-      <div class="price-amount"><sup>$</sup>259</div>
-      <div class="price-period">/year — just $21.58/month</div>
-      <ul class="price-features">
-        <li>$139/visit instead of $179</li>
-        <li>Save $89 vs monthly plan</li>
-        <li>Priority booking</li>
-        <li>Full checklist every visit</li>
-        <li>Best value for regular use</li>
-      </ul>
-      <a href="#" onclick="requireZip('https://buy.stripe.com/test_dRmeV63OHckq1wO7ou6oo07');return false;" class="price-cta price-cta-outline">Get 3 Months Free</a>
+      <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x2dR25WPdoufnEeQW6oo08');return false;" class="price-cta price-cta-dark">Book a Member Visit</a>
     </div>
 
   </div>
-  <p class="yearly-note">All visits include the full checklist. You provide supplies. Workers are vetted independents. <strong>Members save $40+ every visit.</strong></p>
+
+  <!-- Membership options -->
+  <div class="membership-strip">
+    <p class="membership-label">Become a member</p>
+    <div class="membership-options">
+      <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05');return false;" class="membership-option">
+        <span class="membership-price">$29.99<span>/month</span></span>
+        <span class="membership-meta">Cancel anytime</span>
+      </a>
+      <span class="membership-or">or</span>
+      <a href="#" onclick="requireZip('https://buy.stripe.com/test_dRmeV63OHckq1wO7ou6oo07');return false;" class="membership-option membership-option-best">
+        <span class="membership-best-tag">Best value</span>
+        <span class="membership-price">$259<span>/year</span></span>
+        <span class="membership-meta">3 months free</span>
+      </a>
+    </div>
+  </div>
+
+  <p class="yearly-note">All visits include the full checklist. You provide supplies. Workers are vetted independents. <strong>Members save $50 every visit.</strong></p>
 </section>
 
 <!-- FOOTER -->
