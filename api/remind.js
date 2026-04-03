@@ -2,13 +2,19 @@ const { createClient } = require('@supabase/supabase-js');
 const { Resend } = require('resend');
 const twilio = require('twilio');
 
-// This runs daily via a cron job or manual trigger
-// Call POST /api/remind to send day-before reminders
+// Sends day-before reminders to workers (SMS) and customers (email).
+// Called daily via cron or manual trigger. Requires admin key to prevent abuse.
 
 module.exports.config = { api: { bodyParser: true } };
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  // Require admin key — prevents unauthenticated mass SMS/email sends
+  const adminKey = req.headers['x-admin-key'] || req.body?.admin_key;
+  if (!adminKey || adminKey !== process.env.ADMIN_SECRET) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
 
   const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
   const resend = new Resend(process.env.RESEND_API_KEY);

@@ -1,6 +1,7 @@
 // api/payout.js
-// Manual payout trigger — only used if approve-payout's Stripe transfer failed
-// Normal flow: approve-payout handles everything. This is an admin fallback.
+// Manual payout trigger — admin fallback only, used when approve-payout's Stripe transfer failed.
+// Normal flow: approve-payout.js handles everything including stats.
+// This endpoint ONLY retries the Stripe transfer — it does NOT re-increment worker stats.
 const Stripe = require('stripe');
 const { createClient } = require('@supabase/supabase-js');
 
@@ -15,76 +16,98 @@ module.exports = async function handler(req, res) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  const stripe = Stripe((process.env.STRIPE_SECRET_KEY || '').trim());
-  const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
-
   const { booking_id, worker_id } = req.body;
   if (!booking_id || !worker_id) return res.status(400).json({ error: 'Missing fields' });
 
+  console.log('[payout] Manual payout requested — booking:', booking_id, '| worker:', worker_id);
+
+  const stripe = Stripe((process.env.STRIPE_SECRET_KEY || '').trim());
+  const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
+
   try {
+    // Validate booking: must exist, belong to this worker, and be admin-approved (Completed)
+    const { data: booking } = await supabase
+      .from('bookings')
+      .select('id, status, worker_id')
+      .eq('id', booking_id)
+      .single();
+
+    if (!booking) {
+      console.log('[payout] Booking not found:', booking_id);
+      return res.status(404).json({ error: 'Booking not found' });
+    }
+    if (booking.worker_id !== worker_id) {
+      console.warn('[payout] worker_id mismatch — request:', worker_id, '| booking:', booking.worker_id);
+      return res.status(403).json({ error: 'Worker does not own this booking' });
+    }
+    if (booking.status !== 'Completed') {
+      console.log('[payout] Booking not in Completed state:', booking.status);
+      return res.status(409).json({ error: 'Booking must be admin-approved (Completed) before payout. Status: ' + booking.status });
+    }
+
     // Get worker
     const { data: worker } = await supabase
       .from('workers')
-      .select('*')
+      .select('id, name, email, status, stripe_connect_id')
       .eq('id', worker_id)
       .single();
 
     if (!worker) return res.status(404).json({ error: 'Worker not found' });
+    if (worker.status !== 'Active') return res.status(403).json({ error: 'Worker is not active' });
 
     // Check if already paid
     const { data: existing } = await supabase
       .from('payouts')
-      .select('id')
+      .select('id, status')
       .eq('booking_id', booking_id)
       .eq('status', 'Paid')
       .single();
 
-    if (existing) return res.status(200).json({ message: 'Already paid' });
-
-    let transferId = null;
-    let payoutStatus = 'Manual_Pending';
-
-    // If worker has Stripe Connect — do automatic transfer
-    if (worker.stripe_connect_id) {
-      try {
-        const transfer = await stripe.transfers.create({
-          amount: 5000, // $50 in cents
-          currency: 'usd',
-          destination: worker.stripe_connect_id,
-          metadata: { booking_id, worker_id, platform: 'choreoff' }
-        });
-        transferId = transfer.id;
-        payoutStatus = 'Paid';
-        console.log('[payout] Stripe transfer sent:', transfer.id, '→', worker.email);
-      } catch (stripeErr) {
-        console.error('[payout] Stripe transfer failed:', stripeErr.message);
-        payoutStatus = 'Failed';
-      }
-    } else {
-      console.log('[payout] No Connect account — manual payout needed for:', worker.email);
+    if (existing) {
+      console.log('[payout] Already paid — booking:', booking_id);
+      return res.status(200).json({ success: true, message: 'Already paid' });
     }
 
-    // Update payout record
-    await supabase.from('payouts').update({
-      status: payoutStatus,
-      stripe_transfer_id: transferId,
-      paid_at: payoutStatus === 'Paid' ? new Date().toISOString() : null,
-      updated_at: new Date().toISOString()
-    }).eq('booking_id', booking_id);
-
-    // Update worker total earned if paid
-    if (payoutStatus === 'Paid') {
-      await supabase
-        .from('workers')
-        .update({
-          jobs_completed: (worker.jobs_completed || 0) + 1,
-          total_earned: (parseFloat(worker.total_earned) || 0) + 50,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', worker_id);
+    if (!worker.stripe_connect_id) {
+      console.log('[payout] No Stripe Connect account for:', worker.email);
+      await supabase.from('payouts').update({
+        status: 'Manual_Pending',
+        updated_at: new Date().toISOString()
+      }).eq('booking_id', booking_id);
+      return res.status(200).json({ success: true, status: 'Manual_Pending', message: 'No Stripe Connect account — mark for manual payment' });
     }
 
-    return res.status(200).json({ success: true, status: payoutStatus, transfer_id: transferId });
+    // Retry Stripe transfer only
+    try {
+      const transfer = await stripe.transfers.create({
+        amount: 5000, // $50 in cents
+        currency: 'usd',
+        destination: worker.stripe_connect_id,
+        metadata: { booking_id, worker_id, platform: 'choreoff', source: 'manual_retry' }
+      });
+
+      await supabase.from('payouts').update({
+        status: 'Paid',
+        stripe_transfer_id: transfer.id,
+        paid_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }).eq('booking_id', booking_id);
+
+      // NOTE: Worker stats (jobs_completed, total_earned) are NOT updated here.
+      // approve-payout.js already incremented them when the job was approved.
+
+      console.log('[payout] Stripe transfer sent:', transfer.id, '→', worker.email);
+      return res.status(200).json({ success: true, status: 'Paid', transfer_id: transfer.id });
+
+    } catch (stripeErr) {
+      console.error('[payout] Stripe transfer failed:', stripeErr.message);
+      await supabase.from('payouts').update({
+        status: 'Failed',
+        error_message: stripeErr.message,
+        updated_at: new Date().toISOString()
+      }).eq('booking_id', booking_id);
+      return res.status(200).json({ success: false, status: 'Failed', error: stripeErr.message });
+    }
 
   } catch (e) {
     console.error('[payout err]', e.message);

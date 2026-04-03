@@ -1,11 +1,24 @@
 const { createClient } = require('@supabase/supabase-js');
 const { Resend } = require('resend');
 const twilio = require('twilio');
+const crypto = require('crypto');
 
 module.exports.config = { api: { bodyParser: true } };
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  // Verify Calendly webhook secret if configured.
+  // Set CALENDLY_WEBHOOK_SECRET in env and append ?secret=<value> to your Calendly webhook URL.
+  // This prevents anyone from injecting fake bookings via this endpoint.
+  const webhookSecret = process.env.CALENDLY_WEBHOOK_SECRET;
+  if (webhookSecret) {
+    const provided = req.query?.secret || req.headers['x-calendly-secret'];
+    if (!provided || provided !== webhookSecret) {
+      console.warn('[calendly] Unauthorized webhook — secret mismatch');
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+  }
 
   try {
     const body = req.body;
@@ -156,6 +169,25 @@ module.exports = async function handler(req, res) {
     } else if (eventType === 'invitee.canceled') {
       const invitee = payload.invitee || {};
       const calendlyInviteeId = (invitee.uri || '').split('/').pop();
+
+      // Only cancel jobs that haven't progressed past Assigned.
+      // Completed, Completed_Pending_Review, and Paid jobs are protected.
+      const { data: existingBooking } = await supabase
+        .from('bookings')
+        .select('id, status, worker_id')
+        .eq('calendly_invitee_id', calendlyInviteeId)
+        .single();
+
+      if (!existingBooking) {
+        console.log('[calendly] cancel: no booking found for invitee', calendlyInviteeId);
+        return res.status(200).json({ received: true });
+      }
+
+      const protectedStatuses = ['Completed_Pending_Review', 'Completed'];
+      if (protectedStatuses.includes(existingBooking.status)) {
+        console.warn('[calendly] cancel: booking is in protected state', existingBooking.status, '— skipping cancel for booking', existingBooking.id);
+        return res.status(200).json({ received: true, warning: 'Booking in protected state — not cancelled' });
+      }
 
       const { data: booking } = await supabase
         .from('bookings')

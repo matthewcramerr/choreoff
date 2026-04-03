@@ -4,13 +4,19 @@ const { createClient } = require('@supabase/supabase-js');
 
 console.log('[project-check] choreoff-main-v3');
 
+// Payment links are sourced from env vars in production.
+// STRIPE_MEMBER_VISIT_PAYMENT_LINK — the payment link ID (last segment of the URL), e.g. "8x2dR25WPdoufnEeQW6oo08"
+// STRIPE_MEMBER_PORTAL_URL        — full Stripe billing portal URL
+// STRIPE_MEMBER_VISIT_URL         — full buy.stripe.com URL for member visits
+// STRIPE_MEMBERSHIP_MONTHLY_URL   — full buy.stripe.com URL for monthly membership
+// STRIPE_MEMBERSHIP_YEARLY_URL    — full buy.stripe.com URL for yearly membership
 const URLS = {
-  memberVisitPaymentLink: 'test_8x2dR25WPdoufnEeQW6oo08',
-  memberVisitStripe: 'https://buy.stripe.com/test_8x2dR25WPdoufnEeQW6oo08',
-  memberPortal: 'https://billing.stripe.com/p/login/00w7sE2KD5W22AScIO6oo00',
-  site: 'https://choreoff.com',
-  membershipMonthly: 'https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05',
-  membershipYearly: 'https://buy.stripe.com/test_dRmeV63OHckq1wO7ou6oo07',
+  memberVisitPaymentLink: process.env.STRIPE_MEMBER_VISIT_PAYMENT_LINK || 'test_8x2dR25WPdoufnEeQW6oo08',
+  memberVisitStripe:      process.env.STRIPE_MEMBER_VISIT_URL          || 'https://buy.stripe.com/test_8x2dR25WPdoufnEeQW6oo08',
+  memberPortal:           process.env.STRIPE_MEMBER_PORTAL_URL         || 'https://billing.stripe.com/p/login/00w7sE2KD5W22AScIO6oo00',
+  site:                   'https://choreoff.com',
+  membershipMonthly:      process.env.STRIPE_MEMBERSHIP_MONTHLY_URL    || 'https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05',
+  membershipYearly:       process.env.STRIPE_MEMBERSHIP_YEARLY_URL     || 'https://buy.stripe.com/test_dRmeV63OHckq1wO7ou6oo07',
 };
 
 function getSupabase() {
@@ -152,8 +158,22 @@ module.exports = async function handler(req, res) {
         );
       } else {
         console.log('[checkout] valid member booking: ' + email);
-        await supabase.from('bookings').insert({ email: email.toLowerCase().trim(), name, booking_type: 'member', amount_paid: 139.00, stripe_payment_intent: s.payment_intent, status: 'Pending', city: 'Madison', market: 'Madison' });
-        await mail(resend, 'info@choreoff.com', '💳 New member booking — ' + name, `<p>${name} (${email}) just booked a $139 member visit.</p>`);
+        // Derive city/market from customer address if available; fall back to env default
+        const addressCity = s.customer_details?.address?.city || null;
+        const defaultMarket = process.env.DEFAULT_MARKET || 'Madison';
+        const city = addressCity || defaultMarket;
+        const market = city;
+        await supabase.from('bookings').insert({
+          email: email.toLowerCase().trim(),
+          name,
+          booking_type: 'member',
+          amount_paid: 139.00,
+          stripe_payment_intent: s.payment_intent,
+          status: 'Pending',
+          city,
+          market
+        });
+        await mail(resend, 'info@choreoff.com', '💳 New member booking — ' + name, `<p>${name} (${email}) just booked a $139 member visit. City: ${city}</p>`);
       }
     } else {
       console.log('[event] unhandled: ' + event.type);
