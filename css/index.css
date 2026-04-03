@@ -882,6 +882,84 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
 .yearly-note { text-align: center; margin-top: 28px; font-size: 0.875rem; color: rgba(255,255,255,0.4); }
 .yearly-note strong { color: var(--teal); }
 
+/* ── FINAL CTA ── */
+.fc {
+  background: linear-gradient(165deg, #f4fafa 0%, var(--cream) 50%, #f0ede8 100%);
+  padding: 120px 5vw;
+  text-align: center;
+}
+.fc-inner {
+  max-width: 640px;
+  margin: 0 auto;
+}
+.fc-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 900;
+  color: var(--black);
+  line-height: 1.12;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+.fc-sub {
+  font-size: 1.1rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+.fc-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+.fc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 18px 36px;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.fc-btn-primary {
+  background: var(--teal);
+  color: var(--white);
+  border: none;
+  box-shadow: 0 4px 20px rgba(42,184,184,0.2);
+}
+.fc-btn-primary:hover {
+  background: var(--teal-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(42,184,184,0.3);
+}
+.fc-btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1.5px solid var(--border);
+}
+.fc-btn-ghost:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+.fc-note {
+  font-size: 0.82rem;
+  color: var(--muted);
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 768px) {
+  .fc { padding: 88px 6vw; }
+  .fc-actions { flex-direction: column; gap: 12px; }
+  .fc-btn { width: 100%; max-width: 340px; padding: 17px 32px; }
+}
+
 /* ── FOOTER ── */
 footer { background: var(--black); color: rgba(255,255,255,0.4); padding: 48px 5vw; }
 .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
