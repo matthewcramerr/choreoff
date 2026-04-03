@@ -323,10 +323,31 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
 
 /* ── PRICING ── */
 .pricing { padding: 100px 5vw; background: linear-gradient(to bottom, #1a1a1a, #141414); }
-.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
-.price-card { background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 40px 36px; position: relative; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 760px;
+  margin: 0 auto;
+  align-items: stretch;
+}
+.price-card {
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+  padding: 40px 36px;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
 .price-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.4); }
-.price-card.featured { border-color: var(--teal); background: rgba(42,184,184,0.08); }
+.price-card.featured {
+  border-color: var(--teal);
+  background: rgba(42,184,184,0.08);
+  transform: scale(1.03);
+}
+.price-card.featured:hover { transform: scale(1.03) translateY(-4px); }
 .price-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--teal); color: var(--white); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 5px 16px; border-radius: 100px; white-space: nowrap; }
 .price-name { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.4); margin-bottom: 20px; }
 .price-card.featured .price-name { color: rgba(255,255,255,0.5); }
@@ -344,10 +365,89 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
 .price-cta { display: block; text-align: center; padding: 14px; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.9rem; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; margin-top: auto; }
 .price-cta-outline { border: 1.5px solid rgba(255,255,255,0.2); color: var(--white); background: transparent; }
 .price-cta-outline:hover { border-color: var(--teal); color: var(--teal); }
-.price-cta-filled { background: var(--teal); color: var(--white); }
-.price-cta-filled:hover { background: var(--teal-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(42,184,184,0.3); }
 .price-cta-dark { background: var(--teal); color: var(--white); }
 .price-cta-dark:hover { background: var(--teal-dark); color: var(--white); }
+
+/* ── MEMBERSHIP STRIP ── */
+.membership-strip {
+  max-width: 760px;
+  margin: 40px auto 0;
+  text-align: center;
+}
+.membership-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 16px;
+}
+.membership-options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.membership-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 20px 32px;
+  text-decoration: none;
+  transition: all 0.2s;
+  position: relative;
+  min-width: 180px;
+}
+.membership-option:hover {
+  border-color: var(--teal);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+.membership-option-best {
+  border-color: rgba(42,184,184,0.3);
+  background: rgba(42,184,184,0.06);
+}
+.membership-best-tag {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--red);
+  color: var(--white);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 12px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+.membership-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--white);
+}
+.membership-price span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.4);
+}
+.membership-meta {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.4);
+}
+.membership-or {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.25);
+}
+
 .yearly-note { text-align: center; margin-top: 28px; font-size: 0.875rem; color: rgba(255,255,255,0.4); }
 .yearly-note strong { color: var(--teal); }
 
@@ -424,4 +524,10 @@ footer { background: var(--black); color: rgba(255,255,255,0.4); padding: 48px 5
   .zip-section { padding: 80px 5vw; }
   .zip-shell { padding: 32px 20px; border-radius: 22px; }
   .zip-cta-divider { display: none; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+  .price-card.featured { transform: none; }
+  .price-card.featured:hover { transform: translateY(-4px); }
+  .membership-options { flex-direction: column; gap: 12px; }
+  .membership-or { display: none; }
+  .membership-option { width: 100%; max-width: 300px; }
 }
