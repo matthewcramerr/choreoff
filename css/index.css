@@ -13,8 +13,9 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+button, a.btn-primary, a.btn-ghost, .ep-cta, .fc-btn, .zip-btn, .price-cta { min-height: 44px; }
 
 /* ── NAVIGATION ── */
 nav {
@@ -134,10 +135,11 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
 
 @media (max-width: 768px) {
   .outcome { padding: 72px 6vw; }
-  .outcome-inner { grid-template-columns: 1fr; gap: 36px; }
-  .outcome-image img { height: 320px; }
+  .outcome-inner { grid-template-columns: 1fr; gap: 32px; }
+  .outcome-image img { height: 280px; border-radius: 20px; }
   .outcome-copy { text-align: center; }
-  .outcome-sub, .outcome-detail { margin-left: auto; margin-right: auto; }
+  .outcome-sub { font-size: 1.02rem; margin-left: auto; margin-right: auto; }
+  .outcome-detail { font-size: 0.9rem; margin-left: auto; margin-right: auto; }
 }
 
 /* ── WHAT WE HANDLE ── */
@@ -219,9 +221,11 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
 }
 @media (max-width: 768px) {
   .handle { padding: 72px 6vw; }
+  .handle-headline { margin-bottom: 36px; }
   .handle-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .handle-card { padding: 28px 12px 22px; }
-  .handle-video video { height: 280px; }
+  .handle-card { padding: 28px 12px 22px; border-radius: 16px; }
+  .handle-note { margin-bottom: 36px; font-size: 0.9rem; }
+  .handle-video video { height: 240px; }
 }
 
 /* ── EARLY PRICING ── */
@@ -497,18 +501,24 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .ep { padding: 80px 6vw; }
+  .ep { padding: 72px 6vw; }
+  .ep-header { margin-bottom: 44px; }
   .ep-grid {
     grid-template-columns: 1fr;
-    max-width: 420px;
+    max-width: 100%;
     margin: 0 auto;
   }
-  /* On mobile, put the featured card first */
-  .ep-card-featured { order: -1; }
-  .ep-card-featured .ep-card-price { font-size: 3.4rem; }
-  .ep-card-featured { padding: 40px 28px; }
+  .ep-card { border-radius: 20px; }
+  .ep-card:not(.ep-card-featured) { padding: 32px 24px; }
+  .ep-card-featured { order: -1; padding: 36px 24px; }
+  .ep-card-featured .ep-card-price { font-size: 3.2rem; }
+  .ep-card:not(.ep-card-featured) .ep-card-price { font-size: 2.6rem; }
+  .ep-cta-solid { padding: 16px; font-size: 0.95rem; }
+  .ep-cta-ghost { padding: 15px; }
+  .ep-membership { margin-top: 24px; padding-top: 20px; }
   .ep-membership-row { gap: 10px; }
-  .ep-mem-option { padding: 10px 16px; font-size: 0.82rem; }
+  .ep-mem-option { padding: 12px 18px; font-size: 0.82rem; }
+  .ep-footnote { font-size: 0.8rem; margin-top: 28px; }
 }
 
 /* ── WHY CHOREOFF ── */
@@ -572,9 +582,11 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
   max-width: 320px;
 }
 @media (max-width: 768px) {
-  .why { padding: 80px 6vw; }
-  .why-grid { grid-template-columns: 1fr; gap: 16px; }
-  .why-card { padding: 28px 24px; }
+  .why { padding: 72px 6vw; }
+  .why-headline { margin-bottom: 36px; }
+  .why-grid { grid-template-columns: 1fr; gap: 14px; }
+  .why-card { padding: 28px 24px; border-radius: 16px; }
+  .why-copy { font-size: 0.88rem; }
 }
 
 /* ── ZIP CHECKER ── */
@@ -955,9 +967,12 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
 }
 
 @media (max-width: 768px) {
-  .fc { padding: 88px 6vw; }
-  .fc-actions { flex-direction: column; gap: 12px; }
-  .fc-btn { width: 100%; max-width: 340px; padding: 17px 32px; }
+  .fc { padding: 72px 6vw; }
+  .fc-headline { margin-bottom: 14px; }
+  .fc-sub { font-size: 1rem; margin-bottom: 32px; }
+  .fc-actions { flex-direction: column; align-items: center; gap: 12px; }
+  .fc-btn { width: 100%; max-width: 360px; padding: 17px 32px; }
+  .fc-note { font-size: 0.78rem; }
 }
 
 /* ── FOOTER ── */
@@ -1022,21 +1037,110 @@ footer { background: var(--black); color: rgba(255,255,255,0.4); padding: 48px 5
 }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 900px) { .trust-grid { grid-template-columns: 1fr; gap: 20px; } }
+@media (max-width: 900px) {
+  .trust-grid { grid-template-columns: 1fr; gap: 20px; }
+}
+
 @media (max-width: 768px) {
-  .hero { padding: 120px 6vw 100px; }
-  .hero .btn-primary { width: 100%; max-width: 340px; justify-content: center; font-size: 1rem; padding: 17px 32px; }
-  .steps { gap: 40px; }
-  .footer-inner { flex-direction: column; }
-  nav { padding: 16px 5vw; }
+  /* ── Nav ── */
+  nav { padding: 14px 5vw; }
   .nav-links { gap: 6px; }
-  .zip-section { padding: 80px 5vw; }
-  .zip-shell { padding: 32px 20px; border-radius: 22px; }
+  .nav-member { font-size: 0.75rem; padding: 8px 12px; }
+  .nav-cta { font-size: 0.8rem; padding: 9px 18px; }
+
+  /* ── Hero ── */
+  .hero { padding: 110px 6vw 80px; min-height: calc(100vh - 20px); }
+  .hero-tag { margin-bottom: 28px; font-size: 0.72rem; padding: 5px 14px; }
+  .hero-headline, .hero-headline-2 { font-size: clamp(2.6rem, 10vw, 4rem); }
+  .hero-headline-2 { margin-bottom: 20px; }
+  .hero-sub { font-size: 0.95rem; margin-bottom: 32px; line-height: 1.65; padding: 0 2vw; }
+  .hero .btn-primary { width: 100%; max-width: 360px; justify-content: center; font-size: 1rem; padding: 17px 32px; }
+  .hero .btn-ghost { font-size: 0.85rem; }
+  .hero-trust { font-size: 0.72rem; }
+  .hero-scroll { bottom: 16px; }
+  .scroll-line { height: 28px; }
+
+  /* ── Services (room checklist) ── */
+  .services { padding: 72px 5vw; }
+  .section-title { font-size: clamp(1.8rem, 5vw, 2.4rem); }
+  .section-sub { font-size: 0.92rem; margin-bottom: 40px; }
+  .room-header { padding: 18px 20px; }
+  .room-name { font-size: 1rem; }
+  .room-preview { font-size: 0.75rem; }
+  .room-icon { font-size: 1.3rem; }
+  .room-left { gap: 12px; }
+  .task-item { padding: 11px 20px; font-size: 0.84rem; }
+  .services-note { padding: 16px 18px; font-size: 0.82rem; }
+
+  /* ── How It Works ── */
+  .how { padding: 72px 6vw; }
+  .how .section-title { font-size: clamp(1.8rem, 5vw, 2.4rem); }
+  .steps { gap: 36px; margin-top: 12px; }
+  .step-num { font-size: 3rem; }
+  .step-title { font-size: 1.15rem; margin-bottom: 10px; }
+  .step-desc { font-size: 0.88rem; }
+
+  /* ── Trust Strip ── */
+  .trust-strip { padding: 44px 6vw 36px; }
+  .trust-title { font-size: 0.98rem; }
+  .trust-copy { font-size: 0.88rem; }
+
+  /* ── Zip Checker ── */
+  .zip-section { padding: 72px 5vw; }
+  .zip-shell { padding: 36px 20px; border-radius: 22px; }
+  .zip-label { font-size: clamp(1.5rem, 5vw, 2rem); margin-bottom: 10px; }
+  .zip-sub { font-size: 0.9rem; margin-bottom: 24px; }
+  .zip-form { flex-direction: column; align-items: center; max-width: 320px; }
+  .zip-input { width: 100%; min-width: 0; font-size: 1rem; padding: 16px 20px; }
+  .zip-btn { width: 100%; padding: 16px; font-size: 0.9rem; }
+  .zip-cta-group { gap: 20px; }
   .zip-cta-divider { display: none; }
-  .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+  .zip-cta-col .btn-primary { font-size: 0.88rem !important; padding: 14px 24px; }
+
+  /* ── Bottom Pricing ── */
+  .pricing { padding: 72px 5vw; }
+  .pricing > div:first-child { margin-bottom: 44px; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 100%; }
+  .price-card { padding: 32px 24px; border-radius: 20px; }
   .price-card.featured { transform: none; }
   .price-card.featured:hover { transform: translateY(-4px); }
+  .price-amount { font-size: 3rem; }
+  .membership-strip { margin-top: 32px; }
   .membership-options { flex-direction: column; gap: 12px; }
   .membership-or { display: none; }
-  .membership-option { width: 100%; max-width: 300px; }
+  .membership-option { width: 100%; max-width: 320px; }
+  .yearly-note { font-size: 0.82rem; margin-top: 24px; }
+
+  /* ── Footer ── */
+  footer { padding: 40px 6vw; }
+  .footer-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .footer-links { gap: 16px; }
+  .footer-links a { font-size: 0.78rem; }
+  .footer-meta { font-size: 0.72rem; margin-top: 20px; padding-top: 20px; }
+
+  /* ── Zip Modal ── */
+  .zip-modal-inner { padding: 32px 24px; border-radius: 22px; }
+  .zip-modal-title { font-size: 1.35rem; }
+  .zip-modal-sub { font-size: 0.88rem; }
+}
+
+/* ── Narrow phones ── */
+@media (max-width: 420px) {
+  .hero { padding: 100px 6vw 72px; }
+  .hero-tag { margin-bottom: 24px; }
+  .hero-headline, .hero-headline-2 { font-size: 2.4rem; }
+  .hero-sub { font-size: 0.9rem; }
+  .outcome-image img { height: 220px; }
+  .handle-card { padding: 24px 10px 18px; }
+  .handle-icon { font-size: 2rem; }
+  .handle-label { font-size: 0.84rem; }
+  .ep-card-featured .ep-card-price { font-size: 2.8rem; }
+  .ep-card:not(.ep-card-featured) .ep-card-price { font-size: 2.4rem; }
+  .ep-mem-option { padding: 10px 14px; font-size: 0.78rem; }
+  .why-card { padding: 24px 20px; }
+  .fc-btn { font-size: 0.92rem; padding: 16px 28px; }
+  .room-header { padding: 16px 16px; }
+  .task-item { padding: 10px 16px; font-size: 0.82rem; }
+  .price-card { padding: 28px 20px; }
+  .zip-shell { padding: 28px 16px; }
 }
