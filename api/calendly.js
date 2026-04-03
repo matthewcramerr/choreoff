@@ -35,12 +35,12 @@ module.exports = async function handler(req, res) {
       const amountPaid = bookingType === 'member' ? 139 : 179;
 
       // Parse city from address
-      let city = 'Madison';
+      let city = null;
       if (address) {
         const parts = address.split(',');
-        if (parts.length >= 2) city = parts[parts.length - 2]?.trim() || 'Madison';
+        if (parts.length >= 2) city = parts[parts.length - 2]?.trim() || null;
       }
-      const market = city;
+      const market = city || 'unknown';
 
       const calendlyInviteeId = (invitee.uri || '').split('/').pop();
       const scheduledAt = scheduledEvent.start_time || scheduledEvent.start || null;

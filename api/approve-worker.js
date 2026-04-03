@@ -8,6 +8,12 @@ module.exports.config = { api: { bodyParser: true } };
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
+  // Require admin key
+  const adminKey = req.headers['x-admin-key'] || req.body?.admin_key;
+  if (!adminKey || adminKey !== process.env.ADMIN_SECRET) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
   const { worker_id, action } = req.body;
   if (!worker_id) return res.status(400).json({ error: 'Missing worker_id' });
 

@@ -6,13 +6,26 @@ module.exports.config = { api: { bodyParser: true } };
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { booking_id, worker_id, photo_url } = req.body;
+  const { booking_id, worker_id, photo_url, auth_token } = req.body;
   if (!booking_id || !worker_id) return res.status(400).json({ error: 'Missing fields' });
+  if (!auth_token) return res.status(401).json({ error: 'Authentication required' });
   if (!photo_url) return res.status(400).json({ error: 'Photo required to complete job' });
 
   const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
 
   try {
+    // 0. Validate auth token
+    const { data: tokenRow } = await supabase
+      .from('worker_auth_tokens')
+      .select('worker_id, expires_at')
+      .eq('token', auth_token)
+      .eq('worker_id', worker_id)
+      .single();
+
+    if (!tokenRow || new Date(tokenRow.expires_at) <= new Date()) {
+      return res.status(401).json({ error: 'Session expired. Please log in again.' });
+    }
+
     // 1. Verify worker exists and is Active
     const { data: worker } = await supabase
       .from('workers').select('id, name, status, email, phone')

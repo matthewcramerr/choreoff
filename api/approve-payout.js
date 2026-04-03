@@ -7,6 +7,12 @@ module.exports.config = { api: { bodyParser: true } };
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
+  // Require admin key
+  const adminKey = req.headers['x-admin-key'] || req.body?.admin_key;
+  if (!adminKey || adminKey !== process.env.ADMIN_SECRET) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
   const { booking_id, action, admin_note } = req.body;
   // action: 'approve' or 'reject'
   if (!booking_id || !action) return res.status(400).json({ error: 'Missing booking_id or action' });
@@ -141,9 +147,9 @@ module.exports = async function handler(req, res) {
               <div style="background:#f5f5f2;border-radius:12px;padding:20px;margin-bottom:20px">
                 <p style="margin:0;font-size:0.9rem;color:#555;line-height:1.8">✓ Laundry &nbsp;·&nbsp; ✓ Dishes &nbsp;·&nbsp; ✓ Floors &nbsp;·&nbsp; ✓ Tidied & reset</p>
               </div>
-              ${booking.booking_type === 'non_member' ? `<div style="background:#e8f8f8;border-radius:12px;padding:16px;margin-bottom:20px">
+              ${booking.booking_type === 'non_member' && process.env.STRIPE_MEMBER_LINK ? `<div style="background:#e8f8f8;border-radius:12px;padding:16px;margin-bottom:20px">
                 <p style="margin:0 0 8px;font-weight:600;color:#1e9494">Save $40 every visit as a member</p>
-                <a href="https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05" style="color:#2ab8b8;font-size:0.875rem">Join for $29/month →</a>
+                <a href="${process.env.STRIPE_MEMBER_LINK}" style="color:#2ab8b8;font-size:0.875rem">Join for $29/month →</a>
               </div>` : ''}
               <p style="color:#888;font-size:0.85rem">Questions? Reply to this email.<br>— The ChoreOFF Team</p>
             </div>`

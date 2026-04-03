@@ -639,7 +639,6 @@
 <script>
   const SUPABASE_URL = 'https://bijjtificxcekmesgwrn.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpamp0aWZpY3hjZWttZXNnd3JuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NjExMzAsImV4cCI6MjA5MDIzNzEzMH0.19_WTJl5cRKaGZSxOS9QLWguFgYhPAyQYDGdP2iZdkM';
-  const API_BASE = 'https://www.choreoff.com/api';
 
   let currentWorker = null;
   let currentBookingId = null;
@@ -690,32 +689,6 @@
     }
   }
 
-  async function login() {
-    const email = document.getElementById('authEmail').value.trim().toLowerCase();
-    
-    const btn = document.getElementById('authBtn');
-    const error = document.getElementById('authError');
-
-if (!email) { showToast('Please enter your email', 'error'); return; }
-
-    btn.disabled = true;
-    btn.textContent = 'Signing in...';
-    error.style.display = 'none';
-
-    const workers = await supabase('workers?email=eq.' + encodeURIComponent(email) + '&status=eq.Active&limit=1');
-
-    if (!workers || workers.length === 0) {
-      error.style.display = 'block';
-      btn.disabled = false;
-      btn.textContent = 'Sign In';
-      return;
-    }
-
-    currentWorker = workers[0];
-    localStorage.setItem('choreoff_worker', JSON.stringify(currentWorker));
-    showApp();
-  }
-
   function logout() {
     localStorage.removeItem('choreoff_worker');
     currentWorker = null;
@@ -736,7 +709,8 @@ if (!email) { showToast('Please enter your email', 'error'); return; }
     document.getElementById('statJobsCompleted').textContent = currentWorker.jobs_completed || 0;
     document.getElementById('statEarned').textContent = '$' + (currentWorker.total_earned || 0);
 
-    const available = await supabase('bookings?status=eq.Pending&select=id');
+    const marketFilter = currentWorker.market ? '&market=eq.' + encodeURIComponent(currentWorker.market) : '';
+    const available = await supabase('bookings?status=eq.Pending' + marketFilter + '&select=id');
     document.getElementById('statAvailable').textContent = available?.length || 0;
 
     const myJobs = await supabase('bookings?worker_id=eq.' + currentWorker.id + '&status=eq.Assigned&select=id');
@@ -761,7 +735,8 @@ if (!email) { showToast('Please enter your email', 'error'); return; }
     const list = document.getElementById('availableJobsList');
     list.innerHTML = '<div class="loading">Loading jobs...</div>';
 
-    const jobs = await supabase('bookings?status=eq.Pending&order=scheduled_at.asc');
+    const marketFilter = currentWorker.market ? '&market=eq.' + encodeURIComponent(currentWorker.market) : '';
+    const jobs = await supabase('bookings?status=eq.Pending' + marketFilter + '&order=scheduled_at.asc');
 
     if (!jobs || jobs.length === 0) {
       list.innerHTML = `<div class="empty-state">
@@ -825,7 +800,7 @@ if (!email) { showToast('Please enter your email', 'error'); return; }
     } else if (type === 'assigned') {
       actionBtn = `<button class="btn-complete" onclick="openCompleteModal('${job.id}')">Mark Complete ✓</button>`;
     } else {
-      actionBtn = j.status === "Completed_Pending_Review" ? `<span class="status-badge status-completed_pending_review">⏳ Pending Review</span>` : `<span class="status-badge status-completed">✓ Completed</span>`;
+      actionBtn = job.status === "Completed_Pending_Review" ? `<span class="status-badge status-completed_pending_review">⏳ Pending Review</span>` : `<span class="status-badge status-completed">✓ Completed</span>`;
     }
 
     return `
@@ -849,7 +824,7 @@ if (!email) { showToast('Please enter your email', 'error'); return; }
           </div>
           <div class="job-detail">
             <div class="job-detail-label">City</div>
-            <div class="job-detail-value">${job.city || 'Madison, WI'}</div>
+            <div class="job-detail-value">${job.city || '—'}</div>
           </div>
         </div>
         <div class="job-actions">${actionBtn}</div>
@@ -862,10 +837,10 @@ if (!email) { showToast('Please enter your email', 'error'); return; }
     btn.textContent = 'Claiming...';
 
     try {
-      const resp = await fetch(API_BASE + '/claim-job', {
+      const resp = await fetch('/api/claim-job', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ booking_id: bookingId, worker_id: currentWorker.id })
+        body: JSON.stringify({ booking_id: bookingId, worker_id: currentWorker.id, auth_token: currentWorker.auth_token })
       });
       const data = await resp.json();
 
@@ -873,11 +848,15 @@ if (!email) { showToast('Please enter your email', 'error'); return; }
         showToast('Job claimed! Check My Jobs tab.', 'success');
         loadAvailableJobs();
         loadStats();
-      } else if (data.error === 'Job already claimed') {
-        showToast('Someone else just claimed that job', 'error');
+      } else if (resp.status === 401) {
+        showToast('Session expired — please log in again.', 'error');
+        setTimeout(() => logout(), 1500);
+      } else if (data.error === 'Job already claimed' || resp.status === 409) {
+        showToast('Someone else just claimed that job.', 'error');
         btn.textContent = 'Already Claimed';
+        loadAvailableJobs();
       } else {
-        showToast('Error claiming job. Try again.', 'error');
+        showToast(data.error || 'Error claiming job. Try again.', 'error');
         btn.disabled = false;
         btn.textContent = 'Claim Job →';
       }
@@ -921,24 +900,33 @@ if (!email) { showToast('Please enter your email', 'error'); return; }
     btn.textContent = 'Submitting...';
 
     try {
-      const resp = await fetch(API_BASE + '/complete-job', {
+      const resp = await fetch('/api/complete-job', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           booking_id: currentBookingId,
           worker_id: currentWorker.id,
-          photo_url: photoDataUrl ? 'uploaded' : null
+          auth_token: currentWorker.auth_token,
+          photo_url: photoDataUrl || null
         })
       });
       const data = await resp.json();
 
+      if (resp.status === 401) {
+        closeModal();
+        showToast('Session expired — please log in again.', 'error');
+        setTimeout(() => logout(), 1500);
+        return;
+      }
+
       if (data.success) {
         closeModal();
         showToast('Job completed! Payment processing.', 'success');
-        // Refresh worker stats
+        // Refresh worker stats, preserving auth_token
         const updated = await supabase('workers?id=eq.' + currentWorker.id + '&limit=1');
         if (updated && updated[0]) {
-          currentWorker = updated[0];
+          const prevToken = currentWorker.auth_token;
+          currentWorker = { ...updated[0], auth_token: updated[0].auth_token || prevToken };
           localStorage.setItem('choreoff_worker', JSON.stringify(currentWorker));
         }
         loadMyJobs();
@@ -964,46 +952,64 @@ if (!email) { showToast('Please enter your email', 'error'); return; }
   }
 
   // INIT
-  window.addEventListener('DOMContentLoaded', () => {
-    // Check for magic token in URL
+  window.addEventListener('DOMContentLoaded', async () => {
+    // Enter key on email → send magic link
+    document.getElementById('authEmail').addEventListener('keypress', e => {
+      if (e.key === 'Enter') requestMagicLink();
+    });
+
+    // Check for magic token in URL first
     const urlParams = new URLSearchParams(window.location.search);
     const urlToken = urlParams.get('token');
     if (urlToken) {
-      // Validate token against Supabase
-      const tokenRows = await supabase('worker_auth_tokens?token=eq.' + encodeURIComponent(urlToken) + '&select=worker_id,expires_at&limit=1');
-      if (tokenRows && tokenRows.length > 0) {
-        const tr = tokenRows[0];
-        if (new Date(tr.expires_at) > new Date()) {
-          const ws = await supabase('workers?id=eq.' + tr.worker_id + '&status=eq.Active&limit=1');
-          if (ws && ws.length > 0) {
-            currentWorker = ws[0];
+      try {
+        const res = await fetch('/api/validate-token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: urlToken })
+        });
+        const data = await res.json();
+        if (data.valid && data.worker) {
+          currentWorker = { ...data.worker, auth_token: urlToken };
+          localStorage.setItem('choreoff_worker', JSON.stringify(currentWorker));
+          window.history.replaceState({}, '', '/worker');
+          showApp();
+          return;
+        }
+      } catch (e) {
+        console.error('[auth] Token validation error:', e.message);
+      }
+      // Token invalid or expired
+      document.getElementById('authError').textContent = 'Login link expired. Enter your email below to get a new one.';
+      document.getElementById('authError').style.display = 'block';
+      return;
+    }
+
+    // Restore session from localStorage — re-validate with backend on every load
+    const saved = localStorage.getItem('choreoff_worker');
+    if (saved) {
+      try {
+        const savedWorker = JSON.parse(saved);
+        if (savedWorker && savedWorker.auth_token) {
+          const res = await fetch('/api/validate-token', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: savedWorker.auth_token })
+          });
+          const data = await res.json();
+          if (data.valid && data.worker) {
+            currentWorker = { ...data.worker, auth_token: savedWorker.auth_token };
             localStorage.setItem('choreoff_worker', JSON.stringify(currentWorker));
-            // Clean URL
-            window.history.replaceState({}, '', '/worker');
-            showPortal();
-            loadJobs();
-            loadMyJobs();
+            showApp();
             return;
           }
         }
+      } catch (e) {
+        console.error('[auth] Session restore error:', e.message);
       }
-      // Invalid/expired token
-      document.getElementById('authError').textContent = 'Login link expired. Enter your email to sign in.';
-      document.getElementById('authError').style.display = 'block';
+      // Stored session invalid — clear and show login
+      localStorage.removeItem('choreoff_worker');
     }
-
-    const saved = localStorage.getItem('choreoff_worker');
-    if (saved) {
-      currentWorker = JSON.parse(saved);
-      showApp();
-    }
-
-    document.getElementById('authEmail').addEventListener('keypress', e => {
-      if (e.key === 'Enter') document.getElementById('authName').focus();
-    });
-    document.getElementById('authName').addEventListener('keypress', e => {
-      if (e.key === 'Enter') login();
-    });
   });
 </script>
 

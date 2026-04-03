@@ -238,7 +238,8 @@
 <script>
   const SUPABASE_URL = 'https://bijjtificxcekmesgwrn.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpamp0aWZpY3hjZWttZXNnd3JuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NjExMzAsImV4cCI6MjA5MDIzNzEzMH0.19_WTJl5cRKaGZSxOS9QLWguFgYhPAyQYDGdP2iZdkM';
-  const ADMIN_PASSWORD = 'choreoff2026';
+  // Admin key stored in memory after backend validation — never hardcoded
+  let adminKey = null;
 
   function db(path) {
     return fetch(SUPABASE_URL + '/rest/v1/' + path, {
@@ -246,15 +247,34 @@
     }).then(r => r.json());
   }
 
-  function checkAuth() {
+  async function checkAuth() {
     const pass = document.getElementById('adminPass').value;
-    if (pass === ADMIN_PASSWORD) {
-      document.getElementById('authOverlay').style.display = 'none';
-      loadAll();
-    } else {
-      document.getElementById('adminPass').style.borderColor = '#cc3322';
-      document.getElementById('adminPass').value = '';
-      document.getElementById('adminPass').placeholder = 'Wrong password';
+    if (!pass) return;
+    const btn = document.querySelector('.auth-btn');
+    btn.textContent = 'Signing in...';
+    btn.disabled = true;
+    try {
+      const res = await fetch('/api/admin-action', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': pass },
+        body: JSON.stringify({ action: 'validate' })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        adminKey = pass;
+        document.getElementById('authOverlay').style.display = 'none';
+        loadAll();
+      } else {
+        document.getElementById('adminPass').style.borderColor = '#cc3322';
+        document.getElementById('adminPass').value = '';
+        document.getElementById('adminPass').placeholder = 'Wrong password';
+        btn.textContent = 'Sign In';
+        btn.disabled = false;
+      }
+    } catch (e) {
+      document.getElementById('adminPass').placeholder = 'Connection error — try again';
+      btn.textContent = 'Sign In';
+      btn.disabled = false;
     }
   }
 
@@ -360,7 +380,7 @@
         <td style="font-weight:500">${w.name}</td>
         <td>${w.email}</td>
         <td>${w.phone || '—'}</td>
-        <td>${w.city || 'Madison'}</td>
+        <td>${w.city || '—'}</td>
         <td><span class="badge badge-${(w.status||'').toLowerCase()}">${w.status}</span></td>
         <td>${w.jobs_completed || 0}</td>
         <td style="font-weight:600">$${w.total_earned || 0}</td>
@@ -394,7 +414,7 @@
     try {
       const res = await fetch('/api/approve-worker', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey },
         body: JSON.stringify({ worker_id: id, action: 'approve' })
       });
       const text = await res.text();
@@ -420,38 +440,67 @@
     }
     loadWorkers();
     loadPendingWorkers();
-    loadStats();
+    loadAll();
   }
 
   async function pauseWorker(id) {
-    await fetch(SUPABASE_URL + '/rest/v1/workers?id=eq.' + id, {
-      method: 'PATCH',
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status: 'Inactive' })
-    });
-    showToast('Worker paused', 'success');
-    loadWorkers();
+    try {
+      const res = await fetch('/api/admin-action', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey },
+        body: JSON.stringify({ action: 'pause-worker', id })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast('Worker paused', 'success');
+        loadWorkers();
+      } else {
+        showToast('Error: ' + (data.error || 'Failed to pause worker'), '');
+      }
+    } catch (e) {
+      showToast('Network error: ' + e.message, '');
+    }
   }
 
   async function rejectWorker(id) {
     if (!confirm('Reject this worker application?')) return;
-    await fetch('/api/approve-worker', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ worker_id: id, action: 'reject' })
-    });
-    showToast('Worker rejected', '');
-    loadWorkers();
+    try {
+      const res = await fetch('/api/approve-worker', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey },
+        body: JSON.stringify({ worker_id: id, action: 'reject' })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast('Worker rejected', '');
+        loadWorkers();
+        loadPendingWorkers();
+      } else {
+        showToast('Error: ' + (data.error || 'Failed'), '');
+      }
+    } catch (e) {
+      showToast('Network error: ' + e.message, '');
+    }
   }
 
   async function cancelJob(id) {
-    await fetch(SUPABASE_URL + '/rest/v1/bookings?id=eq.' + id, {
-      method: 'PATCH',
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status: 'Cancelled' })
-    });
-    showToast('Job cancelled', 'success');
-    loadJobs();
+    if (!confirm('Cancel this job? This cannot be undone.')) return;
+    try {
+      const res = await fetch('/api/admin-action', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey },
+        body: JSON.stringify({ action: 'cancel-job', id })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast('Job cancelled', 'success');
+        loadJobs();
+      } else {
+        showToast('Error: ' + (data.error || 'Failed to cancel job'), '');
+      }
+    } catch (e) {
+      showToast('Network error: ' + e.message, '');
+    }
   }
 
   function generateInvite() {
@@ -522,7 +571,7 @@
     try {
       const res = await fetch('/api/approve-payout', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey },
         body: JSON.stringify({ booking_id: bookingId, action, admin_note: note })
       });
       const data = await res.json();
