@@ -511,6 +511,72 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
   .ep-mem-option { padding: 10px 16px; font-size: 0.82rem; }
 }
 
+/* ── WHY CHOREOFF ── */
+.why {
+  background: var(--cream);
+  padding: 110px 5vw;
+}
+.why-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: center;
+}
+.why-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+  color: var(--black);
+  line-height: 1.15;
+  margin-bottom: 56px;
+  letter-spacing: -0.02em;
+}
+.why-headline em {
+  font-style: italic;
+  color: var(--teal);
+}
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  text-align: left;
+}
+.why-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 36px 32px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.why-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.05);
+}
+.why-icon {
+  width: 28px;
+  height: 28px;
+  color: var(--teal);
+  margin-bottom: 18px;
+  display: block;
+}
+.why-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 8px;
+}
+.why-copy {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 320px;
+}
+@media (max-width: 768px) {
+  .why { padding: 80px 6vw; }
+  .why-grid { grid-template-columns: 1fr; gap: 16px; }
+  .why-card { padding: 28px 24px; }
+}
+
 /* ── ZIP CHECKER ── */
 .zip-section {
   background: linear-gradient(to bottom, #0e0e0e, #161616);
