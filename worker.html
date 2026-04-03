@@ -368,6 +368,7 @@
     .status-pending { background: #eff6ff; color: var(--pending); }
     .status-assigned { background: #f0fdf4; color: var(--success); }
     .status-completed { background: var(--off-white); color: var(--muted); }
+    .status-completed_pending_review { background: #fef3c7; color: #92400e; }
 
     /* EMPTY STATE */
     .empty-state {
@@ -516,11 +517,24 @@
 <div class="auth-screen" id="authScreen">
   <div class="auth-card">
     <div class="auth-logo">Chore<span>OFF</span></div>
-    <div class="auth-subtitle">Worker Portal — Sign in to see available jobs</div>
-    <input class="auth-input" type="email" id="authEmail" placeholder="Your email address" />
-    <input class="auth-input" type="text" id="authName" placeholder="Your full name" />
-    <button class="auth-btn" id="authBtn" onclick="login()">Sign In</button>
-    <div class="auth-error" id="authError">Worker not found. Contact your manager.</div>
+
+    <!-- Panel 1: Enter email -->
+    <div id="authPanel1">
+      <div class="auth-subtitle">Worker Portal — Enter your approved email</div>
+      <input class="auth-input" type="email" id="authEmail" placeholder="your@email.com"
+        onkeypress="if(event.key==='Enter')requestMagicLink()" />
+      <button class="auth-btn" id="authBtn" onclick="requestMagicLink()">Send Login Link</button>
+      <div class="auth-error" id="authError" style="display:none">No approved worker found with that email.</div>
+    </div>
+
+    <!-- Panel 2: Sent confirmation -->
+    <div id="authPanel2" style="display:none">
+      <div style="font-size:2rem;margin-bottom:12px">📱</div>
+      <div class="auth-subtitle" style="font-weight:600;color:#1a1a18;margin-bottom:8px">Check your phone</div>
+      <p style="font-size:0.85rem;color:#888;margin-bottom:20px">We sent a login link to your phone and email. It expires in 24 hours.</p>
+      <button onclick="document.getElementById('authPanel1').style.display='block';document.getElementById('authPanel2').style.display='none'"
+        style="background:none;border:none;color:#2ab8b8;font-size:0.85rem;cursor:pointer;font-family:'DM Sans',sans-serif">← Try a different email</button>
+    </div>
   </div>
 </div>
 
@@ -645,13 +659,44 @@
   }
 
   // AUTH
+  async function requestMagicLink() {
+    const email = document.getElementById('authEmail').value.trim().toLowerCase();
+    const btn = document.getElementById('authBtn');
+    const errEl = document.getElementById('authError');
+    errEl.style.display = 'none';
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errEl.textContent = 'Please enter a valid email address.';
+      errEl.style.display = 'block'; return;
+    }
+
+    btn.textContent = 'Sending...'; btn.disabled = true;
+
+    try {
+      const res = await fetch('/api/worker-magic-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      const data = await res.json();
+      // Always show panel 2 — don't reveal if email exists
+      document.getElementById('authPanel1').style.display = 'none';
+      document.getElementById('authPanel2').style.display = 'block';
+    } catch(e) {
+      errEl.textContent = 'Network error. Please try again.';
+      errEl.style.display = 'block';
+    } finally {
+      btn.textContent = 'Send Login Link'; btn.disabled = false;
+    }
+  }
+
   async function login() {
     const email = document.getElementById('authEmail').value.trim().toLowerCase();
-    const name = document.getElementById('authName').value.trim();
+    
     const btn = document.getElementById('authBtn');
     const error = document.getElementById('authError');
 
-    if (!email || !name) { showToast('Please enter your email and name', 'error'); return; }
+if (!email) { showToast('Please enter your email', 'error'); return; }
 
     btn.disabled = true;
     btn.textContent = 'Signing in...';
@@ -752,7 +797,7 @@
     const list = document.getElementById('historyList');
     list.innerHTML = '<div class="loading">Loading...</div>';
 
-    const jobs = await supabase('bookings?worker_id=eq.' + currentWorker.id + '&status=eq.Completed&order=completed_at.desc&limit=20');
+    const jobs = await supabase('bookings?worker_id=eq.' + currentWorker.id + '&status=in.(Completed,Completed_Pending_Review)&order=completed_at.desc&limit=20');
 
     if (!jobs || jobs.length === 0) {
       list.innerHTML = `<div class="empty-state">
@@ -780,7 +825,7 @@
     } else if (type === 'assigned') {
       actionBtn = `<button class="btn-complete" onclick="openCompleteModal('${job.id}')">Mark Complete ✓</button>`;
     } else {
-      actionBtn = `<span class="status-badge status-completed">✓ Completed</span>`;
+      actionBtn = j.status === "Completed_Pending_Review" ? `<span class="status-badge status-completed_pending_review">⏳ Pending Review</span>` : `<span class="status-badge status-completed">✓ Completed</span>`;
     }
 
     return `
@@ -920,6 +965,33 @@
 
   // INIT
   window.addEventListener('DOMContentLoaded', () => {
+    // Check for magic token in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlToken = urlParams.get('token');
+    if (urlToken) {
+      // Validate token against Supabase
+      const tokenRows = await supabase('worker_auth_tokens?token=eq.' + encodeURIComponent(urlToken) + '&select=worker_id,expires_at&limit=1');
+      if (tokenRows && tokenRows.length > 0) {
+        const tr = tokenRows[0];
+        if (new Date(tr.expires_at) > new Date()) {
+          const ws = await supabase('workers?id=eq.' + tr.worker_id + '&status=eq.Active&limit=1');
+          if (ws && ws.length > 0) {
+            currentWorker = ws[0];
+            localStorage.setItem('choreoff_worker', JSON.stringify(currentWorker));
+            // Clean URL
+            window.history.replaceState({}, '', '/worker');
+            showPortal();
+            loadJobs();
+            loadMyJobs();
+            return;
+          }
+        }
+      }
+      // Invalid/expired token
+      document.getElementById('authError').textContent = 'Login link expired. Enter your email to sign in.';
+      document.getElementById('authError').style.display = 'block';
+    }
+
     const saved = localStorage.getItem('choreoff_worker');
     if (saved) {
       currentWorker = JSON.parse(saved);
