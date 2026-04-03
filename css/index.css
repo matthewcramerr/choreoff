@@ -82,6 +82,64 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
 }
 .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent); animation: scrollPulse 2s ease-in-out infinite; }
 
+/* ── OUTCOME ── */
+.outcome {
+  background: var(--cream);
+  padding: 100px 5vw;
+  position: relative;
+  overflow: hidden;
+}
+.outcome-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.outcome-image {
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.08);
+}
+.outcome-image img {
+  width: 100%;
+  height: 480px;
+  object-fit: cover;
+  display: block;
+}
+.outcome-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  color: var(--black);
+  line-height: 1.1;
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
+}
+.outcome-sub {
+  font-size: 1.1rem;
+  color: var(--text);
+  line-height: 1.7;
+  max-width: 440px;
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+.outcome-detail {
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 400px;
+}
+
+@media (max-width: 768px) {
+  .outcome { padding: 72px 6vw; }
+  .outcome-inner { grid-template-columns: 1fr; gap: 36px; }
+  .outcome-image img { height: 320px; }
+  .outcome-copy { text-align: center; }
+  .outcome-sub, .outcome-detail { margin-left: auto; margin-right: auto; }
+}
+
 /* ── ZIP CHECKER ── */
 .zip-section {
   background: linear-gradient(to bottom, #0e0e0e, #161616);
