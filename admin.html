@@ -549,32 +549,32 @@
       container.innerHTML = '<div style="color:var(--muted);padding:24px;text-align:center">No workers pending approval. 🎉</div>';
       return;
     }
-    const approvalMsg = "Welcome to ChoreOFF — you've been approved. Sign in to the worker portal using your approved email here: choreoff.com/worker";
-    let html2 = '';
+    const approvalMsg = "Welcome to ChoreOFF \u2014 you've been approved. Sign in to the worker portal using your approved email here: choreoff.com/worker";
+    let cards = '';
     for (const w of workers) {
-      const phone = (w.phone || '').replace(/'/g, '');
-      const name = (w.name || '—').replace(/'/g, '');
-      html2 += '<div style="background:var(--white);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:12px">';
-      html2 += '<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:16px">';
-      html2 += '<div>';
-      html2 += '<div style="font-weight:700;font-size:1rem;margin-bottom:4px">' + (w.name || '—') + '</div>';
-      html2 += '<div style="color:var(--muted);font-size:0.82rem">' + (w.email || '—') + '</div>';
-      html2 += '<div style="color:var(--muted);font-size:0.82rem">' + (phone || 'No phone') + ' · ' + (w.city || '') + ' ' + (w.state || '') + '</div>';
-      html2 += '</div>';
-      html2 += '<span style="background:#fef3c7;color:#92400e;padding:4px 12px;border-radius:100px;font-size:0.72rem;font-weight:700">PENDING</span>';
-      html2 += '</div>';
-      html2 += '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px">';
-      html2 += '<button class="btn-sm btn-teal" onclick="approveWorker('' + w.id + '')">✓ Approve</button>';
-      html2 += '<button class="btn-sm btn-red" onclick="rejectWorker('' + w.id + '')">✗ Reject</button>';
+      const wid = w.id;
+      const phone = (w.phone || '').replace(/"/g, '');
+      cards += '<div style="background:var(--white);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:12px">';
+      cards += '<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:16px">';
+      cards += '<div>';
+      cards += '<div style="font-weight:700;font-size:1rem;margin-bottom:4px">' + (w.name || '—') + '</div>';
+      cards += '<div style="color:var(--muted);font-size:0.82rem">' + (w.email || '—') + '</div>';
+      cards += '<div style="color:var(--muted);font-size:0.82rem">' + (phone || 'No phone') + ' &middot; ' + (w.city || '') + ' ' + (w.state || '') + '</div>';
+      cards += '</div>';
+      cards += '<span style="background:#fef3c7;color:#92400e;padding:4px 12px;border-radius:100px;font-size:0.72rem;font-weight:700">PENDING</span>';
+      cards += '</div>';
+      cards += '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">';
+      cards += '<button class="btn-sm btn-teal" onclick="approveWorker(&quot;' + wid + '&quot;)">✓ Approve</button>';
+      cards += '<button class="btn-sm btn-red" onclick="rejectWorker(&quot;' + wid + '&quot;)">✗ Reject</button>';
       if (phone) {
-        html2 += '<button class="btn-sm" style="background:#f0ede8;color:var(--black)" onclick="copyText('' + phone + '', this)">📋 Copy Phone</button>';
+        cards += '<button class="btn-sm" style="background:#f0ede8;color:var(--black)" onclick="copyText(this.dataset.val,this)" data-val="' + phone + '">📋 Copy Phone</button>';
       }
-      html2 += '<button class="btn-sm" style="background:#f0ede8;color:var(--black)" onclick="copyText(approvalMsg, this)">📋 Copy Approval Text</button>';
-      html2 += '</div>';
-      html2 += '<div id="pending-result-' + w.id + '" style="font-size:0.82rem;display:none"></div>';
-      html2 += '</div>';
+      cards += '<button class="btn-sm" style="background:#f0ede8;color:var(--black)" onclick="copyText(this.dataset.val,this)" data-val="' + approvalMsg + '">📋 Copy Approval Text</button>';
+      cards += '</div>';
+      cards += '<div id="pending-result-' + wid + '" style="font-size:0.82rem;display:none"></div>';
+      cards += '</div>';
     }
-    container.innerHTML = html2;
+    container.innerHTML = cards;
   }
 
   
