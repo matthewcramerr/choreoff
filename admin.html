@@ -353,7 +353,7 @@
         <td style="font-weight:600">$${j.amount_paid || 0}</td>
         <td>${j.worker_id ? (workerMap[j.worker_id] || 'Unknown') : '<span style="color:var(--muted)">Unclaimed</span>'}</td>
         <td><span class="badge badge-${(j.status||'').toLowerCase()}">${j.status}</span></td>
-        <td>${j.status === 'Pending' ? `<button class="btn-sm btn-red" onclick="cancelJob('${j.id}')">Cancel</button>` : ''}</td>
+        <td>${['Pending','Assigned'].includes(j.status) ? `<button class="btn-sm btn-red" onclick="cancelJob('${j.id}')">Cancel</button>` : ''}</td>
       </tr>`).join('');
   }
 

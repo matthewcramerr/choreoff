@@ -17,6 +17,8 @@ module.exports = async function handler(req, res) {
   // action: 'approve' or 'reject'
   if (!booking_id || !action) return res.status(400).json({ error: 'Missing booking_id or action' });
 
+  console.log('[approve-payout] action:', action, '| booking:', booking_id);
+
   const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
   const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -72,25 +74,37 @@ module.exports = async function handler(req, res) {
 
     // ── APPROVE ──────────────────────────────────────────
     if (action === 'approve') {
-      // Prevent double payout
+      // Prevent double payout — check for existing Paid payout record first
       const { data: existingPayout } = await supabase
         .from('payouts').select('id, status')
         .eq('booking_id', booking_id)
         .eq('status', 'Paid').single();
 
       if (existingPayout) {
+        console.log('[approve-payout] Already paid — booking:', booking_id);
         return res.status(200).json({ success: true, message: 'Already paid' });
       }
 
-      // Mark booking complete
-      await supabase.from('bookings').update({
-        status: 'Completed',
-        admin_approved_at: new Date().toISOString(),
-        admin_note: admin_note || null,
-        updated_at: new Date().toISOString()
-      }).eq('id', booking_id);
+      // Atomically mark booking as Completed — only if still Completed_Pending_Review.
+      // This prevents double-processing if the endpoint is called concurrently.
+      const { data: updatedBooking, error: bookingUpdateErr } = await supabase
+        .from('bookings')
+        .update({
+          status: 'Completed',
+          admin_approved_at: new Date().toISOString(),
+          admin_note: admin_note || null,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', booking_id)
+        .eq('status', 'Completed_Pending_Review') // atomic guard
+        .select().single();
 
-      // Update worker stats directly (no broken RPC)
+      if (bookingUpdateErr || !updatedBooking) {
+        console.warn('[approve-payout] Atomic update failed — already processed? booking:', booking_id);
+        return res.status(409).json({ error: 'Job was already processed or is no longer pending review' });
+      }
+
+      // Update worker stats now that approval is confirmed
       await supabase.from('workers').update({
         jobs_completed: (worker.jobs_completed || 0) + 1,
         total_earned: (parseFloat(worker.total_earned) || 0) + 50,
@@ -113,14 +127,14 @@ module.exports = async function handler(req, res) {
           });
           transferId = transfer.id;
           payoutStatus = 'Paid';
-          console.log('[payout] Stripe transfer sent:', transfer.id);
+          console.log('[approve-payout] Stripe transfer sent:', transfer.id, '→', worker.email);
         } catch(stripeErr) {
           payoutError = stripeErr.message;
           payoutStatus = 'Failed';
-          console.error('[payout] Stripe failed:', stripeErr.message);
+          console.error('[approve-payout] Stripe failed:', stripeErr.message);
         }
       } else {
-        console.log('[payout] No Connect account — manual payout needed for:', worker.email);
+        console.log('[approve-payout] No Connect account — manual payout needed for:', worker.email);
       }
 
       // Record payout
