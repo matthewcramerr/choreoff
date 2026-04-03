@@ -259,7 +259,7 @@
   }
 
   function switchTab(tab) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.textContent.trim().toLowerCase().startsWith(tab.toLowerCase())));
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.getAttribute('onclick') && t.getAttribute('onclick').includes("'" + tab + "'")));
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.getElementById('section-' + tab).classList.add('active');
     if (tab === 'jobs') loadJobs();
@@ -389,26 +389,34 @@
   }
 
   async function approveWorker(id) {
-    const res = await fetch('/api/approve-worker', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ worker_id: id, action: 'approve' })
-    });
-    const data = await res.json();
-    if (data.success) {
-      showToast('Worker approved — login link sent ✓', 'success');
-      // Show the login link in the pending worker card for easy copy
-      const resultEl = document.getElementById('pending-result-' + id);
-      if (resultEl && data.login_link) {
-        resultEl.style.display = 'block';
-        resultEl.style.color = 'var(--teal-dark)';
-        const link = data.login_link || '';
-        resultEl.innerHTML = '✓ Approved · <strong>Login link:</strong> ' +
-          '<span style="word-break:break-all">' + link + '</span> ' +
-          '<button onclick="copyText(\'' + link + '\', this)" class="btn-sm" style="margin-left:6px;background:var(--teal);color:white">Copy Link</button>';
+    const resultEl = document.getElementById('pending-result-' + id);
+    if (resultEl) { resultEl.style.display = 'block'; resultEl.style.color = 'var(--muted)'; resultEl.textContent = 'Approving...'; }
+    try {
+      const res = await fetch('/api/approve-worker', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ worker_id: id, action: 'approve' })
+      });
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : {};
+      if (res.ok && data.success !== false) {
+        showToast('Worker approved — login link sent ✓', 'success');
+        if (resultEl) {
+          resultEl.style.color = 'var(--teal-dark)';
+          const link = data.login_link || '';
+          if (link) {
+            resultEl.innerHTML = '✓ Approved &middot; <button class="btn-sm" style="background:var(--teal);color:white;margin-left:4px" onclick="copyText(this.dataset.val,this)" data-val="' + link + '">Copy Login Link</button>';
+          } else {
+            resultEl.textContent = '✓ Approved — login link sent via SMS + email';
+          }
+        }
+      } else {
+        showToast('Error: ' + (data.error || 'Unknown error'), 'error');
+        if (resultEl) { resultEl.style.color = '#ef4444'; resultEl.textContent = 'Error: ' + (data.error || res.status); }
       }
-    } else {
-      showToast('Error approving worker', 'error');
+    } catch(e) {
+      showToast('Network error: ' + e.message, 'error');
+      if (resultEl) { resultEl.style.color = '#ef4444'; resultEl.textContent = 'Error: ' + e.message; }
     }
     loadWorkers();
     loadPendingWorkers();
