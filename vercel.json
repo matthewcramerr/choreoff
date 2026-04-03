@@ -1,37 +1,127 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/webhook.js", "use": "@vercel/node" },
-    { "src": "api/calendly.js", "use": "@vercel/node" },
-    { "src": "api/claim-job.js", "use": "@vercel/node" },
-    { "src": "api/complete-job.js", "use": "@vercel/node" },
-    { "src": "api/payout.js", "use": "@vercel/node" },
-    { "src": "api/create-connect-account.js", "use": "@vercel/node" },
-    { "src": "api/approve-worker.js", "use": "@vercel/node" },
-    { "src": "api/remind.js", "use": "@vercel/node" },
-    { "src": "index.html", "use": "@vercel/static" },
-    { "src": "worker.html", "use": "@vercel/static" },
-    { "src": "legal.html", "use": "@vercel/static" },
-    { "src": "onboard.html", "use": "@vercel/static" },
-    { "src": "admin.html", "use": "@vercel/static" }
+    {
+      "src": "api/webhook.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/calendly.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/claim-job.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/complete-job.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/payout.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/create-connect-account.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "worker.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "legal.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "onboard.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "admin.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "api/approve-payout.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/worker-magic-link.js",
+      "use": "@vercel/node"
+    }
   ],
   "routes": [
-    { "src": "/api/webhook", "dest": "/api/webhook.js" },
-    { "src": "/api/calendly", "dest": "/api/calendly.js" },
-    { "src": "/api/claim-job", "dest": "/api/claim-job.js" },
-    { "src": "/api/complete-job", "dest": "/api/complete-job.js" },
-    { "src": "/api/payout", "dest": "/api/payout.js" },
-    { "src": "/api/create-connect-account", "dest": "/api/create-connect-account.js" },
-    { "src": "/api/approve-worker", "dest": "/api/approve-worker.js" },
-    { "src": "/api/remind", "dest": "/api/remind.js" },
-    { "src": "/worker", "dest": "/worker.html" },
-    { "src": "/worker.html", "dest": "/worker.html" },
-    { "src": "/legal", "dest": "/legal.html" },
-    { "src": "/legal.html", "dest": "/legal.html" },
-    { "src": "/onboard", "dest": "/onboard.html" },
-    { "src": "/onboard.html", "dest": "/onboard.html" },
-    { "src": "/admin", "dest": "/admin.html" },
-    { "src": "/admin.html", "dest": "/admin.html" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    {
+      "src": "/api/webhook",
+      "dest": "/api/webhook.js"
+    },
+    {
+      "src": "/api/calendly",
+      "dest": "/api/calendly.js"
+    },
+    {
+      "src": "/api/claim-job",
+      "dest": "/api/claim-job.js"
+    },
+    {
+      "src": "/api/complete-job",
+      "dest": "/api/complete-job.js"
+    },
+    {
+      "src": "/api/payout",
+      "dest": "/api/payout.js"
+    },
+    {
+      "src": "/api/create-connect-account",
+      "dest": "/api/create-connect-account.js"
+    },
+    {
+      "src": "/worker",
+      "dest": "/worker.html"
+    },
+    {
+      "src": "/worker.html",
+      "dest": "/worker.html"
+    },
+    {
+      "src": "/legal",
+      "dest": "/legal.html"
+    },
+    {
+      "src": "/legal.html",
+      "dest": "/legal.html"
+    },
+    {
+      "src": "/onboard",
+      "dest": "/onboard.html"
+    },
+    {
+      "src": "/onboard.html",
+      "dest": "/onboard.html"
+    },
+    {
+      "src": "/admin",
+      "dest": "/admin.html"
+    },
+    {
+      "src": "/admin.html",
+      "dest": "/admin.html"
+    },
+    {
+      "src": "/api/approve-payout",
+      "dest": "/api/approve-payout.js"
+    },
+    {
+      "src": "/api/worker-magic-link",
+      "dest": "/api/worker-magic-link.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }
