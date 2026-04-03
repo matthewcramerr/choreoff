@@ -403,9 +403,10 @@
       if (resultEl && data.login_link) {
         resultEl.style.display = 'block';
         resultEl.style.color = 'var(--teal-dark)';
+        const link = data.login_link || '';
         resultEl.innerHTML = '✓ Approved · <strong>Login link:</strong> ' +
-          '<span style="word-break:break-all">' + data.login_link + '</span> ' +
-          '<button onclick="copyText('' + data.login_link + '', this)" class="btn-sm" style="margin-left:6px;background:var(--teal);color:white">Copy Link</button>';
+          '<span style="word-break:break-all">' + link + '</span> ' +
+          '<button onclick="copyText(\'' + link + '\', this)" class="btn-sm" style="margin-left:6px;background:var(--teal);color:white">Copy Link</button>';
       }
     } else {
       showToast('Error approving worker', 'error');
