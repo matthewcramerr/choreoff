@@ -13,13 +13,11 @@ const SERVICE_ZIPS = [
 
 // ── NAV SCROLL BEHAVIOR ──
 const nav = document.getElementById('nav');
-const heroScroll = document.querySelector('.hero-scroll');
 let lastScroll = 0;
 
 window.addEventListener('scroll', () => {
   const current = window.scrollY;
   nav.classList.toggle('scrolled', current > 60);
-  if (heroScroll) heroScroll.style.opacity = current > 80 ? '0' : '1';
   nav.style.transform = current > lastScroll && current > 80 ? 'translateY(-100%)' : 'translateY(0)';
   lastScroll = current;
 });
