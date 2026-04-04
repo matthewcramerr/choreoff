@@ -666,8 +666,6 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
 .hero-zip .zip-waitlist input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(42,184,184,0.1); }
 .hero-zip .zip-waitlist-btn { background: rgba(255,255,255,0.08); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.82rem; padding: 11px 22px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.12); cursor: pointer; transition: all 0.2s; }
 .hero-zip .zip-waitlist-btn:hover { background: var(--teal); border-color: var(--teal); }
-.hero-zip .zip-cta-group { gap: 20px; }
-.hero-zip .zip-cta-label { font-size: 0.68rem; }
 .hero-zip .zip-link-sub { font-size: 0.78rem; }
 
 /* ── WHAT WE DO ── */
@@ -685,13 +683,10 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
 .services-note { margin-top: 32px; padding: 20px 24px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; font-size: 0.875rem; color: rgba(255,255,255,0.45); }
 .services-note strong { color: rgba(255,255,255,0.85); }
 
-/* ── ZIP CTA GROUP ── */
-.zip-cta-group { display: flex; align-items: flex-start; gap: 28px; justify-content: center; flex-wrap: wrap; margin-top: 4px; }
-.zip-cta-col { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-.zip-cta-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.45); font-weight: 700; }
-.zip-cta-divider { font-size: 0.82rem; color: rgba(255,255,255,0.3); padding-top: 34px; }
-.zip-link-sub { font-size: 0.82rem; color: rgba(42,184,184,0.85); font-weight: 600; text-decoration: none; }
-.zip-link-sub:hover { text-decoration: underline; }
+/* ── ZIP CTA (SIMPLIFIED) ── */
+.zip-cta-simple { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 4px; }
+.zip-link-sub { font-size: 0.82rem; color: rgba(42,184,184,0.85); font-weight: 500; text-decoration: none; }
+.zip-link-sub:hover { text-decoration: underline; color: var(--teal); }
 
 /* ── CHECKLIST ── */
 .checklist-rooms { display: flex; flex-direction: column; gap: 2px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 32px; }
@@ -1068,9 +1063,7 @@ footer { background: var(--black); color: rgba(255,255,255,0.4); padding: 48px 5
   .hero-zip .zip-form { max-width: 300px; }
   .hero-zip .zip-input { padding: 13px 16px; font-size: 0.9rem; }
   .hero-zip .zip-btn { padding: 13px 20px; font-size: 0.84rem; }
-  .hero-zip .zip-cta-group { gap: 16px; }
-  .hero-zip .zip-cta-divider { display: none; }
-  .hero-zip .zip-cta-col .btn-primary { font-size: 0.85rem !important; padding: 13px 22px; }
+  .hero-zip .zip-cta-simple .btn-primary { font-size: 0.85rem !important; padding: 13px 22px; }
   .hero-zip .zip-waitlist input { width: 240px; }
 
   /* ── Bottom Pricing ── */
