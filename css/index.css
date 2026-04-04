@@ -207,8 +207,11 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
   margin: 0 auto;
 }
 
+.handle-desktop-only { display: block; }
+
 @media (max-width: 900px) {
   .handle-grid { grid-template-columns: repeat(3, 1fr); }
+  .handle-desktop-only { display: none; }
 }
 @media (max-width: 768px) {
   .handle { padding: 72px 6vw; }
