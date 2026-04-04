@@ -44,18 +44,9 @@
     </div>
     <div class="zip-result" id="zipResult"></div>
     <div id="zipButtons">
-      <div class="zip-cta-group">
-        <div class="zip-cta-col">
-          <div class="zip-cta-label">Not a member</div>
-          <a href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;" target="_blank" class="btn-primary" style="font-size:0.95rem">Book a Reset — $179 →</a>
-          <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05');return false;" target="_blank" class="zip-link-sub">Become a Member — $29/month</a>
-        </div>
-        <div class="zip-cta-divider">or</div>
-        <div class="zip-cta-col">
-          <div class="zip-cta-label">Already a member</div>
-          <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x2dR25WPdoufnEeQW6oo08');return false;" target="_blank" class="btn-primary" style="font-size:0.95rem;background:var(--black)">Book a Member Visit — $139 →</a>
-          <a href="https://billing.stripe.com/p/login/00w7sE2KD5W22AScIO6oo00" target="_blank" class="zip-link-sub">Manage my membership</a>
-        </div>
+      <div class="zip-cta-simple">
+        <a href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;" class="btn-primary" style="font-size:0.95rem">Book Your Reset — $179 →</a>
+        <a href="#pricing" class="zip-link-sub">Already a member? View pricing options</a>
       </div>
     </div>
     <div class="zip-waitlist" id="zipWaitlist">
@@ -128,64 +119,6 @@
   </div>
 </section>
 
-<!-- EARLY PRICING -->
-
-<section class="ep" id="pricing-early">
-  <div class="ep-header">
-    <div class="section-eyebrow" style="color:var(--teal)">Pricing</div>
-    <h2 class="ep-title">Simple pricing.<br><em>No surprises.</em></h2>
-    <p class="ep-sub">Two ways to book. One fixed checklist. Members save on every visit.</p>
-  </div>
-
-  <div class="ep-grid">
-
-    <!-- Non-member: visually recessive -->
-    <div class="ep-card">
-      <div class="ep-card-label">One-time reset</div>
-      <div class="ep-card-price"><sup>$</sup>179</div>
-      <div class="ep-card-period">per visit — no commitment</div>
-      <ul class="ep-card-list">
-        <li>Fixed checklist every visit</li>
-        <li>Vetted ChoreOFF worker</li>
-        <li>No subscription required</li>
-      </ul>
-      <a href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;" class="ep-cta ep-cta-ghost">Book a Reset</a>
-    </div>
-
-    <!-- Member: visually dominant -->
-    <div class="ep-card ep-card-featured">
-      <div class="ep-badge">Most popular</div>
-      <div class="ep-card-label">Member pricing</div>
-      <div class="ep-card-price"><sup>$</sup>129<span class="ep-per">/visit</span></div>
-      <div class="ep-card-period">with active membership</div>
-      <div class="ep-savings">Save $50 every visit</div>
-      <ul class="ep-card-list">
-        <li>Fixed checklist every visit</li>
-        <li>Vetted ChoreOFF worker</li>
-        <li>Priority booking</li>
-        <li>Cancel anytime — no contracts</li>
-      </ul>
-      <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x2dR25WPdoufnEeQW6oo08');return false;" class="ep-cta ep-cta-solid">Book a Member Visit</a>
-
-      <div class="ep-membership">
-        <div class="ep-membership-label">Become a member</div>
-        <div class="ep-membership-row">
-          <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05');return false;" class="ep-mem-option">
-            <strong>$29.99</strong>/month
-          </a>
-          <span class="ep-mem-or">or</span>
-          <a href="#" onclick="requireZip('https://buy.stripe.com/test_dRmeV63OHckq1wO7ou6oo07');return false;" class="ep-mem-option ep-mem-best">
-            <span class="ep-mem-best-tag">Best value</span>
-            <strong>$259</strong>/year
-          </a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <p class="ep-footnote">All visits include the full checklist. You provide supplies. Workers are vetted independents.</p>
-</section>
 
 <!-- WHY CHOREOFF -->
 
@@ -219,89 +152,6 @@
   </div>
 </section>
 
-<!-- SERVICES -->
-
-<section class="services">
-  <div class="section-eyebrow">What we do</div>
-  <h2 class="section-title">The full reset.<br><em>Every room.</em></h2>
-  <p class="section-sub">Every ChoreOFF visit covers every room — no menu, no customization. A complete house reset, every time. Tap each room to see exactly what we do.</p>
-
-  <div class="checklist-rooms">
-    <div class="room-item">
-      <button class="room-header" onclick="toggleRoom(this)">
-        <div class="room-left"><span class="room-icon">🧺</span>
-          <div><div class="room-name">Laundry Room</div><div class="room-preview">4 tasks · We start a load right when we arrive</div></div>
-        </div><span class="room-arrow">↓</span>
-      </button>
-      <div class="room-tasks">
-        <div class="task-item"><span class="task-check">✓</span>Empty dryer filter</div>
-        <div class="task-item"><span class="task-check">✓</span>Transfer washed clothes to dryer (if applicable)</div>
-        <div class="task-item"><span class="task-check">✓</span>Add a load of clothes to washer from hamper (if applicable)</div>
-        <div class="task-item"><span class="task-check">✓</span>Empty laundry room trash can and re-bag</div>
-      </div>
-    </div>
-
-    <div class="room-item">
-      <button class="room-header" onclick="toggleRoom(this)">
-        <div class="room-left"><span class="room-icon">🚿</span>
-          <div><div class="room-name">Bathroom</div><div class="room-preview">4 tasks · Surfaces wiped, sink cleaned, reset</div></div>
-        </div><span class="room-arrow">↓</span>
-      </button>
-      <div class="room-tasks">
-        <div class="task-item"><span class="task-check">✓</span>Wipe main surfaces</div>
-        <div class="task-item"><span class="task-check">✓</span>Reorganize and tidy up area</div>
-        <div class="task-item"><span class="task-check">✓</span>Put any clothes lying around in hamper</div>
-        <div class="task-item"><span class="task-check">✓</span>Clean sink(s)</div>
-      </div>
-    </div>
-
-    <div class="room-item">
-      <button class="room-header" onclick="toggleRoom(this)">
-        <div class="room-left"><span class="room-icon">🛋️</span>
-          <div><div class="room-name">Living Room</div><div class="room-preview">4 tasks · Decluttered, wiped down, reset</div></div>
-        </div><span class="room-arrow">↓</span>
-      </button>
-      <div class="room-tasks">
-        <div class="task-item"><span class="task-check">✓</span>Fold blankets and re-organize items lying around</div>
-        <div class="task-item"><span class="task-check">✓</span>Refresh living quarters, improving overall appearance and decluttering</div>
-        <div class="task-item"><span class="task-check">✓</span>Wipe main surfaces</div>
-        <div class="task-item"><span class="task-check">✓</span>Collect any dishes</div>
-      </div>
-    </div>
-
-    <div class="room-item">
-      <button class="room-header" onclick="toggleRoom(this)">
-        <div class="room-left"><span class="room-icon">🪑</span>
-          <div><div class="room-name">Dining Room</div><div class="room-preview">4 tasks · Surfaces wiped, floor swept, tidied</div></div>
-        </div><span class="room-arrow">↓</span>
-      </button>
-      <div class="room-tasks">
-        <div class="task-item"><span class="task-check">✓</span>Collect any dishes around living quarters</div>
-        <div class="task-item"><span class="task-check">✓</span>Wipe down all main surfaces</div>
-        <div class="task-item"><span class="task-check">✓</span>Sweep floor</div>
-        <div class="task-item"><span class="task-check">✓</span>Decluttering and tidying up</div>
-      </div>
-    </div>
-
-    <div class="room-item">
-      <button class="room-header" onclick="toggleRoom(this)">
-        <div class="room-left"><span class="room-icon">🍽️</span>
-          <div><div class="room-name">Kitchen</div><div class="room-preview">4 tasks · Dishes loaded, counters scrubbed, trash out</div></div>
-        </div><span class="room-arrow">↓</span>
-      </button>
-      <div class="room-tasks">
-        <div class="task-item"><span class="task-check">✓</span>Load and run dishwasher</div>
-        <div class="task-item"><span class="task-check">✓</span>Scrub all countertops, wipe down and dry</div>
-        <div class="task-item"><span class="task-check">✓</span>Sweep floor</div>
-        <div class="task-item"><span class="task-check">✓</span>Take trash out for kitchen, bathroom and laundry room + recycling</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="services-note">
-    <strong>Before we arrive:</strong> Please empty your dishwasher and have a laundry hamper or basket with dirty clothes ready. Have detergent, dish soap, and cleaning products on hand. No deep cleaning, toilet bowls, shower tubs, moving, mounting, or repairs — we keep it simple so we can do it fast and consistently.
-  </div>
-</section>
 
 <!-- HOW IT WORKS -->
 
@@ -426,7 +276,7 @@
     <p class="fc-sub">Book one visit to try it. Keep it going if it clicks.</p>
     <div class="fc-actions">
       <a href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;" class="fc-btn fc-btn-primary">Book a Reset — $179</a>
-      <a href="#pricing-early" class="fc-btn fc-btn-ghost">View Membership Options</a>
+      <a href="#pricing" class="fc-btn fc-btn-ghost">View Membership Options</a>
     </div>
     <p class="fc-note">No contracts. No commitment. Cancel anytime.</p>
   </div>
