@@ -71,14 +71,6 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
 .btn-primary:hover { background: var(--teal-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(42,184,184,0.35); }
 .btn-ghost { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: rgba(255,255,255,0.7); font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.95rem; padding: 16px 32px; border-radius: 100px; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); transition: all 0.2s; }
 .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
-.hero-scroll {
-  position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  color: rgba(255,255,255,0.3); font-size: 0.75rem; letter-spacing: 0.1em;
-  text-transform: uppercase; animation: fadeUp 0.6s 0.4s ease both;
-  transition: opacity 0.4s ease; pointer-events: none;
-}
-.scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent); animation: scrollPulse 2s ease-in-out infinite; }
 
 /* ── OUTCOME ── */
 .outcome {
@@ -108,7 +100,7 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, rgba(14,14,14,0.75) 0%, rgba(14,14,14,0.45) 50%, transparent 100%);
+  background: linear-gradient(to right, rgba(14,14,14,0.82) 0%, rgba(14,14,14,0.55) 50%, rgba(14,14,14,0.15) 100%);
 }
 .outcome-copy {
   position: relative;
@@ -146,7 +138,7 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
 @media (max-width: 768px) {
   .outcome-inner { min-height: 440px; }
   .outcome-image::after {
-    background: linear-gradient(to top, rgba(14,14,14,0.8) 0%, rgba(14,14,14,0.4) 60%, transparent 100%);
+    background: linear-gradient(to top, rgba(14,14,14,0.85) 0%, rgba(14,14,14,0.5) 60%, rgba(14,14,14,0.2) 100%);
   }
   .outcome-copy { padding: 60px 6vw; display: flex; flex-direction: column; justify-content: flex-end; min-height: 440px; }
   .outcome-sub { font-size: 1.02rem; }
@@ -719,6 +711,45 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
 .step-desc { font-size: 0.9rem; color: rgba(255,255,255,0.5); line-height: 1.65; }
 .step-dot { width: 8px; height: 8px; background: var(--teal); border-radius: 50%; margin-bottom: 24px; }
 
+/* ── HOW IMAGE ── */
+.how-image {
+  margin-top: 72px;
+  border-radius: 20px;
+  overflow: hidden;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.how-image img {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  display: block;
+}
+@media (max-width: 768px) {
+  .how-image { margin-top: 48px; border-radius: 16px; }
+  .how-image img { height: 220px; }
+}
+
+/* ── LIFESTYLE ── */
+.lifestyle {
+  background: var(--cream);
+  padding: 0;
+  overflow: hidden;
+}
+.lifestyle-inner {
+  max-width: 100%;
+}
+.lifestyle-inner img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  display: block;
+}
+@media (max-width: 768px) {
+  .lifestyle-inner img { height: 280px; }
+}
+
 /* ── TRUST STRIP ── */
 .trust-strip {
   background: #111111;
@@ -958,7 +989,6 @@ footer { background: var(--black); color: rgba(255,255,255,0.4); padding: 48px 5
 /* ── ANIMATIONS ── */
 .zip-input.pulse { border-color: var(--teal); box-shadow: 0 0 0 4px rgba(42,184,184,0.15); transition: all 0.3s; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes scrollPulse { 0%,100% { opacity: 0.3; } 50% { opacity: 0.8; } }
 
 /* ── ZIP MODAL ── */
 .zip-modal {
@@ -1025,8 +1055,6 @@ footer { background: var(--black); color: rgba(255,255,255,0.4); padding: 48px 5
   .hero-sub { font-size: 0.95rem; margin-bottom: 24px; line-height: 1.65; padding: 0 2vw; }
   .hero .btn-primary { width: 100%; max-width: 360px; justify-content: center; font-size: 1rem; padding: 17px 32px; }
   .hero-trust { font-size: 0.72rem; }
-  .hero-scroll { bottom: 16px; }
-  .scroll-line { height: 28px; }
 
   /* ── Services (room checklist) ── */
   .services { padding: 72px 5vw; }
