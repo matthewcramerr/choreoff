@@ -63,13 +63,10 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
 .hero-headline { font-family: 'Playfair Display', serif; font-size: clamp(3rem,8vw,7rem); font-weight: 900; color: var(--white); line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 8px; position: relative; animation: fadeUp 0.6s 0.1s ease both; }
 .hero-headline em { font-style: italic; color: var(--teal); }
 .hero-headline-2 { font-family: 'Playfair Display', serif; font-size: clamp(3rem,8vw,7rem); font-weight: 900; color: var(--white); line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 28px; position: relative; animation: fadeUp 0.6s 0.15s ease both; }
-.hero-sub { font-size: clamp(1rem,2vw,1.15rem); color: rgba(255,255,255,0.6); max-width: 560px; line-height: 1.7; margin-bottom: 40px; font-weight: 300; animation: fadeUp 0.6s 0.2s ease both; }
-.hero-actions { display: flex; flex-direction: column; align-items: center; gap: 16px; animation: fadeUp 0.6s 0.25s ease both; }
+.hero-sub { font-size: clamp(1rem,2vw,1.15rem); color: rgba(255,255,255,0.6); max-width: 560px; line-height: 1.7; margin-bottom: 32px; font-weight: 300; animation: fadeUp 0.6s 0.2s ease both; }
 /* Hero-scoped button overrides — do not affect buttons elsewhere */
 .hero .btn-primary { font-size: 1.05rem; padding: 18px 44px; box-shadow: 0 0 40px rgba(42,184,184,0.2); }
-.hero .btn-ghost { border: none; padding: 4px 0; font-size: 0.9rem; color: rgba(255,255,255,0.45); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(255,255,255,0.2); }
-.hero .btn-ghost:hover { color: var(--white); border: none; text-decoration-color: rgba(255,255,255,0.5); transform: none; }
-.hero-trust { font-size: 0.78rem; color: rgba(255,255,255,0.3); letter-spacing: 0.06em; margin-top: 4px; animation: fadeUp 0.6s 0.35s ease both; }
+.hero-trust { font-size: 0.78rem; color: rgba(255,255,255,0.3); letter-spacing: 0.06em; margin-top: 16px; }
 .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--teal); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.95rem; padding: 16px 32px; border-radius: 100px; text-decoration: none; transition: all 0.2s; border: none; cursor: pointer; }
 .btn-primary:hover { background: var(--teal-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(42,184,184,0.35); }
 .btn-ghost { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: rgba(255,255,255,0.7); font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.95rem; padding: 16px 32px; border-radius: 100px; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); transition: all 0.2s; }
@@ -592,11 +589,11 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
 /* ── HERO ZIP CHECKER ── */
 .hero-zip {
   position: relative;
-  margin-top: 40px;
+  margin-top: 0;
   text-align: center;
   max-width: 460px;
   width: 100%;
-  animation: fadeUp 0.6s 0.3s ease both;
+  animation: fadeUp 0.6s 0.25s ease both;
 }
 .hero-zip-title {
   font-family: 'DM Sans', sans-serif;
@@ -1024,9 +1021,8 @@ footer { background: var(--black); color: rgba(255,255,255,0.4); padding: 48px 5
   .hero-tag { margin-bottom: 28px; font-size: 0.72rem; padding: 5px 14px; }
   .hero-headline, .hero-headline-2 { font-size: clamp(2.6rem, 10vw, 4rem); }
   .hero-headline-2 { margin-bottom: 20px; }
-  .hero-sub { font-size: 0.95rem; margin-bottom: 32px; line-height: 1.65; padding: 0 2vw; }
+  .hero-sub { font-size: 0.95rem; margin-bottom: 24px; line-height: 1.65; padding: 0 2vw; }
   .hero .btn-primary { width: 100%; max-width: 360px; justify-content: center; font-size: 1rem; padding: 17px 32px; }
-  .hero .btn-ghost { font-size: 0.85rem; }
   .hero-trust { font-size: 0.72rem; }
   .hero-scroll { bottom: 16px; }
   .scroll-line { height: 28px; }

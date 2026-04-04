@@ -29,26 +29,23 @@
   <h1 class="hero-headline">Turn your</h1>
   <h1 class="hero-headline-2">chores <em>OFF.</em></h1>
   <p class="hero-sub">One visit. Laundry done. Dishes handled. Floors swept. Home reset. So you can actually enjoy your time off.</p>
-  <div class="hero-actions">
-    <a class="btn-primary" href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;">Book a Reset — $179 →</a>
-    <a class="btn-ghost" href="#pricing">Membership options</a>
-    <p class="hero-trust">Vetted workers · Fixed checklist · No contracts</p>
-  </div>
 
   <div class="hero-zip" id="zip-check">
     <p class="hero-zip-title">Check availability in your area</p>
-    <p class="hero-zip-sub">We're expanding carefully. Limited spots available.</p>
     <div class="zip-form">
       <input class="zip-input" type="text" id="zipInput" placeholder="Enter ZIP code" maxlength="5" inputmode="numeric">
       <button class="zip-btn" onclick="checkZip()">Check</button>
     </div>
     <div class="zip-result" id="zipResult"></div>
+
     <div id="zipButtons">
       <div class="zip-cta-simple">
         <a href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;" class="btn-primary" style="font-size:0.95rem">Book Your Reset — $179 →</a>
-        <a href="#pricing" class="zip-link-sub">Already a member? View pricing options</a>
+        <a href="#pricing" class="zip-link-sub">Membership options</a>
       </div>
+      <p class="hero-trust">Vetted workers · Fixed checklist · No contracts</p>
     </div>
+
     <div class="zip-waitlist" id="zipWaitlist">
       <input type="email" id="waitlistEmail" placeholder="Enter your email">
       <button class="zip-waitlist-btn" onclick="joinWaitlist()">Notify me when we launch →</button>
