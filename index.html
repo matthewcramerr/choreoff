@@ -34,6 +34,37 @@
     <a class="btn-ghost" href="#pricing">Membership options</a>
     <p class="hero-trust">Vetted workers · Fixed checklist · No contracts</p>
   </div>
+
+  <div class="hero-zip" id="zip-check">
+    <p class="hero-zip-title">Check availability in your area</p>
+    <p class="hero-zip-sub">We're expanding carefully. Limited spots available.</p>
+    <div class="zip-form">
+      <input class="zip-input" type="text" id="zipInput" placeholder="Enter ZIP code" maxlength="5" inputmode="numeric">
+      <button class="zip-btn" onclick="checkZip()">Check</button>
+    </div>
+    <div class="zip-result" id="zipResult"></div>
+    <div id="zipButtons">
+      <div class="zip-cta-group">
+        <div class="zip-cta-col">
+          <div class="zip-cta-label">Not a member</div>
+          <a href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;" target="_blank" class="btn-primary" style="font-size:0.95rem">Book a Reset — $179 →</a>
+          <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05');return false;" target="_blank" class="zip-link-sub">Become a Member — $29/month</a>
+        </div>
+        <div class="zip-cta-divider">or</div>
+        <div class="zip-cta-col">
+          <div class="zip-cta-label">Already a member</div>
+          <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x2dR25WPdoufnEeQW6oo08');return false;" target="_blank" class="btn-primary" style="font-size:0.95rem;background:var(--black)">Book a Member Visit — $139 →</a>
+          <a href="https://billing.stripe.com/p/login/00w7sE2KD5W22AScIO6oo00" target="_blank" class="zip-link-sub">Manage my membership</a>
+        </div>
+      </div>
+    </div>
+    <div class="zip-waitlist" id="zipWaitlist">
+      <input type="email" id="waitlistEmail" placeholder="Enter your email">
+      <button class="zip-waitlist-btn" onclick="joinWaitlist()">Notify me when we launch →</button>
+      <p id="waitlistConfirm" style="font-size:0.85rem;color:var(--teal);display:none">You're on the list. We'll reach out when we're in your area.</p>
+    </div>
+  </div>
+
   <div class="hero-scroll">
     <span>Scroll</span>
     <div class="scroll-line"></div>
@@ -184,41 +215,6 @@
         <h3 class="why-title">Built for repeat resets</h3>
         <p class="why-copy">Easy to try once. Even easier to keep going.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ZIP CHECKER -->
-
-<section class="zip-section" id="zip-check">
-  <div class="zip-shell">
-    <div class="zip-badge">Limited launch area</div>
-    <p class="zip-label">Check if you're in<br>our launch zone</p>
-    <p class="zip-sub">We're opening a limited number of spots in Madison to keep quality high. Enter your zip code to see if you're eligible.</p>
-    <div class="zip-form">
-      <input class="zip-input" type="text" id="zipInput" placeholder="Enter zip code" maxlength="5" inputmode="numeric">
-      <button class="zip-btn" onclick="checkZip()">Check availability</button>
-    </div>
-    <div class="zip-result" id="zipResult"></div>
-    <div id="zipButtons">
-      <div class="zip-cta-group">
-        <div class="zip-cta-col">
-          <div class="zip-cta-label">Not a member</div>
-          <a href="#" onclick="requireZip('https://buy.stripe.com/test_6oUaEQcldfwC8ZgbEK6oo06');return false;" target="_blank" class="btn-primary" style="font-size:0.95rem">Book a Reset — $179 →</a>
-          <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x28wIetl1FMejA7ou6oo05');return false;" target="_blank" class="zip-link-sub">Become a Member — $29/month</a>
-        </div>
-        <div class="zip-cta-divider">or</div>
-        <div class="zip-cta-col">
-          <div class="zip-cta-label">Already a member</div>
-          <a href="#" onclick="requireZip('https://buy.stripe.com/test_8x2dR25WPdoufnEeQW6oo08');return false;" target="_blank" class="btn-primary" style="font-size:0.95rem;background:var(--black)">Book a Member Visit — $139 →</a>
-          <a href="https://billing.stripe.com/p/login/00w7sE2KD5W22AScIO6oo00" target="_blank" class="zip-link-sub">Manage my membership</a>
-        </div>
-      </div>
-    </div>
-    <div class="zip-waitlist" id="zipWaitlist">
-      <input type="email" id="waitlistEmail" placeholder="Enter your email">
-      <button class="zip-waitlist-btn" onclick="joinWaitlist()">Notify me when we launch →</button>
-      <p id="waitlistConfirm" style="font-size:0.85rem;color:var(--teal-dark);display:none">You're on the list. We'll reach out when we're in your area.</p>
     </div>
   </div>
 </section>

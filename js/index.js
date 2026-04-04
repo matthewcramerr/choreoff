@@ -44,12 +44,12 @@ function checkZip() {
   }
   if (SERVICE_ZIPS.includes(zip)) {
     validZipConfirmed = true;
-    result.innerHTML = '✓ ChoreOFF is available in your area.';
+    result.innerHTML = '✓ Spots available this week';
     result.className = 'zip-result success'; result.style.display = 'block';
     waitlist.style.display = 'none'; buttons.style.display = 'flex';
   } else {
     validZipConfirmed = false;
-    result.textContent = "We're not in your area yet — but we're expanding fast.";
+    result.textContent = "Not in your area yet";
     result.className = 'zip-result error'; result.style.display = 'block';
     waitlist.style.display = 'flex'; buttons.style.display = 'none';
   }
@@ -80,7 +80,7 @@ function confirmModalZip() {
     const mainZip = document.getElementById('zipInput');
     if (mainZip) mainZip.value = zip;
     const result = document.getElementById('zipResult');
-    if (result) { result.innerHTML = '✓ ChoreOFF is available in your area.'; result.className = 'zip-result success'; result.style.display = 'block'; }
+    if (result) { result.innerHTML = '✓ Spots available this week'; result.className = 'zip-result success'; result.style.display = 'block'; }
     const buttons = document.getElementById('zipButtons');
     const waitlist = document.getElementById('zipWaitlist');
     if (buttons) buttons.style.display = 'flex';
@@ -92,7 +92,7 @@ function confirmModalZip() {
       document.getElementById('zipModal').style.display = 'none';
       document.getElementById('zip-check').scrollIntoView({ behavior: 'smooth' });
       const result = document.getElementById('zipResult');
-      if (result) { result.textContent = "We're not in your area yet — but we're expanding fast."; result.className = 'zip-result error'; result.style.display = 'block'; }
+      if (result) { result.textContent = "Not in your area yet"; result.className = 'zip-result error'; result.style.display = 'block'; }
       const mainZip = document.getElementById('zipInput');
       if (mainZip) mainZip.value = zip;
       const buttons = document.getElementById('zipButtons');
