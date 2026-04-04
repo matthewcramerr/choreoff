@@ -19,7 +19,9 @@
     { "src": "onboard.html", "use": "@vercel/static" },
     { "src": "admin.html", "use": "@vercel/static" },
     { "src": "css/**", "use": "@vercel/static" },
-    { "src": "js/**", "use": "@vercel/static" }
+    { "src": "js/**", "use": "@vercel/static" },
+    { "src": "images/**", "use": "@vercel/static" },
+    { "src": "video/**", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/api/webhook", "dest": "/api/webhook.js" },
@@ -44,6 +46,8 @@
     { "src": "/admin.html", "dest": "/admin.html" },
     { "src": "/css/(.*)", "dest": "/css/$1" },
     { "src": "/js/(.*)", "dest": "/js/$1" },
+    { "src": "/images/(.*)", "dest": "/images/$1" },
+    { "src": "/video/(.*)", "dest": "/video/$1" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
