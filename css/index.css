@@ -82,42 +82,55 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
 
 /* ── OUTCOME ── */
 .outcome {
-  background: var(--cream);
-  padding: 100px 5vw;
   position: relative;
   overflow: hidden;
 }
 .outcome-inner {
-  max-width: 1100px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin: 0;
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 64px;
-  align-items: center;
+  grid-template-columns: 1fr;
+  position: relative;
+  min-height: 520px;
 }
 .outcome-image {
-  border-radius: 24px;
+  position: absolute;
+  inset: 0;
   overflow: hidden;
-  box-shadow: 0 24px 64px rgba(0,0,0,0.08);
 }
 .outcome-image img {
   width: 100%;
-  height: 480px;
+  height: 100%;
   object-fit: cover;
   display: block;
+}
+.outcome-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(14,14,14,0.75) 0%, rgba(14,14,14,0.45) 50%, transparent 100%);
+}
+.outcome-copy {
+  position: relative;
+  z-index: 1;
+  padding: 100px 5vw;
+  max-width: 520px;
+}
+.outcome-copy .section-eyebrow {
+  color: var(--teal) !important;
 }
 .outcome-headline {
   font-family: 'Playfair Display', serif;
   font-size: clamp(2.2rem, 4vw, 3.2rem);
   font-weight: 900;
-  color: var(--black);
+  color: var(--white);
   line-height: 1.1;
   margin-bottom: 20px;
   letter-spacing: -0.02em;
 }
 .outcome-sub {
   font-size: 1.1rem;
-  color: var(--text);
+  color: rgba(255,255,255,0.8);
   line-height: 1.7;
   max-width: 440px;
   margin-bottom: 20px;
@@ -125,18 +138,19 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
 }
 .outcome-detail {
   font-size: 0.95rem;
-  color: var(--muted);
+  color: rgba(255,255,255,0.5);
   line-height: 1.7;
   max-width: 400px;
 }
 
 @media (max-width: 768px) {
-  .outcome { padding: 72px 6vw; }
-  .outcome-inner { grid-template-columns: 1fr; gap: 32px; }
-  .outcome-image img { height: 280px; border-radius: 20px; }
-  .outcome-copy { text-align: center; }
-  .outcome-sub { font-size: 1.02rem; margin-left: auto; margin-right: auto; }
-  .outcome-detail { font-size: 0.9rem; margin-left: auto; margin-right: auto; }
+  .outcome-inner { min-height: 440px; }
+  .outcome-image::after {
+    background: linear-gradient(to top, rgba(14,14,14,0.8) 0%, rgba(14,14,14,0.4) 60%, transparent 100%);
+  }
+  .outcome-copy { padding: 60px 6vw; display: flex; flex-direction: column; justify-content: flex-end; min-height: 440px; }
+  .outcome-sub { font-size: 1.02rem; }
+  .outcome-detail { font-size: 0.9rem; }
 }
 
 /* ── WHAT WE HANDLE ── */
@@ -180,9 +194,11 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
   box-shadow: 0 12px 32px rgba(0,0,0,0.06);
 }
 .handle-icon {
-  font-size: 2.4rem;
+  width: 32px;
+  height: 32px;
+  color: var(--teal);
   display: block;
-  margin-bottom: 14px;
+  margin: 0 auto 14px;
 }
 .handle-label {
   font-family: 'DM Sans', sans-serif;
@@ -196,21 +212,7 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
   color: var(--muted);
   line-height: 1.7;
   max-width: 480px;
-  margin: 0 auto 48px;
-}
-.handle-video {
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.06);
-  max-width: 800px;
   margin: 0 auto;
-}
-.handle-video video {
-  width: 100%;
-  height: 400px;
-  object-fit: cover;
-  display: block;
-  background: var(--warm-gray);
 }
 
 @media (max-width: 900px) {
@@ -221,8 +223,7 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
   .handle-headline { margin-bottom: 36px; }
   .handle-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .handle-card { padding: 28px 12px 22px; border-radius: 16px; }
-  .handle-note { margin-bottom: 36px; font-size: 0.9rem; }
-  .handle-video video { height: 240px; }
+  .handle-note { font-size: 0.9rem; }
 }
 
 /* ── EARLY PRICING ── */
@@ -728,7 +729,7 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
 }
 .trust-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 28px; }
 .trust-item { display: flex; align-items: flex-start; gap: 14px; }
-.trust-icon { font-size: 1.4rem; line-height: 1; margin-top: 2px; flex-shrink: 0; }
+.trust-icon { width: 24px; height: 24px; color: var(--teal); margin-top: 2px; flex-shrink: 0; }
 .trust-title { font-size: 1.05rem; font-weight: 700; color: var(--white); margin-bottom: 6px; }
 .trust-copy { font-size: 0.92rem; line-height: 1.65; color: rgba(255,255,255,0.55); max-width: 280px; }
 
@@ -1097,7 +1098,7 @@ footer { background: var(--black); color: rgba(255,255,255,0.4); padding: 48px 5
   .hero-sub { font-size: 0.9rem; }
   .outcome-image img { height: 220px; }
   .handle-card { padding: 24px 10px 18px; }
-  .handle-icon { font-size: 2rem; }
+  .handle-icon { width: 28px; height: 28px; }
   .handle-label { font-size: 0.84rem; }
   .ep-card-featured .ep-card-price { font-size: 2.8rem; }
   .ep-card:not(.ep-card-featured) .ep-card-price { font-size: 2.4rem; }
