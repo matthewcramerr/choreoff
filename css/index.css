@@ -589,110 +589,86 @@ nav.scrolled .nav-cta { background: var(--teal); color: var(--white); }
   .why-copy { font-size: 0.88rem; }
 }
 
-/* ── ZIP CHECKER ── */
-.zip-section {
-  background: linear-gradient(to bottom, #0e0e0e, #161616);
-  padding: 110px 5vw;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  border-bottom: none;
+/* ── HERO ZIP CHECKER ── */
+.hero-zip {
   position: relative;
-}
-.zip-shell {
-  max-width: 680px;
-  margin: 0 auto;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 28px;
-  padding: 52px 40px;
+  margin-top: 40px;
   text-align: center;
-  box-shadow: 0 20px 72px rgba(0,0,0,0.35);
+  max-width: 460px;
+  width: 100%;
+  animation: fadeUp 0.6s 0.3s ease both;
 }
-.zip-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(42,184,184,0.12);
-  border: 1px solid rgba(42,184,184,0.3);
-  color: var(--teal);
-  border-radius: 100px;
-  padding: 7px 14px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 24px;
+.hero-zip-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 6px;
+  letter-spacing: 0.01em;
 }
-.zip-badge::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--teal); animation: badgePulse 2s ease-in-out infinite; }
-@keyframes badgePulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-.zip-label {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
-  font-weight: 700;
-  color: var(--white);
-  margin-bottom: 12px;
-  line-height: 1.15;
+.hero-zip-sub {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 18px;
+  letter-spacing: 0.02em;
 }
-.zip-sub {
-  color: rgba(255,255,255,0.45);
-  font-size: 0.98rem;
-  line-height: 1.7;
-  max-width: 480px;
-  margin: 0 auto 32px;
-}
-.zip-form {
+.hero-zip .zip-form {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   justify-content: center;
-  max-width: 440px;
+  max-width: 360px;
   margin: 0 auto;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
-.zip-input {
+.hero-zip .zip-input {
   flex: 1;
-  min-width: 180px;
-  padding: 17px 24px;
-  border: 2px solid rgba(255,255,255,0.12);
+  min-width: 0;
+  padding: 14px 20px;
+  border: 1.5px solid rgba(255,255,255,0.12);
   border-radius: 100px;
   font-family: 'DM Sans', sans-serif;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 500;
-  background: rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.06);
   color: var(--white);
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
   text-align: center;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
 }
-.zip-input::placeholder { color: rgba(255,255,255,0.3); letter-spacing: 0.02em; }
-.zip-input:focus {
+.hero-zip .zip-input::placeholder { color: rgba(255,255,255,0.28); letter-spacing: 0.02em; }
+.hero-zip .zip-input:focus {
   border-color: var(--teal);
   background: rgba(42,184,184,0.06);
-  box-shadow: 0 0 0 4px rgba(42,184,184,0.12);
+  box-shadow: 0 0 0 3px rgba(42,184,184,0.1);
 }
-.zip-btn {
+.hero-zip .zip-btn {
   background: var(--teal);
   color: var(--white);
   font-family: 'DM Sans', sans-serif;
   font-weight: 600;
-  font-size: 0.92rem;
-  padding: 17px 28px;
+  font-size: 0.88rem;
+  padding: 14px 24px;
   border-radius: 100px;
   border: none;
   cursor: pointer;
   transition: all 0.2s;
+  white-space: nowrap;
 }
-.zip-btn:hover { background: var(--teal-dark); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(42,184,184,0.25); }
-.zip-result { margin-top: 18px; font-size: 0.95rem; font-weight: 600; display: none; }
-.zip-result.success { color: var(--teal); }
-.zip-result.error { color: #ff6b6b; }
-#zipButtons { display: none; flex-direction: column; align-items: center; gap: 12px; margin-top: 28px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); }
-.zip-waitlist { margin-top: 22px; display: none; flex-direction: column; align-items: center; gap: 10px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.08); }
-.zip-waitlist input { padding: 13px 20px; border: 1.5px solid rgba(255,255,255,0.15); border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; width: 280px; outline: none; background: rgba(255,255,255,0.08); color: var(--white); text-align: center; }
-.zip-waitlist input::placeholder { color: rgba(255,255,255,0.35); }
-.zip-waitlist input:focus { border-color: var(--teal); box-shadow: 0 0 0 4px rgba(42,184,184,0.12); }
-.zip-waitlist-btn { background: rgba(255,255,255,0.1); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.85rem; padding: 12px 24px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.15); cursor: pointer; transition: all 0.2s; }
-.zip-waitlist-btn:hover { background: var(--teal); border-color: var(--teal); transform: translateY(-1px); }
+.hero-zip .zip-btn:hover { background: var(--teal-dark); }
+.hero-zip .zip-result { margin-top: 14px; font-size: 0.88rem; font-weight: 600; display: none; }
+.hero-zip .zip-result.success { color: var(--teal); }
+.hero-zip .zip-result.error { color: #ff6b6b; }
+.hero-zip #zipButtons { display: none; flex-direction: column; align-items: center; gap: 12px; margin-top: 20px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); }
+.hero-zip .zip-waitlist { margin-top: 16px; display: none; flex-direction: column; align-items: center; gap: 10px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); }
+.hero-zip .zip-waitlist input { padding: 12px 18px; border: 1.5px solid rgba(255,255,255,0.12); border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; width: 260px; outline: none; background: rgba(255,255,255,0.06); color: var(--white); text-align: center; }
+.hero-zip .zip-waitlist input::placeholder { color: rgba(255,255,255,0.3); }
+.hero-zip .zip-waitlist input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(42,184,184,0.1); }
+.hero-zip .zip-waitlist-btn { background: rgba(255,255,255,0.08); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.82rem; padding: 11px 22px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.12); cursor: pointer; transition: all 0.2s; }
+.hero-zip .zip-waitlist-btn:hover { background: var(--teal); border-color: var(--teal); }
+.hero-zip .zip-cta-group { gap: 20px; }
+.hero-zip .zip-cta-label { font-size: 0.68rem; }
+.hero-zip .zip-link-sub { font-size: 0.78rem; }
 
 /* ── WHAT WE DO ── */
 .services { padding: 100px 5vw; background: linear-gradient(to bottom, #161616, #1c1c1c); }
@@ -1085,17 +1061,17 @@ footer { background: var(--black); color: rgba(255,255,255,0.4); padding: 48px 5
   .trust-title { font-size: 0.98rem; }
   .trust-copy { font-size: 0.88rem; }
 
-  /* ── Zip Checker ── */
-  .zip-section { padding: 72px 5vw; }
-  .zip-shell { padding: 36px 20px; border-radius: 22px; }
-  .zip-label { font-size: clamp(1.5rem, 5vw, 2rem); margin-bottom: 10px; }
-  .zip-sub { font-size: 0.9rem; margin-bottom: 24px; }
-  .zip-form { flex-direction: column; align-items: center; max-width: 320px; }
-  .zip-input { width: 100%; min-width: 0; font-size: 1rem; padding: 16px 20px; }
-  .zip-btn { width: 100%; padding: 16px; font-size: 0.9rem; }
-  .zip-cta-group { gap: 20px; }
-  .zip-cta-divider { display: none; }
-  .zip-cta-col .btn-primary { font-size: 0.88rem !important; padding: 14px 24px; }
+  /* ── Hero Zip Checker ── */
+  .hero-zip { margin-top: 32px; }
+  .hero-zip-title { font-size: 0.82rem; }
+  .hero-zip-sub { font-size: 0.72rem; margin-bottom: 14px; }
+  .hero-zip .zip-form { max-width: 300px; }
+  .hero-zip .zip-input { padding: 13px 16px; font-size: 0.9rem; }
+  .hero-zip .zip-btn { padding: 13px 20px; font-size: 0.84rem; }
+  .hero-zip .zip-cta-group { gap: 16px; }
+  .hero-zip .zip-cta-divider { display: none; }
+  .hero-zip .zip-cta-col .btn-primary { font-size: 0.85rem !important; padding: 13px 22px; }
+  .hero-zip .zip-waitlist input { width: 240px; }
 
   /* ── Bottom Pricing ── */
   .pricing { padding: 72px 5vw; }
@@ -1142,5 +1118,7 @@ footer { background: var(--black); color: rgba(255,255,255,0.4); padding: 48px 5
   .room-header { padding: 16px 16px; }
   .task-item { padding: 10px 16px; font-size: 0.82rem; }
   .price-card { padding: 28px 20px; }
-  .zip-shell { padding: 28px 16px; }
+  .hero-zip .zip-form { max-width: 100%; }
+  .hero-zip .zip-input { padding: 12px 14px; font-size: 0.88rem; }
+  .hero-zip .zip-btn { padding: 12px 18px; }
 }
